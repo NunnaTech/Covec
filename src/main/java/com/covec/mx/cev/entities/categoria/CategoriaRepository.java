@@ -1,5 +1,10 @@
 package com.covec.mx.cev.entities.categoria;
 
-public class CategoriaRepository {
-    
+import org.springframework.stereotype.Repository;
+
+import org.springframework.data.repository.CrudRepository;
+
+@Repository
+public interface CategoriaRepository extends CrudRepository <Categoria, Integer>{
+
 }
