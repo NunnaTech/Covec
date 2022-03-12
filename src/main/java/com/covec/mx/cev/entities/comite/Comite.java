@@ -17,11 +17,11 @@ public class Comite {
     @Column(name = "idComites")
     private Integer id;
 
-    @ManyToMany
+    @ManyToOne
     @JoinColumn(name = "id_integrante")
     private Integrante integrante;
 
-    @ManyToMany
+    @ManyToOne
     @JoinColumn(name = "id_colonia")
     private Colonia colonia;
 }

@@ -23,7 +23,7 @@ public class Municipio {
     @OneToMany(mappedBy = "municipio")
     private List<Colonia> colonias;
 
-    @ManyToMany()
+    @ManyToOne
     @JoinColumn(name = "id_enlace")
     private Enlace enlace;
 }

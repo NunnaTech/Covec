@@ -1,4 +1,4 @@
-package com.covec.mx.cev.entities.colonia;
+package com.covec.mx.cev.entities.usuario.enlace;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -7,32 +7,31 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class ColoniaService {
-
+public class EnlaceService {
     @Autowired
-    private ColoniaRepository repository;
+    private EnlaceRepository repository;
 
-    public List<Colonia> getAll(){
+    public List<Enlace> getAll(){
         return repository.findAll();
     }
 
-    public Colonia getOne(int id){
-        Optional<Colonia> exist = repository.findById(id);
+    public Enlace getOne(int id){
+        Optional<Enlace> exist = repository.findById(id);
         if (exist.isPresent()){
-            Colonia obj = new Colonia();
+            Enlace obj = new Enlace();
             obj = exist.get();
             return obj;
         }
         return null;
     }
 
-    public Colonia save(Colonia newObject){
+    public Enlace save(Enlace newObject){
         repository.save(newObject);
         return newObject;
     }
 
-    public Colonia update(Colonia newObject){
-        Optional<Colonia> exist = Optional.empty();
+    public Enlace update(Enlace newObject){
+        Optional<Enlace> exist = Optional.empty();
         exist = repository.findById(newObject.getId());
         if (!exist.isEmpty())
             repository.save(newObject);

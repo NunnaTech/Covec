@@ -28,11 +28,11 @@ public class Incidencia {
     @Column(name = "estatus")
     private String estatus;
 
-    @ManyToMany()
+    @ManyToOne
     @JoinColumn(name = "id_categoria")
     private Categoria categoria;
 
-    @ManyToMany()
+    @ManyToOne
     @JoinColumn(name = "id_integrante")
     private Integrante integrante;
 }

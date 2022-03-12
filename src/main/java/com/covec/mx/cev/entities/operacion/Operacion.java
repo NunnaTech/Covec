@@ -25,7 +25,7 @@ public class Operacion {
     @Column(name = "fecha_hora")
     private Date fechaHora;
 
-    @ManyToMany
+    @ManyToOne
     @JoinColumn(name = "idusuario")
     private Usuario usuario;
 }

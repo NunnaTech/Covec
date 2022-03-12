@@ -1,4 +1,4 @@
-package com.covec.mx.cev.entities.colonia;
+package com.covec.mx.cev.entities.comentario;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -7,32 +7,31 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class ColoniaService {
-
+public class ComentarioService {
     @Autowired
-    private ColoniaRepository repository;
+    private ComentarioRepository repository;
 
-    public List<Colonia> getAll(){
+    public List<Comentario> getAll(){
         return repository.findAll();
     }
 
-    public Colonia getOne(int id){
-        Optional<Colonia> exist = repository.findById(id);
+    public Comentario getOne(int id){
+        Optional<Comentario> exist = repository.findById(id);
         if (exist.isPresent()){
-            Colonia obj = new Colonia();
+            Comentario obj = new Comentario();
             obj = exist.get();
             return obj;
         }
         return null;
     }
 
-    public Colonia save(Colonia newObject){
+    public Comentario save(Comentario newObject){
         repository.save(newObject);
         return newObject;
     }
 
-    public Colonia update(Colonia newObject){
-        Optional<Colonia> exist = Optional.empty();
+    public Comentario update(Comentario newObject){
+        Optional<Comentario> exist = Optional.empty();
         exist = repository.findById(newObject.getId());
         if (!exist.isEmpty())
             repository.save(newObject);

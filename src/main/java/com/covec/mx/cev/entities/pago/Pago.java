@@ -18,7 +18,7 @@ public class Pago {
     @Column(name = "cantidad")
     private Double cantidad;
 
-    @ManyToMany()
+    @ManyToOne
     @JoinColumn(name = "id_integrante")
     private Integrante integrante;
 }

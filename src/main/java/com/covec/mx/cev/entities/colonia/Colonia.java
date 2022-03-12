@@ -21,7 +21,7 @@ public class Colonia {
     @Column(name = "codigo_postal")
     private String codigoPostal;
 
-    @ManyToMany
+    @ManyToOne
     @JoinColumn(name = "id_municipio")
     private Municipio municipio;
 
