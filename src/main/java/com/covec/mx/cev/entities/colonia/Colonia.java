@@ -1,5 +1,6 @@
 package com.covec.mx.cev.entities.colonia;
 
+import com.covec.mx.cev.entities.comite.Comite;
 import com.covec.mx.cev.entities.municipio.Municipio;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -26,5 +27,5 @@ public class Colonia {
     private Municipio municipio;
 
     @OneToMany(mappedBy = "colonia")
-    private List<Colonia> colonias;
+    private List<Comite> colonias;
 }
