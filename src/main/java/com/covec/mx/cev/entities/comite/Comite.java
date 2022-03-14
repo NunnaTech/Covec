@@ -14,7 +14,7 @@ import javax.persistence.*;
 public class Comite {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "idComites")
+    @Column(name = "id_comites")
     private Integer id;
 
     @ManyToOne

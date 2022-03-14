@@ -15,7 +15,7 @@ import java.sql.Date;
 public class Incidencia {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "idIncidencias")
+    @Column(name = "id_incidencias")
     private Integer id;
     @Column(name = "descripcion")
     private String descripcion;

@@ -10,6 +10,6 @@ import javax.persistence.PrimaryKeyJoinColumn;
 @Entity
 @Data
 @NoArgsConstructor
-@PrimaryKeyJoinColumn(name = "idUsuario")
+@PrimaryKeyJoinColumn(name = "id_usuario")
 public class Administrador extends Usuario {
 }

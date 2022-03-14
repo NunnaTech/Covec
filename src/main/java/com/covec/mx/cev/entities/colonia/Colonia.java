@@ -15,7 +15,7 @@ import java.util.List;
 public class Colonia {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "idColonia")
+    @Column(name = "id_colonia")
     private Integer id;
     @Column(name = "nombre")
     private String nombre;

@@ -14,7 +14,7 @@ import javax.persistence.*;
 public class Comentario {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "idComentario_Incidencia")
+    @Column(name = "id_comentario_incidencia")
     private Integer id;
 
     @Column(name = "comentario")

@@ -16,7 +16,7 @@ import java.util.List;
 @Data
 @Entity
 @NoArgsConstructor
-@PrimaryKeyJoinColumn(name = "idsuario")
+@PrimaryKeyJoinColumn(name = "id_usuario")
 public class Integrante extends Usuario {
     @Column(name = "esPresidente")
     private Boolean presidente;

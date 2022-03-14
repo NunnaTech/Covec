@@ -14,7 +14,7 @@ import java.util.List;
 @Entity
 @Data
 @NoArgsConstructor
-@PrimaryKeyJoinColumn(name = "idUsuario")
+@PrimaryKeyJoinColumn(name = "id_usuario")
 public class Enlace extends Usuario {
     @Column(name = "num_empleado")
     private String numEmpleado;

@@ -13,7 +13,7 @@ import java.sql.Date;
 public class Sesion {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "idSesiones")
+    @Column(name = "id_sesiones")
     private Integer id;
     @Column(name = "fecha_sesion")
     private Date fechaSesion;
