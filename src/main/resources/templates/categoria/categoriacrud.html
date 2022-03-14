@@ -7,9 +7,50 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
     <title>Categorias | Covec</title>
 </head>
-<body>
-
+<body id="bodyid">
+<div class="ui column centered grid">
+    <div class="column center aligned" style="padding: 6rem">
+        <h1>Categorias registradas</h1>
+        <h3 style="margin-top: -0.2rem; color: #666668">Lista de categorias</h3>
+        <table id="tabla" class="ui celled table" s>
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>Nombre</th>
+                <th>Categoria</th>
+                <th>Estado</th>
+                <th>Fecha:Hora</th>
+                <th>Acciones</th>
+            </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+</div>
 </body>
 <script src="https://code.jquery.com/jquery-3.1.1.min.js" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
+<script type="text/javascript">
+   $(function () {
+       var _arreglo = [
+           {Nombre: "Saul Hernandez", Categoria: "Salubridad", Estado: "Cancelada", Fecha: "02/09/2022"},
+           {Nombre: "Saul Hernandez", Categoria: "Salubridad", Estado: "Cancelada", Fecha: "02/09/2022"},
+           {Nombre: "Saul Hernandez", Categoria: "Salubridad", Estado: "Cancelada", Fecha: "02/09/2022"},
+       ];
+
+       $(document).ready(function () {
+           $.each(_arreglo, function( index, value ) {
+               var _trAppend = '<tr><td>'+ (index+1) +'</td>' +
+                   '<td>' +value.Nombre+'</td>' +
+                   '<td>' +value.Categoria+'</td>' +
+                   '<td>' +value.Estado +'</td>' +
+                   '<td>' +value.Fecha+'</td>' +
+                   '<td></td>' +
+                   '</tr>';
+               $('tbody').append(_trAppend);
+           })
+       })
+   })
+</script>
 </html>
