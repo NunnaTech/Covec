@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@2.8.0/dist/full.css" rel="stylesheet" type="text/css" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Categorias | Covec</title>
+</head>
+<body>
+<div th:fragment="modalFG">
+    <div class="pl-6">
+        <label for="my-modal" class="btn btn-sm modal-button bg-green-600">
+            Añadir <span class="material-icons ml-2">local_offer</span>
+        </label>
+    </div>
+
+    <input type="checkbox" id="my-modal" class="modal-toggle">
+    <div class="modal">
+        <div class="modal-box">
+            <div class="grid grid-cols-1 justify-items-center">
+                <h2 class="font-bold text-2xl">Registro de categoria</h2>
+                <h4 class="font-light text-lg">Ingrese el nombre</h4>
+            </div>
+            <div class="divider"></div>
+            <div class="grid grid-cols-1 justify-items-center">
+                <h6 class="font-medium text-base">Nombre</h6>
+                <input type="text" placeholder="Inserte el nombre aqui" class="input input-bordered w-full max-w-xs"/>
+            </div>
+            <div class="divider"></div>
+            <div class="modal-action">
+                <div class="btn-group">
+                    <label for="my-modal" class="btn btn-sm">Cerrar</label>
+                    <label class="btn btn-sm bg-green-600">Guardar <span class="material-icons ml-2">save_alt</span></label>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.1.1.min.js" crossorigin="anonymous"></script>
+</body>
+</html>
