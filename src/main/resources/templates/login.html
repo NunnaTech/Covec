@@ -5,14 +5,17 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link href="https://cdn.jsdelivr.net/npm/daisyui@2.8.0/dist/full.css" rel="stylesheet" type="text/css" />
-  <link rel="stylesheet" th:href="@{/css/animation.css}">
-  <title>Covec | Login</title>
   <meta name="description" content="Awesome application to manage neighborhood incidents">
   <meta name="author" content="ThePandaDevs" />
   <meta name="copyright" content="Copyright 2022 - All rights reserved" />
   <meta name="robots" content="index, follow">
   <meta name="keywords" content="reports, neighborhood, incidents, free application">
+  <title>Covec | Login</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdn.jsdelivr.net/npm/daisyui@2.8.0/dist/full.css" rel="stylesheet" type="text/css" />
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+  rel="stylesheet">
+  <link rel="stylesheet" th:href="@{/css/animation.css}">
 </head>
 
 <body>
@@ -91,12 +94,36 @@
                 Acceder   
             </button>
         </form>
-        <a class="py-2" href="#">Olvidé mi contraseña</a>
+        
+        <label for="my-modal" class="link link-hover link-primary modal-button py-5">Olvidé mi contraseña</label>
+          <!-- Put this part before </body> tag -->
+          <input type="checkbox" id="my-modal" class="modal-toggle">
+          <div class="modal">
+            <div class="modal-box">
+              <h3 class="font-bold text-lg">
+                Recuperación de contraseña</h3>
+              <p class="py-4">Por favor, ingresa el email que se te otorgó, se te enviará un correo para reestrablecer tus credenciales.</p>
+              
+                <label class="label">
+                  <span class="label-text">Mi correo es:</span>
+                </label>
+                <input type="text" placeholder="ejemplo_covec@gmail.com" class="input input-bordered w-full">
+
+              <div class="modal-action">
+                <label for="my-modal" class="btn gap-2 gap-y-5">Recuperar mi cuenta 
+                  <span class="material-icons">
+                    lock_reset
+                    </span>
+                  </label>
+              </div>
+            </div>
+          </div>
+
       </div>
     </div>
   </div>
 </body>
-<script src="https://cdn.tailwindcss.com"></script>
+
 <script src="https://code.jquery.com/jquery-3.1.1.min.js" crossorigin="anonymous"></script>
 
 </html>
