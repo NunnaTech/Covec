@@ -10,4 +10,9 @@ public class UsuarioController {
     public String login(){
         return"login";
     }
+
+    @GetMapping("/dash")
+    public String dashboard(){
+        return "perfil";
+    }
 }
