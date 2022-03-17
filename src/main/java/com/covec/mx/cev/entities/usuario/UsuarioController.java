@@ -11,8 +11,8 @@ public class UsuarioController {
         return"login";
     }
 
-    @GetMapping("/dash")
+    @GetMapping("/dashboard")
     public String dashboard(){
-        return "perfil";
+        return "index";
     }
 }
