@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -13,7 +13,7 @@
 <div th:fragment="modalFG">
     <div class="pl-6">
         <label for="my-modal" class="btn btn-sm modal-button bg-green-600">
-            Añadir <span class="material-icons ml-2">local_offer</span>
+            Actualizar <span class="material-icons ml-2">local_offer</span>
         </label>
     </div>
 
@@ -25,20 +25,21 @@
                 <h4 class="font-light text-lg">Ingrese el nombre</h4>
             </div>
             <div class="divider"></div>
-            <div class="grid grid-cols-1 justify-items-center">
-                <h6 class="font-medium text-base">Nombre</h6>
-                <input type="text" placeholder="Inserte el nombre aqui" class="input input-bordered w-full max-w-xs"/>
-            </div>
-            <div class="divider"></div>
-            <div class="modal-action">
-                <div class="btn-group">
-                    <label for="my-modal" class="btn btn-sm">Cerrar</label>
-                    <label class="btn btn-sm bg-green-600">Guardar <span class="material-icons ml-2">save_alt</span></label>
+            <form th:object="${categoria}" method="post" th:action="@{/categorias/save}">
+                <div class="grid grid-cols-1 justify-items-center">
+                    <h6 class="font-medium text-base">Nombre</h6>
+                    <input type="text" th:field="*{nombre}" placeholder="Inserte el nombre aqui" class="input input-bordered w-full max-w-xs"/>
                 </div>
-            </div>
+                <div class="divider"></div>
+                <div class="modal-action">
+                    <div class="btn-group">
+                        <label for="my-modal" class="btn btn-sm">Cerrar</label>
+                        <button type="submit" class="btn btn-sm bg-green-600">Guardar <span class="material-icons ml-2">save_alt</span></button>
+                    </div>
+                </div>
+            </form>
         </div>
     </div>
 </div>
-<script src="https://code.jquery.com/jquery-3.1.1.min.js" crossorigin="anonymous"></script>
 </body>
 </html>

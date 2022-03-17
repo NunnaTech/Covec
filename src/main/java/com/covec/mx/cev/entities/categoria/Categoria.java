@@ -8,13 +8,13 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
-@Table(name = "Categorias")
+@Table(name = "categorias")
 @Data
 @NoArgsConstructor
 public class Categoria {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "idCategoria")
+    @Column(name = "id_categoria")
     private Integer id;
 
     @Column(name = "nombre")
