@@ -3,7 +3,6 @@ package com.covec.mx.cev.entities.usuario;
 import com.covec.mx.cev.entities.operacion.Operacion;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.DiscriminatorFormula;
 
 import javax.persistence.*;
 import java.util.List;
