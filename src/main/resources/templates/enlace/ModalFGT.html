@@ -10,11 +10,14 @@
     <title>Categorias | Covec</title>
 </head>
 <body>
-<div th:fragment="modalUpdate(objeto, i)">
-    <label th:for="${i}" class="btn modal-button" style="background-color: #F7BD00">
-        <span class="material-icons">edit</span>
-    </label>
-    <input type="checkbox" th:id="${i}" class="modal-toggle">
+<div th:fragment="modalFG">
+    <div class="pl-6">
+        <label for="my-modal" class="btn btn-sm modal-button bg-green-600">
+            Añadir <span class="material-icons ml-2">local_offer</span>
+        </label>
+    </div>
+
+    <input type="checkbox" id="my-modal" class="modal-toggle">
     <div class="modal">
         <div class="modal-box">
             <div class="grid grid-cols-1 justify-items-center">
@@ -22,19 +25,16 @@
                 <h4 class="font-light text-lg">Ingrese el nombre</h4>
             </div>
             <div class="divider"></div>
-
-            <form th:object="${categoria}" method="post" th:action="@{/categorias/update}">
+            <form th:object="${enlace}" method="post" th:action="@{/enlaces/save}">
                 <div class="grid grid-cols-1 justify-items-center">
                     <h6 class="font-medium text-base">Nombre</h6>
-                    <input hidden th:value="${objeto.id}" name="id"/>
-                    <input type="text" th:value="${objeto.nombre}" name="nombre" placeholder="Inserte el nombre aqui" class="input input-bordered w-full max-w-xs"/>
+                    <input type="text" th:field="*{nombreCompleto}" placeholder="Inserte el nombre aqui" class="input input-bordered w-full max-w-xs"/>
                 </div>
                 <div class="divider"></div>
                 <div class="modal-action">
                     <div class="btn-group">
-                        <label th:for="${i}" class="btn btn-sm">Cerrar</label>
-                        <button type="submit" class="btn btn-sm bg-green-600">Guardar <span class="material-icons ml-2">save_alt</span>
-                        </button>
+                        <label for="my-modal" class="btn btn-sm">Cerrar</label>
+                        <button type="submit" class="btn btn-sm bg-green-600">Guardar <span class="material-icons ml-2">save_alt</span></button>
                     </div>
                 </div>
             </form>
@@ -43,5 +43,3 @@
 </div>
 </body>
 </html>
-
-

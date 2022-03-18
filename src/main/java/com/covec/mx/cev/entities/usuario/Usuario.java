@@ -16,7 +16,7 @@ import java.util.List;
 public abstract class Usuario {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "idUsuario")
+    @Column(name = "id_usuario")
     private Integer id;
     @Column(name = "nombre_completo")
     private String nombreCompleto;

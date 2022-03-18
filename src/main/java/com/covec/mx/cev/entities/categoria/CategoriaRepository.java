@@ -7,5 +7,5 @@ import org.springframework.data.repository.CrudRepository;
 
 @Repository
 public interface CategoriaRepository extends JpaRepository<Categoria, Integer> {
-
+    Categoria getByNombreIsLike(String nombre);
 }

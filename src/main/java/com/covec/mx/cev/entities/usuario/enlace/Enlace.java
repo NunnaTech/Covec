@@ -5,21 +5,19 @@ import com.covec.mx.cev.entities.usuario.Usuario;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.OneToMany;
-import javax.persistence.PrimaryKeyJoinColumn;
+import javax.persistence.*;
 import java.util.List;
 
 @Entity
 @Data
 @NoArgsConstructor
-@PrimaryKeyJoinColumn(name = "idUsuario")
+@PrimaryKeyJoinColumn(name = "id_usuario")
 public class Enlace extends Usuario {
     @Column(name = "num_empleado")
     private String numEmpleado;
     @Column(name = "correo_electronico")
     private String correoElectronico;
-    @OneToMany(mappedBy = "enlace")
-    private List<Municipio> municipios;
+    @OneToOne
+    @JoinColumn(name = "id_municipio")
+    private Municipio municipio;
 }
