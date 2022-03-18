@@ -34,10 +34,10 @@
                     <td th:text="${c.nombre}"></td>
                     <td>
                         <div class="btn-group">
-                            <div th:replace="categoria/ModalUpdate::modalUpdate(${c}, ${i.count})"></div>
-                            <button class="btn" style="background-color: #605AD4">
+                            <div th:replace="categoria/ModalUpdate::modalUpdate(${c}, ${i.count})" ></div>
+                            <a class="btn" th:href="@{/categorias/delete/{id}(id=${c.id})}" style="background-color: #605AD4">
                                 <span class="material-icons">delete</span>
-                            </button>
+                            </a>
                         </div>
                     </td>
                 </tr>
