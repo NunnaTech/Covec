@@ -8,7 +8,7 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
-@Table(name = "Usuarios")
+@Table(name = "usuarios")
 @Data
 @NoArgsConstructor
 @Inheritance(strategy = InheritanceType.JOINED)
@@ -22,7 +22,7 @@ public abstract class Usuario {
     @Column(name = "telefono")
     private String telefono;
     @Column(name = "imagen")
-    private byte[] imagen;
+    private String imagen;
     @Column(name = "tipo_usuario")
     private String tipoUsuario;
     @Column(name = "activo")
