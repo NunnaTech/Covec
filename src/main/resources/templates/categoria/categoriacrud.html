@@ -34,7 +34,7 @@
                     <td th:text="${c.nombre}"></td>
                     <td>
                         <div class="btn-group">
-                            <button th:replace="categoria/ModalUpdate::modalUpdate(${c})"></button>
+                            <div th:replace="categoria/ModalUpdate::modalUpdate(${c}, ${i.count})"></div>
                             <button class="btn" style="background-color: #605AD4">
                                 <span class="material-icons">delete</span>
                             </button>
