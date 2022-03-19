@@ -23,11 +23,11 @@
             </div>
             <div class="divider"></div>
 
-            <form th:object="${categoria}" method="post" th:action="@{/categorias/update}">
+            <form th:object="${enlace}" method="post" th:action="@{/enlaces/update}">
                 <div class="grid grid-cols-1 justify-items-center">
                     <h6 class="font-medium text-base">Nombre</h6>
                     <input hidden th:value="${objeto.id}" name="id"/>
-                    <input type="text" th:value="${objeto.nombre}" name="nombre" placeholder="Inserte el nombre aqui" class="input input-bordered w-full max-w-xs"/>
+                    <input type="text" th:value="${objeto.nombreCompleto}" name="nombre" placeholder="Inserte el nombre aqui" class="input input-bordered w-full max-w-xs"/>
                 </div>
                 <div class="divider"></div>
                 <div class="modal-action">

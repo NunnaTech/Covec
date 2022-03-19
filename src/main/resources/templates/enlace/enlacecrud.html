@@ -1,15 +1,64 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@2.8.0/dist/full.css" rel="stylesheet" type="text/css"/>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <title>Enlaces | Covec</title>
 </head>
-<body>
-    
+<body id="bodyid">
+<div class="container mx-auto p-5">
+    <div class="grid grid-cols-1 justify-items-center p-6">
+        <h1 class="text-2xl font-semibold">Enlaces registrados</h1>
+        <h3 class="text-lg font-light text-gray-600">Lista de enlaces</h3>
+    </div>
+
+    <div class="grid grid-cols-4">
+        <div th:replace="enlace/ModalFGT::modalFG"></div>
+    </div>
+
+    <div class="overflow-x-auto p-6">
+        <div class="grid grid-cols-1 justify-items-center">
+            <table id="tabla" class="table w-full">
+                <thead>
+                <tr>
+                    <th>Num. Empleado</th>
+                    <th>Nombre Completo</th>
+                    <th>Correo Electronico</th>
+                    <th>Municipio</th>
+                    <th>Acciones</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="e,i:${enlaces}">
+                    <td th:text="${e.numEmpleado}"></td>
+                    <td th:text="${e.nombreCompleto}"></td>
+                    <td th:text="${e.correoElectronico}"></td>
+                    <td th:text="${e.municipio.nombre}"></td>
+                    <td>
+                        <div class="btn-group">
+                            <div th:replace="enlace/ModalUpdate::modalUpdate(${e}, ${i.count})" ></div>
+                            <a class="btn" th:href="@{/enlaces/delete/{id}(id=${e.id})}" style="background-color: #605AD4">
+                                <span class="material-icons">delete</span>
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="grid justify-items-end">
+        <div class="btn-group">
+            <a th:each="page:${paginas}" class="btn" style="background-color: white; color: black"
+               th:href="@{|/categorias/all/?page=${page}|}" th:text="${page}"></a>
+        </div>
+    </div>
+
+</div>
 </body>
-<script src="https://code.jquery.com/jquery-3.1.1.min.js" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
 </html>
