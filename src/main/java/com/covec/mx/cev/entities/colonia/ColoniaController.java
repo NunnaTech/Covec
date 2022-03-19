@@ -8,9 +8,9 @@ import java.util.stream.IntStream;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -44,18 +44,21 @@ public class ColoniaController {
     }
 
     @PostMapping("/guardar")
-    public String save(){
-        return"redirect:/listar";
+    public String save(@ModelAttribute("colonia") Colonia colonia){
+        coloniaService.save(colonia);
+        return"redirect:/colonias/listar";
     }
  
-    @PatchMapping("/actualizar")
-    public String update(){
-        return "redirect:/listar";
+    @PostMapping("/actualizar")
+    public String update(@ModelAttribute("colonia") Colonia colonia){
+        coloniaService.update(colonia);
+        return "redirect:/colonias/listar";
     }
 
-    @DeleteMapping
-    public String delete(){
-        return"redirect:/listar";
+    @GetMapping("/eliminar/{id}")
+    public String delete(@PathVariable Integer id){
+        coloniaService.delete(id);
+        return"redirect:/colonias/listar";
     }
 
 }

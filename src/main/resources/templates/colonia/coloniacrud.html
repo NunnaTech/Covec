@@ -16,7 +16,69 @@
     rel="stylesheet">
 </head>
 <body>
-    
+    <div class="flex flex-row justify-center pb-7 pt-5 my-3 rounded-2xl shadow-md mx-2" style="background-color: #FFFFFF;">  
+        <div>
+          <h2 class="text-center font-medium leading-tight text-3xl lg:text-5xl">
+            Colonias registradas
+          </h2>
+          <h4 class="text-center text-2xl text-gray-500 pt-1">
+            Municipio: Emiliano Zapata
+          </h4>
+        </div>
+      </div>
+      <div class="overflow-x-auto mx-2 rounded-2xl shadow-md bg-white">
+        <div class="flex flex-col justify-between mx-5 md:lg:flex-row py-4">
+          <div>
+            <!--Modal fragment de crear colonia-->
+            <div th:insert="colonia/coloniamodals :: modal-colonia-crear"></div>
+          </div>
+          <div class="my-3">
+            <div class="form-control">
+              <div class="input-group">
+                <button class="btn btn-square bg-emerald-700 hover:bg-emerald-600 border-none">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
+                </button>
+                <input type="text" placeholder="Nombre o Postal" class="input focus:outline-none input-bordered">  
+              </div>
+            </div>
+          </div>
+        </div>
+  
+        <table class="table w-full text-left ">
+            <!-- head -->
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Código postal</th>
+                    <th class="text-center">Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="c,i:${colonias}">
+                    <td th:text="${c.nombre}"></td>
+                    <td th:text="${c.codigoPostal}"></td>
+                    <td class="flex flex-row justify-center">
+                        <div th:replace="colonia/coloniamodals::modal-colonia-editar(${c}, ${i.count})" ></div>
+                        <a th:href="@{/colonias/eliminar/{id}(id=${c.id})}" class="btn border-none w-16 mx-2 border-none bg-violet-700 hover:bg-violet-600">
+                          <span class="material-icons">delete</span>
+                        </a>
+                        <a class="btn border-none w-16 bg-emerald-700 hover:bg-emerald-600">
+                          <span class="material-icons">groups</span>
+                        </a>
+                  </td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="flex flex-row justify-center py-3">
+          <div class="btn-group">
+              <button 
+                th:each="page:${paginas}" 
+                th:href="@{|/colonias/listar/?page=${page}|}" 
+                th:text="${page}" class="btn btn-outline">
+              </button>
+          </div>
+      </div>
+    </div>
 </body>
 <script src="https://code.jquery.com/jquery-3.1.1.min.js" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
