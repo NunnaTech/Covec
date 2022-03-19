@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+    <div th:fragment="modal-colonia-crear">
+        <label for="my-modal" class="btn border-none bg-emerald-700 hover:bg-emerald-600">
+            <span class="material-icons mr-1">maps_ugc</span>
+            Añadir 
+        </label>
+
+        <input type="checkbox" id="my-modal" class="modal-toggle">
+        <div class="modal">
+            <div class="modal-box">
+                <div class="grid grid-cols-1 justify-items-center">
+                    <h2 class="font-bold text-2xl">Registro de categoria</h2>
+                    <h4 class="font-light text-lg">Ingrese el nombre</h4>
+                </div>
+                <div class="divider"></div>
+                <form th:object="${colonia}" method="post" th:action="@{/colonias/save}">
+                    <div class="grid grid-cols-1 justify-items-center">
+                        <h6 class="font-medium text-base">Nombre</h6>
+                        <input type="text" th:field="*{nombre}" placeholder="Inserte el nombre aqui" class="input input-bordered w-full max-w-xs"/>
+                    </div>
+                    <div class="divider"></div>
+                    <div class="modal-action">
+                        <div class="btn-group">
+                            <label for="my-modal" class="btn border-none btn-sm">Cerrar</label>
+                            <button type="submit" class="btn border-none btn-sm bg-green-600">Guardar <span class="material-icons ml-2">save_alt</span></button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
