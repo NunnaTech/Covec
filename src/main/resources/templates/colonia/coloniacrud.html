@@ -62,7 +62,7 @@
                         <a th:href="@{/colonias/eliminar/{id}(id=${c.id})}" class="btn border-none w-16 mx-2 border-none bg-violet-700 hover:bg-violet-600">
                           <span class="material-icons">delete</span>
                         </a>
-                        <a class="btn border-none w-16 bg-emerald-700 hover:bg-emerald-600">
+                        <a th:href="@{/comites/listar/{id}(id=${c.id})}" class="btn border-none w-16 bg-emerald-700 hover:bg-emerald-600">
                           <span class="material-icons">groups</span>
                         </a>
                   </td>
@@ -71,15 +71,14 @@
         </table>
         <div class="flex flex-row justify-center py-3">
           <div class="btn-group">
-              <button 
+              <a 
                 th:each="page:${paginas}" 
                 th:href="@{|/colonias/listar/?page=${page}|}" 
                 th:text="${page}" class="btn btn-outline">
-              </button>
+          </a>
           </div>
       </div>
     </div>
 </body>
 <script src="https://code.jquery.com/jquery-3.1.1.min.js" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
 </html>

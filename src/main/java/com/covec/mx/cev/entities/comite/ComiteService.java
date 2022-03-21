@@ -1,9 +1,9 @@
 package com.covec.mx.cev.entities.comite;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -11,12 +11,22 @@ public class ComiteService {
     @Autowired
     private ComiteRepository repository;
 
-    public List<Comite> getAll(){
-        return repository.findAll();
+    public Page<Comite> getAll(Integer id,Pageable pageable){
+        return  repository.getAllById(id, pageable);
     }
 
     public Comite getOne(int id){
         Optional<Comite> exist = repository.findById(id);
+        if (exist.isPresent()){
+            Comite obj = new Comite();
+            obj = exist.get();
+            return obj;
+        }
+        return null;
+    }
+
+    public Comite getByColony(int id){
+        Optional<Comite> exist = repository.getByColony(id);
         if (exist.isPresent()){
             Comite obj = new Comite();
             obj = exist.get();

@@ -5,6 +5,8 @@ import com.covec.mx.cev.entities.usuario.integrante.Integrante;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 import javax.persistence.*;
 
 @Entity
@@ -17,9 +19,8 @@ public class Comite {
     @Column(name = "id_comites")
     private Integer id;
 
-    @ManyToOne
-    @JoinColumn(name = "id_integrante")
-    private Integrante integrante;
+    @OneToMany(mappedBy = "comite")
+    private List<Integrante> integrantes;
 
     @ManyToOne
     @JoinColumn(name = "id_colonia")

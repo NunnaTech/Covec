@@ -9,6 +9,8 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.PrimaryKeyJoinColumn;
 import java.util.List;
@@ -18,14 +20,15 @@ import java.util.List;
 @NoArgsConstructor
 @PrimaryKeyJoinColumn(name = "id_usuario")
 public class Integrante extends Usuario {
-    @Column(name = "esPresidente")
+    @Column(name = "es_presidente")
     private Boolean presidente;
 
     @OneToMany(mappedBy = "integrante")
     private List<Incidencia> incidencias;
 
-    @OneToMany(mappedBy = "integrante")
-    private List<Comite> comites;
+    @ManyToOne
+    @JoinColumn(name = "id_comites")
+    private Comite comite;
 
     @OneToMany(mappedBy = "integrante")
     private List<Pago> pagos;

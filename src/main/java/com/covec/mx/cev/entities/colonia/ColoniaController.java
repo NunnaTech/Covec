@@ -5,6 +5,8 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+import com.covec.mx.cev.entities.municipio.MunicipioService;
+
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,6 +25,9 @@ public class ColoniaController {
 
     @Autowired
     private ColoniaService coloniaService;
+
+    @Autowired
+    private MunicipioService municipioService;
 
     @GetMapping("/listar")
     public String getAll(@RequestParam Map<String,Object> params, Model model){
@@ -45,6 +50,7 @@ public class ColoniaController {
 
     @PostMapping("/guardar")
     public String save(@ModelAttribute("colonia") Colonia colonia){
+        colonia.setMunicipio(municipioService.getOne(1));
         coloniaService.save(colonia);
         return"redirect:/colonias/listar";
     }

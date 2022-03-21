@@ -1,15 +1,15 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
-    <div th:fragment="modal-colonia-crear">
+    <div th:fragment="modal-comite-crear">
         <label for="my-modal" class="btn border-none bg-emerald-700 hover:bg-emerald-600">
             <span class="material-icons mr-1">maps_ugc</span>
-            Nueva colonia 
+            Nuevo comité 
         </label>
 
         <input type="checkbox" id="my-modal" class="modal-toggle">
@@ -48,7 +48,7 @@
     </div>
 
 
-    <div th:fragment="modal-colonia-editar(objeto, i)">
+    <div th:fragment="modal-comite-editar(objeto, i)">
         <label th:for="${i}" class="btn border-none w-16 bg-yellow-500 hover:bg-yellow-400">
             <span class="material-icons">edit</span>
         </label>
