@@ -1,58 +1,75 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/daisyui@2.8.0/dist/full.css" rel="stylesheet" type="text/css"/>
+<html data-theme="light" lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/daisyui@2.8.0/dist/full.css"
+      rel="stylesheet"
+      type="text/css"
+    />
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
     <title>Categorias | Covec</title>
-</head>
-<body id="bodyid">
-<div class="container mx-auto p-5">
-    <div class="grid grid-cols-1 justify-items-center p-6">
+  </head>
+  <body id="bodyid">
+    <div class="container mx-auto p-5">
+      <div class="grid grid-cols-1 justify-items-center p-6">
         <h1 class="text-2xl font-semibold">Categorias registradas</h1>
         <h3 class="text-lg font-light text-gray-600">Lista de categorias</h3>
-    </div>
+      </div>
 
-    <div class="grid grid-cols-4">
+      <div class="grid grid-cols-4">
         <div th:replace="categoria/ModalFGT::modalFG"></div>
-    </div>
+      </div>
 
-    <div class="overflow-x-auto p-6">
+      <div class="overflow-x-auto p-6">
         <div class="grid grid-cols-1 justify-items-center">
-            <table id="tabla" class="table w-full">
-                <thead>
-                <tr>
-                    <th>Nombre</th>
-                    <th>Acciones</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr th:each="c,i:${categorias}">
-                    <td th:text="${c.nombre}"></td>
-                    <td>
-                        <div class="btn-group">
-                            <div th:replace="categoria/ModalUpdate::modalUpdate(${c}, ${i.count})" ></div>
-                            <a class="btn" th:href="@{/categorias/delete/{id}(id=${c.id})}" style="background-color: #605AD4">
-                                <span class="material-icons">delete</span>
-                            </a>
-                        </div>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
+          <table id="tabla" class="table w-full">
+            <thead>
+              <tr>
+                <th>Nombre</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr th:each="c,i:${categorias}">
+                <td th:text="${c.nombre}"></td>
+                <td>
+                  <div class="grid grid-cols-2">
+                    <div
+                      th:replace="categoria/ModalUpdate::modalUpdate(${c}, ${i.count})"
+                    ></div>
+                    <a
+                      class="btn w-24"
+                      th:href="@{/categorias/delete/{id}(id=${c.id})}"
+                      style="background-color: #605ad4"
+                    >
+                      <span class="material-icons">delete</span>
+                    </a>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </div>
-    </div>
+      </div>
 
-    <div class="grid justify-items-end">
+      <div class="grid justify-items-end">
         <div class="btn-group">
-            <a th:each="page:${paginas}" class="btn" style="background-color: white; color: black"
-               th:href="@{|/categorias/all/?page=${page}|}" th:text="${page}"></a>
+          <a
+            th:each="page:${paginas}"
+            class="btn"
+            style="background-color: white; color: black"
+            th:href="@{|/categorias/all/?page=${page}|}"
+            th:text="${page}"
+          ></a>
         </div>
+      </div>
     </div>
-
-</div>
-</body>
+  </body>
 </html>
