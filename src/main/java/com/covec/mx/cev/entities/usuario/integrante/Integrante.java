@@ -23,6 +23,8 @@ public class Integrante extends Usuario {
     @Column(name = "es_presidente")
     private Boolean presidente;
 
+    @Column(name = "correo")
+    private String correo;
     @OneToMany(mappedBy = "integrante")
     private List<Incidencia> incidencias;
 

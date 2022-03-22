@@ -18,7 +18,7 @@
 <body>
     <div class="flex flex-row justify-center pb-7 pt-5 my-3 rounded-2xl shadow-md mx-2" style="background-color: #FFFFFF;">  
         <div>
-          <h2 class="text-center font-medium leading-tight text-3xl lg:text-5xl">
+          <h2 class="text-center font-medium leading-tight text-3xl lg:text-4xl">
             Colonias registradas
           </h2>
           <h4 class="text-center text-2xl text-gray-500 pt-1">
@@ -48,13 +48,13 @@
             <!-- head -->
             <thead>
                 <tr>
-                    <th>Nombre</th>
+                    <th>Nombre de la colonia</th>
                     <th>Código postal</th>
                     <th class="text-center">Acciones</th>
                 </tr>
             </thead>
             <tbody>
-                <tr th:each="c,i:${colonias}">
+                <tr class="hover" th:each="c,i:${colonias}">
                     <td th:text="${c.nombre}"></td>
                     <td th:text="${c.codigoPostal}"></td>
                     <td class="flex flex-row justify-center">

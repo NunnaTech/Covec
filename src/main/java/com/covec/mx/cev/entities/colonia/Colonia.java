@@ -27,5 +27,5 @@ public class Colonia {
     private Municipio municipio;
 
     @OneToMany(mappedBy = "colonia")
-    private List<Comite> colonias;
+    private List<Comite> comites;
 }

@@ -18,11 +18,11 @@
 <body>
       <div class="flex flex-row justify-center pb-7 pt-5 my-3 rounded-2xl shadow-md mx-2" style="background-color: #FFFFFF;">  
         <div>
-          <h2 class="text-center font-medium leading-tight text-3xl lg:text-5xl">
+          <h2 class="text-center font-medium leading-tight text-3xl lg:text-4xl">
             Comités registrados
           </h2>
           <h4 class="text-center text-2xl text-gray-500 pt-1">
-            Municipio: [[${colonia.nombre}]]
+            Colonia: [[${colonia.nombre}]]
           </h4>
         </div>
       </div>
@@ -34,7 +34,10 @@
               <span class="material-icons mr-1">keyboard_return</span>
               Regresar 
             </a>
-            <div th:insert="comite/comitemodals :: modal-comite-crear"></div>
+            <a th:href="@{/comites/integrantes/nuevo}" class="btn border-none bg-emerald-700 hover:bg-emerald-600">
+              <span class="material-icons mr-1">groups</span>
+              Nuevo comité 
+            </a>
           </div>
           <div class="my-3">
             <div class="form-control">
@@ -59,7 +62,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr th:each="c,i :${comites}">
+                <tr  class="hover" th:each="c,i :${comites}">
                   <td th:text="${c.id}"></td>
                   <div th:each="obj :${c.integrantes}">
                     <div th:if="${obj.presidente}">
@@ -71,8 +74,8 @@
                     <a  class="btn border-none w-16 mx-2 border-none bg-violet-700 hover:bg-violet-600">
                       <span class="material-icons">delete</span>
                     </a>
-                    <a  class="btn border-none w-16 bg-emerald-700 hover:bg-emerald-600">
-                      <span class="material-icons">person_add</span>
+                    <a th:href="@{/comites/integrantes/listar/{id}(id=${c.id})}"  class="btn border-none w-16 bg-yellow-500 hover:bg-yellow-400">
+                      <span class="material-icons">edit</span>
                     </a>
                   </td>
                 </tr>

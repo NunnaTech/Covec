@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html data-theme="light" lang="en" xmlns:th="https://www.thymeleaf.org/">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Awesome application to manage neighborhood incidents">
+    <meta name="author" content="ThePandaDevs" />
+    <meta name="copyright" content="Copyright 2022 - All rights reserved" />
+    <meta name="robots" content="index, follow">
+    <meta name="keywords" content="reports, neighborhood, incidents, free application">
+    <title>Integrantes | Covec</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@2.8.0/dist/full.css" rel="stylesheet" type="text/css" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+    rel="stylesheet">
+</head>
+<body>
+    <div class="flex flex-row justify-center pb-7 pt-5 my-3 rounded-2xl shadow-md mx-2" style="background-color: #FFFFFF;">  
+        <div>
+          <h2 class="text-center font-medium leading-tight text-3xl lg:text-4xl">
+            Integrantes registrados
+          </h2>
+          <h4 class="text-center text-gray-500 text-xl lg:text-2xl  pt-1 ">
+            Comité de la colonia: [[${comite.colonia.nombre}]]
+          </h4>
+          <div class="flex justify-center pt-3">
+            <button onclick="window.history.go(-1); return false;" class="btn border-none bg-indigo-700 hover:bg-indigo-600 w-36 mr-2  lg:my-0">
+              <span class="material-icons mr-1">keyboard_return</span>
+              Regresar 
+            </button>
+            <a th:href class="btn border-none bg-emerald-700 hover:bg-emerald-600">
+              <span class="material-icons mr-1">maps_ugc</span>
+              Nuevo integrante 
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="flex justify-center mx-2 grid grid-cols-1 lg:grid-cols-2">
+        <div th:each="i :${comite.integrantes}" class="card bg-base-100 shadow-xl mx-4 my-4 hover:shadow-2xl duration-300">
+          <figure><img src="https://api.lorem.space/image/shoes?w=400&h=225" alt="Shoes" /></figure>
+          <div class="card-body">
+            <p th:text="${i.presidente} ? 'Presidente':'Integrante'">
+            </p>
+            <h2 class="card-title">[[${i.nombreCompleto}]]</h2>
+            <div class="card-actions justify-start">
+              <div class="badge badge-outline">[[${i.telefono}]]</div>
+              <div class="badge badge-outline">[[${i.correo}]]</div> 
+            </div>
+            <div class="flex flex-row">
+              <a class="btn border-none w-16 mx-2 border-none bg-violet-700 hover:bg-violet-600">
+                <span class="material-icons">delete</span>
+              </a>
+              <a th:href class="btn border-none w-16 bg-emerald-700 hover:bg-emerald-600">
+                <span class="material-icons">person_add</span>
+              </a> 
+            </div>
+          </div>
+
+        </div>
+      </div>
+</body>
+</html>
