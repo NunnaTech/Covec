@@ -19,7 +19,7 @@ public class Comite {
     @Column(name = "id_comites")
     private Integer id;
 
-    @OneToMany(mappedBy = "comite")
+    @OneToMany(mappedBy = "comite", cascade = {CascadeType.ALL})
     private List<Integrante> integrantes;
 
     @ManyToOne

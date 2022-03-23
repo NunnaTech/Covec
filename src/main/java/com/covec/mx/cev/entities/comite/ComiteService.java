@@ -4,6 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+
 import java.util.Optional;
 
 @Service
@@ -33,6 +36,11 @@ public class ComiteService {
             return obj;
         }
         return null;
+    }
+
+    public boolean saveAll(List<Comite> comite){
+        repository.saveAll(comite);
+        return true;
     }
 
     public Comite save(Comite newObject){

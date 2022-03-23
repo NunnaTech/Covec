@@ -26,6 +26,6 @@ public class Colonia {
     @JoinColumn(name = "id_municipio")
     private Municipio municipio;
 
-    @OneToMany(mappedBy = "colonia")
+    @OneToMany(mappedBy = "colonia", cascade = {CascadeType.ALL})
     private List<Comite> comites;
 }

@@ -7,6 +7,7 @@ import com.covec.mx.cev.entities.usuario.Usuario;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
@@ -28,7 +29,7 @@ public class Integrante extends Usuario {
     @OneToMany(mappedBy = "integrante")
     private List<Incidencia> incidencias;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "id_comites")
     private Comite comite;
 

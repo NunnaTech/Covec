@@ -51,8 +51,8 @@ public class ComiteController {
                     .collect(Collectors.toList());
             model.addAttribute("paginas", pages);
         }
-        integrantes.clear();
         coloniaID = id;
+        integrantes.clear();
         model.addAttribute("colonia", coloniaService.getOne(id));
         model.addAttribute("comite", new Comite());
         model.addAttribute("comites", comitePages.getContent());
@@ -76,6 +76,7 @@ public class ComiteController {
 
     @PostMapping("/integrantes/agregar")
     public String add(Model model, Integrante integrante){
+        integrante.setComite(comite);
         integrantes.add(integrante);
         return "redirect:/comites/integrantes/nuevo";
     }
@@ -88,7 +89,6 @@ public class ComiteController {
 
     @GetMapping("/guardar/{id}")
     public String save(@PathVariable("id") Integer id) {
-        System.out.println(coloniaID);
         Colonia colonia = coloniaService.getOne(coloniaID);
         comite.setIntegrantes(integrantes);
         comite.setColonia(colonia);
