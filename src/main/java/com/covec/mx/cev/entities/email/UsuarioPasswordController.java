@@ -56,7 +56,7 @@ public class UsuarioPasswordController {
         model.addAttribute("token", token);
         if (usuario == null) {
             model.addAttribute("message", "Invalid Token");
-            return "message";
+            return "email/message";
         }
         return "email/reset_password_form";
     }
@@ -83,7 +83,7 @@ public class UsuarioPasswordController {
         helper.setTo(recipientEmail);
         String subject = "Este es el enlace para restablecer la contraseña";
 
-        String content = "<p>Hello,</p>"
+        String content = "<p>Hola,</p>"
                 + "<p>Ha solicitado restablecer su contraseña.</p>"
                 + "<p>Haga clic en el siguiente enlace para cambiar su contraseña:</p>"
                 + "<p><a href=\"" + restPasswordLink + "\">Cambiar mi contraseña</a></p>"

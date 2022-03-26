@@ -1,19 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>Contraseña olvidada</title>
 </head>
-<body>
-<div>
-    <h2>Has olvidado tu contraseña</h2>
-</div>
 
-<div th:if="${error != null}">
-    <p class="text-danger">[[${error}]]</p>
-</div>
-<div th:if="${message != null}">
-    <p class="text-warning">[[${message}]]</p>
-</div>
+<body>
+    <div>
+        <h1>Recuperar Contraseña</h1>
+    </div>
+
+    <div th:if="${error != null}">
+        <p class="text-danger">[[${error}]]</p>
+    </div>
+    <div th:if="${message != null}">
+        <p class="text-warning">[[${message}]]</p>
+    </div>
 </body>
+
 </html>
