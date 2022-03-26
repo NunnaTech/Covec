@@ -1,10 +1,25 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head> <title>Login</title> </head>
 <body>
-
+<div> <span th:text="${message}"></span> <br/> </div>
+<div>
+    <form action="#" th:action="@{/usuario/login}" th:object="${usuario}" method="post">
+        <table>
+            <tr>
+                <td><label for="email">Email</label></td>
+                <td><input th:field="*{email}" type="text" id="email" name="email"></input></td>
+            </tr>
+            <tr>
+                <td><label for="password">Password</label></td>
+                <td><input th:field="*{password}" type="password" id="password" name="password"></input></td>
+            </tr>
+            <tr>
+                <td><input type="submit" value="Enviar"></input></td>
+            </tr>
+        </table>
+    </form>
+    <a th:href="@{/forgot_password}">Olvidaste la contra?</a>
+</div>
 </body>
 </html>

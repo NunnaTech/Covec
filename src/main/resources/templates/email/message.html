@@ -2,9 +2,18 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Contraseña olvidada</title>
 </head>
 <body>
+<div>
+    <h2>Has olvidado tu contraseña</h2>
+</div>
 
+<div th:if="${error != null}">
+    <p class="text-danger">[[${error}]]</p>
+</div>
+<div th:if="${message != null}">
+    <p class="text-warning">[[${message}]]</p>
+</div>
 </body>
 </html>
