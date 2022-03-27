@@ -9,6 +9,7 @@ import java.util.stream.IntStream;
 import com.covec.mx.cev.entities.colonia.Colonia;
 import com.covec.mx.cev.entities.colonia.ColoniaService;
 import com.covec.mx.cev.entities.usuario.integrante.Integrante;
+import com.covec.mx.cev.entities.usuario.integrante.IntegranteService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -32,6 +33,10 @@ public class ComiteController {
     @Autowired
     private ColoniaService coloniaService;
 
+    @Autowired
+    private IntegranteService integranteService;
+
+    private List<Integer>listIds = new LinkedList<>(); 
     private List<Integrante> integrantes = new LinkedList<>();
     private Comite comite = new Comite();
     private Integer coloniaID;
@@ -52,6 +57,7 @@ public class ComiteController {
             model.addAttribute("paginas", pages);
         }
         coloniaID = id;
+        listIds.clear();
         integrantes.clear();
         model.addAttribute("colonia", coloniaService.getOne(id));
         model.addAttribute("comite", new Comite());
@@ -62,6 +68,17 @@ public class ComiteController {
     @GetMapping("/integrantes/listar/{id}")
     public String seeMembers(@PathVariable("id") Integer id, Model model){
         comite = comiteService.getOne(id);
+        integrantes = comite.getIntegrantes();
+        model.addAttribute("integrante", new Integrante());
+        model.addAttribute("integrantes",integrantes);
+        model.addAttribute("comite",comite);
+        return "comite/integrantecrud";
+    }
+
+    @GetMapping("/integrantes/listar/refrescar")
+    public String seeUpdatedMembers(Model model){
+        model.addAttribute("integrante", new Integrante());
+        model.addAttribute("integrantes",integrantes);
         model.addAttribute("comite",comite);
         return "comite/integrantecrud";
     }
@@ -87,6 +104,51 @@ public class ComiteController {
         return "redirect:/comites/integrantes/nuevo";
     }
 
+
+
+    
+
+    @GetMapping("/integrantes/existente/nuevo")
+    public String existingGroup(Model model){
+        model.addAttribute("comite",comite);
+        model.addAttribute("ID",coloniaID);
+        model.addAttribute("integrante", new Integrante());
+        model.addAttribute("integrantes",integrantes);
+        return "comite/integrantecrud";
+    }
+
+    @PostMapping("/integrantes/existente/agregar")
+    public String addExisting(Model model,Integrante integrante){
+        integrante.setComite(comite);
+        integrantes.add(integrante);
+        return "redirect:/comites/integrantes/existente/nuevo";
+    }
+
+    @GetMapping("/integrantes/existente/quitar/{telefono}")
+    public String deleteExisting(Model model, @PathVariable("telefono") String telefono){
+        for (Integrante integrante : integrantes) {
+            if(integrante.getId()!=null && integrante.getTelefono().equals(telefono)){
+                listIds.add(integrante.getId()) ;
+            }
+        }
+        integrantes.removeIf(i -> (i.getTelefono().equals(telefono)));
+        return "redirect:/comites/integrantes/existente/nuevo";
+    }
+
+    @PostMapping("/integrantes/existente/actualizar")
+    public String updateExisting(@ModelAttribute("integrante")Integrante integrante){
+        System.out.println(integrante.toString());
+        for (Integrante i : integrantes) {
+            if(i.getId() == integrante.getId()){
+                i.setNombreCompleto(integrante.getNombreCompleto());
+                i.setPresidente(integrante.getPresidente());
+                i.setCorreo(integrante.getCorreo());
+                i.setImagen(integrante.getImagen());
+            }
+        }
+        return"redirect:/comites/integrantes/listar/refrescar";
+    }
+
     @GetMapping("/guardar/{id}")
     public String save(@PathVariable("id") Integer id) {
         Colonia colonia = coloniaService.getOne(coloniaID);
@@ -96,9 +158,14 @@ public class ComiteController {
         return "redirect:/comites/listar/"+id;
     }
 
-    @PostMapping("/actualizar")
-    public String update(@ModelAttribute("comite") Comite comite) {
-        return "redirect:/comites/listar/{id}";
+    @GetMapping("/actualizar")
+    public String update() {
+        integranteService.deleteMultple(listIds);
+        Colonia colonia = coloniaService.getOne(coloniaID);
+        comite.setIntegrantes(integrantes);
+        comite.setColonia(colonia);
+        comiteService.save(comite);
+        return "redirect:/comites/listar/"+coloniaID;
     }
 
     @GetMapping("/eliminar/{id}")
