@@ -11,6 +11,7 @@ import com.covec.mx.cev.entities.colonia.ColoniaService;
 import com.covec.mx.cev.entities.usuario.integrante.Integrante;
 import com.covec.mx.cev.entities.usuario.integrante.IntegranteService;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -38,8 +39,12 @@ public class ComiteController {
 
     private List<Integer>listIds = new LinkedList<>(); 
     private List<Integrante> integrantes = new LinkedList<>();
+    private static final String CONST_COMITE ="comite";
+    private static final String CONST_INTEGRANTE="integrante";
+    private static final String CONST_INTEGRANTES="integrantes";
     private Comite comite = new Comite();
     private Integer coloniaID;
+    
 
     @GetMapping("/listar/{id}")
     public String getAll(Model model, @PathVariable("id") Integer id, @RequestParam Map<String, Object> params) {
@@ -60,7 +65,7 @@ public class ComiteController {
         listIds.clear();
         integrantes.clear();
         model.addAttribute("colonia", coloniaService.getOne(id));
-        model.addAttribute("comite", new Comite());
+        model.addAttribute(CONST_COMITE, new Comite());
         model.addAttribute("comites", comitePages.getContent());
         return "comite/comitecrud";
     }
@@ -69,25 +74,25 @@ public class ComiteController {
     public String seeMembers(@PathVariable("id") Integer id, Model model){
         comite = comiteService.getOne(id);
         integrantes = comite.getIntegrantes();
-        model.addAttribute("integrante", new Integrante());
-        model.addAttribute("integrantes",integrantes);
-        model.addAttribute("comite",comite);
+        model.addAttribute(CONST_INTEGRANTE, new Integrante());
+        model.addAttribute(CONST_INTEGRANTES,integrantes);
+        model.addAttribute(CONST_COMITE,comite);
         return "comite/integrantecrud";
     }
 
     @GetMapping("/integrantes/listar/refrescar")
     public String seeUpdatedMembers(Model model){
-        model.addAttribute("integrante", new Integrante());
-        model.addAttribute("integrantes",integrantes);
-        model.addAttribute("comite",comite);
+        model.addAttribute(CONST_INTEGRANTE, new Integrante());
+        model.addAttribute(CONST_INTEGRANTES,integrantes);
+        model.addAttribute(CONST_COMITE,comite);
         return "comite/integrantecrud";
     }
 
     @GetMapping("/integrantes/nuevo")
     public String newGroup(Model model){
         model.addAttribute("ID",coloniaID);
-        model.addAttribute("integrante", new Integrante());
-        model.addAttribute("integrantes",integrantes);
+        model.addAttribute(CONST_INTEGRANTE, new Integrante());
+        model.addAttribute(CONST_INTEGRANTES,integrantes);
         return "comite/crearcomite";
     }
 
@@ -110,10 +115,10 @@ public class ComiteController {
 
     @GetMapping("/integrantes/existente/nuevo")
     public String existingGroup(Model model){
-        model.addAttribute("comite",comite);
+        model.addAttribute(CONST_COMITE,comite);
         model.addAttribute("ID",coloniaID);
-        model.addAttribute("integrante", new Integrante());
-        model.addAttribute("integrantes",integrantes);
+        model.addAttribute(CONST_INTEGRANTE, new Integrante());
+        model.addAttribute(CONST_INTEGRANTES,integrantes);
         return "comite/integrantecrud";
     }
 
@@ -137,13 +142,14 @@ public class ComiteController {
 
     @PostMapping("/integrantes/existente/actualizar")
     public String updateExisting(@ModelAttribute("integrante")Integrante integrante){
-        System.out.println(integrante.toString());
         for (Integrante i : integrantes) {
-            if(i.getId() == integrante.getId()){
-                i.setNombreCompleto(integrante.getNombreCompleto());
-                i.setPresidente(integrante.getPresidente());
-                i.setCorreo(integrante.getCorreo());
-                i.setImagen(integrante.getImagen());
+            if(i.getId().equals(integrante.getId())){
+                BeanUtils.copyProperties(integrante, i);
+                i.setComite(comite);
+                if (i.getPresidente() == null){
+                    i.setPresidente(false);
+                }
+                break;
             }
         }
         return"redirect:/comites/integrantes/listar/refrescar";
