@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/daisyui@2.8.0/dist/full.css"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Categorias | Covec</title>
+  </head>
+  <body>
+    <div th:fragment="modalUpdate(objeto, i)">
+      <label
+        th:for="${i}"
+        class="btn modal-button w-24"
+        style="background-color: #f7bd00"
+      >
+        <span class="material-icons">edit</span>
+      </label>
+      <input type="checkbox" th:id="${i}" class="modal-toggle" />
+      <div class="modal">
+        <div class="modal-box">
+          <div class="grid grid-cols-1 justify-items-center">
+            <h2 class="font-bold text-2xl">Actualización de incidencia</h2>
+            <h4 class="font-light text-lg">
+              Actualice el estado de la incidencia
+            </h4>
+          </div>
+          <div class="divider"></div>
+
+          <form
+            th:object="${incidencia}"
+            method="post"
+            th:action="@{/incidencias/update}"
+          >
+            <div
+              class="grid md:grid-cols-3 sm:grid-cols-1 justify-items-center"
+            >
+              <div class="form-control">
+                <label class="label cursor-pointer">
+                  <span class="label-text">Cancelada</span>
+                  <input hidden th:value="${enlaceUsuario.id}" name="idEnlace"/>
+                  <input hidden th:value="${objeto.id}" name="id" />
+                  <input
+                    type="radio"
+                    checked
+                    class="checkbox ml-2 checkbox-primary"
+                    name="estatus"
+                    value="Cancelada"
+                  />
+                </label>
+              </div>
+              <div class="form-control">
+                <label class="label cursor-pointer">
+                  <span class="label-text">Canalizada</span>
+                  <input
+                    type="radio"
+                    class="checkbox ml-2 checkbox-primary"
+                    name="estatus"
+                    value="Canalizada"
+                  />
+                </label>
+              </div>
+              <div class="form-control">
+                <label class="label cursor-pointer">
+                  <span class="label-text">Atentida</span>
+                  <input
+                    type="radio"
+                    class="checkbox ml-2 checkbox-primary"
+                    name="estatus"
+                    value="Atentida"
+                  />
+                </label>
+              </div>
+            </div>
+            <div class="divider"></div>
+            <div class="modal-action">
+              <div class="btn-group">
+                <label th:for="${i}" class="btn btn-sm">Cerrar</label>
+                <button
+                  id="botonUpload"
+                  type="submit"
+                  class="btn btn-sm bg-green-600"
+                >
+                  Guardar <span class="material-icons ml-2">save_alt</span>
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

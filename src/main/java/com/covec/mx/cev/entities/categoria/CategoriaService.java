@@ -36,8 +36,10 @@ public class CategoriaService {
     public Categoria update(Categoria newObject){
         Optional<Categoria> exist = Optional.empty();
         exist = repository.findById(newObject.getId());
-        if (!exist.isEmpty())
+        if (!exist.isEmpty()){
+            exist.get().setNombre(newObject.getNombre());
             repository.save(newObject);
+        }
         return exist.get();
     }
 

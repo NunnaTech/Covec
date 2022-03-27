@@ -15,6 +15,10 @@ public class MunicipioService {
         return repository.findAll();
     }
 
+    public List<Municipio> getAvailable(){
+        return repository.obtenerDisponibles();
+    }
+
     public Municipio getOne(int id){
         Optional<Municipio> exist = repository.findById(id);
         if (exist.isPresent()){
