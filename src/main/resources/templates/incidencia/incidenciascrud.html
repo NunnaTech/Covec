@@ -1,15 +1,81 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
+<html data-theme="light" lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/daisyui@2.8.0/dist/full.css"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
     <title>Incidencias | Covec</title>
-</head>
-<body>
-    
-</body>
-<script src="https://code.jquery.com/jquery-3.1.1.min.js" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
+  </head>
+  <body id="bodyid">
+    <div class="container mx-auto p-5">
+      <div class="grid grid-cols-1 justify-items-center p-6">
+        <h1 class="text-2xl font-semibold">Solicitud de incidencia</h1>
+        <h3 class="text-lg font-light text-gray-600">Mostrando últimos registros</h3>
+      </div>
+
+      <div class="overflow-x-auto p-6">
+        <div class="grid grid-cols-1 justify-items-center">
+          <table id="tabla" class="table w-full">
+            <thead>
+              <tr>
+                <th>Nombre</th>
+                <th>Categoria</th>
+                <th>Estado</th>
+                <th>Fecha de reporte</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr th:each="e,i:${incidencias}">
+                <td th:text="${e.Integrante.nombreCompleto}"></td>
+                <td th:text="${e.Categoria.nombre}"></td>
+                <td th:text="${e.estatus}"></td>
+                <td th:text="${e.fechaRegistro}"></td>
+                <td>
+                  <div class="grid grid-cols-2">
+                    <div
+                      th:replace="incidencia/ModalUpdate::modalUpdate(${e}, ${i.count})"
+                    ></div>
+                    <a
+                      class="btn w-24"
+                      th:href="@{/incidencias/getOne/{id}/{idenlace}(id=${e.id}, idenlace=${enlaceUsuario.id})}"
+                      style="background-color: #605ad4"
+                    >
+                      <span class="material-icons">question_answer</span>
+                    </a>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="grid justify-items-end">
+        <div class="btn-group">
+          <a
+            th:each="page:${paginas}"
+            class="btn"
+            style="background-color: white; color: black"
+            th:href="@{|/incidencias/all/1/?page=${page}|}"
+            th:text="${page}"
+          ></a>
+        </div>
+      </div>
+    </div>
+    <script
+      src="https://code.jquery.com/jquery-3.1.1.min.js"
+      crossorigin="anonymous"
+    ></script>
+  </body>
 </html>

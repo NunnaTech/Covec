@@ -1,5 +1,7 @@
 package com.covec.mx.cev.entities.comentario;
 
+import com.covec.mx.cev.entities.incidencia.Incidencia;
+import com.covec.mx.cev.entities.usuario.enlace.Enlace;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +15,16 @@ public class ComentarioService {
 
     public List<Comentario> getAll(){
         return repository.findAll();
+    }
+
+
+    public List<Comentario> getAllChatEnlace(Incidencia incidencia, Enlace enlace, Boolean value){
+        return repository.getAllByIncidenciaEqualsAndEnlaceEqualsAndEsEnlaceEquals(incidencia, enlace, value);
+    }
+
+
+    public List<Comentario> getAllChat(Incidencia incidencia, Enlace enlace){
+        return repository.getAllByIncidenciaEqualsAndEnlaceEquals(incidencia, enlace);
     }
 
     public Comentario getOne(int id){
@@ -30,13 +42,6 @@ public class ComentarioService {
         return newObject;
     }
 
-    public Comentario update(Comentario newObject){
-        Optional<Comentario> exist = Optional.empty();
-        exist = repository.findById(newObject.getId());
-        if (!exist.isEmpty())
-            repository.save(newObject);
-        return exist.get();
-    }
 
     public void delete(int id){
         boolean exist = repository.existsById(id);

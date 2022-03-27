@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html data-theme="light" lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/daisyui@2.8.0/dist/full.css"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+    <title>Incidencias | Covec</title>
+  </head>
+  <body id="bodyid">
+    <div class="container mx-auto p-5">
+      <div class="grid grid-cols-1 justify-items-center p-6">
+        <h1 class="text-2xl font-semibold">
+          Solicitud de [[${incidencia.integrante.nombreCompleto}]]
+        </h1>
+        <h3 class="text-lg font-light text-gray-600">
+          Categoria: [[${incidencia.categoria.nombre}]]
+        </h3>
+      </div>
+      <div class="grid grid-cols-2 justify-items-center">
+        <img
+          th:each="e,i:${evidencias}"
+          class="object-cover h-48 w-96 rounded drop-shadow-xl"
+          th:src="${e.evidencia}"
+        />
+      </div>
+      <div class="divider mt-6 mb-3"></div>
+      <div class="grid grid-cols-1 justify-items-start">
+        <h6 class="text-2xl font-semibold">Descripción:</h6>
+        <h3 class="text-normal font-normal">[[${incidencia.descripcion}]]</h3>
+      </div>
+      <div class="divider mt-6 mb-3"></div>
+      <div
+        th:each="c,i:${comentarios}"
+        th:class="${c.esEnlace} ? 'grid grid-cols-1 justify-items-end rounded drop-shadow-md ring-1 w-auto ring-primary ring-offset-base-100 ring-offset-2 mt-4 p-3':'grid grid-cols-1 justify-items-start rounded drop-shadow-md ring-1 w-auto ring-primary ring-offset-base-100 ring-offset-2 mt-4 p-3'"
+      >
+        <h6 th:text="${c.esEnlace} ? 'Tú:': ${c.incidencia.integrante.nombreCompleto}" class="font-semibold"></h6>
+        <h6 class="font-light">[[${c.comentario}]]</h6>
+      </div>
+    </div>
+
+    <div class="mt-6 mb-6 grid grid-cols-1 justify-items-center">
+      <form
+        th:object="${comentarioIncidencia}"
+        method="post"
+        th:action="@{/incidencias/comentar}"
+      >
+        <div class="grid grid-cols-2 justify-items-center">
+          <textarea
+            name="comentario"
+            class="textarea textarea-bordered w-96"
+            placeholder="Escribe un comentario"
+          ></textarea>
+          <input name="incidencia" hidden th:value="${incidencia.id}" />
+          <input name="enlace" hidden th:value="${enlace.id}" />
+          <input name="esEnlace" hidden type="number" value="1" />
+          <div class="grid grid-cols-1 justify-items-start">
+            <button
+              class="btn btn-active btn-sm"
+              style="background-color: #03a538"
+              type="submit"
+            >
+              Comentar
+            </button>
+            <a
+              class="btn btn-active btn-sm"
+              th:href="@{/incidencias/all/{id} (id = ${enlace.id})}"
+              style="background-color: #605ad4"
+            >
+              Regresar
+          </a>
+          </div>
+        </div>
+      </form>
+    </div>
+    <script
+      src="https://code.jquery.com/jquery-3.1.1.min.js"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>
