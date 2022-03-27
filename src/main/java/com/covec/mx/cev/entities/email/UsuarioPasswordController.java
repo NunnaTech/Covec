@@ -55,7 +55,7 @@ public class UsuarioPasswordController {
         Usuario usuario = usuarioService.getByResetPasswordToken(token);
         model.addAttribute("token", token);
         if (usuario == null) {
-            model.addAttribute("message", "Invalid Token");
+            model.addAttribute("message", "Token Invalido");
             return "email/message";
         }
         return "email/reset_password_form";
