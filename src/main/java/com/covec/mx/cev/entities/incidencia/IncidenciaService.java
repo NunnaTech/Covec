@@ -2,9 +2,9 @@ package com.covec.mx.cev.entities.incidencia;
 
 import com.covec.mx.cev.entities.comite.Comite;
 import com.covec.mx.cev.entities.usuario.enlace.Enlace;
+import com.covec.mx.cev.entities.usuario.integrante.Integrante;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 
@@ -18,12 +18,12 @@ public class IncidenciaService {
     @Autowired
     private IncidenciaRepository repository;
 
-    public Page<Incidencia> getAll(Pageable pageable){
-        return repository.findAll(pageable);
-    }
-
     public List<Incidencia> getAllIncidencias(){
         return repository.findAll();
+    }
+
+    public List<Incidencia> getAllIncidenciasIntegrante(Integrante integrante){
+        return repository.getAllByIntegranteEquals(integrante);
     }
     
     public Incidencia getOne(int id){

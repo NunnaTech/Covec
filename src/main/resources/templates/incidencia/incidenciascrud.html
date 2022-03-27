@@ -25,7 +25,7 @@
 
       <div class="overflow-x-auto p-6">
         <div class="grid grid-cols-1 justify-items-center">
-          <table id="tabla" class="table w-full">
+          <table id="tabla" class="table-fixed w-full">
             <thead>
               <tr>
                 <th>Nombre</th>
@@ -42,7 +42,7 @@
                 <td th:text="${e.estatus}"></td>
                 <td th:text="${e.fechaRegistro}"></td>
                 <td>
-                  <div class="grid grid-cols-2">
+                  <div class="grid md:grid-cols-2 sm:grid-cols-1">
                     <div
                       th:replace="incidencia/ModalUpdate::modalUpdate(${e}, ${i.count})"
                     ></div>
