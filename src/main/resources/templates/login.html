@@ -78,15 +78,15 @@
         </svg>
       </div> 
       <div class="flex items-center flex-col mx-auto p-2">
-        <form class="w-full">
+        <form method="post" th:action="@{/login}"  class="w-full">
             <label class="label">
               <span class="label-text">Usuario:</span>
             </label>
-            <input type="text" placeholder="usuario" class="input input-bordered w-full">
+            <input type="text" placeholder="usuario" name="username" class="input input-bordered w-full">
             <label class="label">
               <span class="label-text">Contraseña</span>
             </label>
-            <input type="password" placeholder="*********" class="input input-bordered w-full">
+            <input type="password" placeholder="*********" name="password" class="input input-bordered w-full">
               <button class="btn gap-2 mt-5 border-none" style="width: 100%; background-color: #605AD4;">
                 <svg width="27" height="27" viewBox="0 0 80 72" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M36 16L30.4 21.6L40.8 32H0V40H40.8L30.4 50.4L36 56L56 36L36 16ZM72 64H40V72H72C76.4 72 80 68.4 80 64V8C80 3.6 76.4 0 72 0H40V8H72V64Z" fill="white"/>
@@ -96,7 +96,7 @@
         </form>
         
         <label for="my-modal" class="link link-hover link-primary modal-button py-5">Olvidé mi contraseña</label>
-          <!-- Put this part before </body> tag -->
+
           <input type="checkbox" id="my-modal" class="modal-toggle">
           <div class="modal">
             <div class="modal-box">
