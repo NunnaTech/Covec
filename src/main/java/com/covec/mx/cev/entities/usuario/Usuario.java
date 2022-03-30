@@ -10,7 +10,7 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
-@Table(name = "usuarios")
+@Table(name = "users")
 @Data
 @NoArgsConstructor
 @Inheritance(strategy = InheritanceType.JOINED)
@@ -32,7 +32,7 @@ public abstract class Usuario {
     @Column(name = "tipo_usuario")
     private String tipoUsuario;
     @Column(name = "enabled")
-    private Boolean activo;
+    private Boolean enabled;
 
     @OneToMany(mappedBy = "usuario")
     private List<Operacion> operaciones;
@@ -41,8 +41,8 @@ public abstract class Usuario {
     @JoinTable
     (
         name = "authorities",
-        joinColumns = @JoinColumn(name="id_usuario"),
-        inverseJoinColumns = @JoinColumn(name="id_authority")
+        joinColumns = @JoinColumn(name="username"),
+        inverseJoinColumns = @JoinColumn(name="authority")
     )
     List<Rol> roles;
 }
