@@ -15,7 +15,7 @@ public class Runner implements CommandLineRunner{
     @Override
     public void run(String... args) throws Exception {
         // TODO Auto-generated method stub
-        String password = "admin";
+        String password = "enlace";
         System.out.println(passwordEncoder.encode(password));
     }
     

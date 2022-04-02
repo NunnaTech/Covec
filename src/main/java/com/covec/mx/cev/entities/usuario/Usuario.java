@@ -8,13 +8,14 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "users")
 @Data
 @NoArgsConstructor
 @Inheritance(strategy = InheritanceType.JOINED)
-public abstract class Usuario {
+public class Usuario {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_usuario")
@@ -37,12 +38,9 @@ public abstract class Usuario {
     @OneToMany(mappedBy = "usuario")
     private List<Operacion> operaciones;
 
-    @ManyToMany
-    @JoinTable
-    (
-        name = "authorities",
-        joinColumns = @JoinColumn(name="username"),
-        inverseJoinColumns = @JoinColumn(name="authority")
-    )
-    List<Rol> roles;
+	@ManyToMany(cascade = CascadeType.MERGE)
+	@JoinTable(name = "authorities", 
+        joinColumns = @JoinColumn(name = "id_usuario"),
+        inverseJoinColumns = @JoinColumn(name = "id_rol"))
+	private Set<Rol> roles;
 }

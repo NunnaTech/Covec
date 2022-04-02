@@ -25,20 +25,31 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .antMatchers("/login")
+                .antMatchers("/login", "/css/**", "/js/**", "/image/**", "/imagenes/**")
                 .permitAll()
+                .antMatchers("/colonias/**").hasAnyAuthority("ROL_ENLACE", "ROL_ADMIN")
+                .antMatchers("/comites/**").hasAnyAuthority("ROL_ENLACE", "ROL_ADMIN")
+                .antMatchers("/categorias/**").hasAnyAuthority("ROL_ENLACE", "ROL_ADMIN")
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
                     .loginPage("/login")
-                    .permitAll()
-                .and().logout().permitAll();
+                    .defaultSuccessUrl("/dashboard")
+                .and()
+                .logout()
+                .logoutSuccessUrl("/login?logout")
+                .permitAll();
     }
 
-    @Autowired
-    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        auth.jdbcAuthentication().dataSource(dataSource);
-    }
+
+    @Override
+	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+		auth.jdbcAuthentication().dataSource(dataSource)
+				.usersByUsernameQuery("SELECT username, password, enabled FROM users WHERE username = ?")
+				.authoritiesByUsernameQuery("SELECT u.username, r.authority FROM authorities AS ur "
+						+ "INNER JOIN users AS u ON u.id_usuario = ur.id_usuario "
+						+ "INNER JOIN roles AS r ON r.id_rol = ur.id_rol WHERE u.username = ?");
+	}
 
     @Bean
     public PasswordEncoder passwordEncoder(){
