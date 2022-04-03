@@ -1,16 +1,10 @@
-zpackage com.covec.mx.cev.entities.municipio;
+package com.covec.mx.cev.entities.municipio;
 
 import org.springframework.beans.factory.annotation.Autowired;
-<<<<<<< HEAD
-import org.springframework.stereotype.Service;
-
-import java.util.List;
-=======
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
->>>>>>> TPF3
 import java.util.Optional;
 
 @Service
