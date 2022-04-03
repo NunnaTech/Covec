@@ -1,17 +1,14 @@
 package com.covec.mx.cev.entities.email;
 
+import com.covec.mx.cev.config.EmailService;
 import net.bytebuddy.utility.RandomString;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
-import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-
 import javax.mail.MessagingException;
-import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
 
@@ -19,9 +16,9 @@ import java.io.UnsupportedEncodingException;
 @Controller
 public class UsuarioPasswordController {
     @Autowired
-    private JavaMailSender mailSender;
-    @Autowired
     private  UsuarioService usuarioService;
+    @Autowired
+    private EmailService emailService;
 
     @GetMapping("/forgot_password")
     public String mostrarFormulario(Model model){
@@ -37,7 +34,7 @@ public class UsuarioPasswordController {
             //envia gmail
             String restPasswordLink = Utility.getSiteURL(request)+ "/reset_password?token=" + token;
             //genera link
-            sendEmail(email,restPasswordLink);
+            emailService.sendEmail(email,restPasswordLink);
             model.addAttribute("message", "Hemos enviado un enlace para restablecer la contraseña a su correo electrónico. Por favor, compruebe.");
         } catch (UsuarioNotFoundException e) {
             model.addAttribute("error",e.getMessage());
@@ -76,26 +73,4 @@ public class UsuarioPasswordController {
         }
         return "email/message";
     }
-    private void sendEmail(String recipientEmail, String restPasswordLink) throws MessagingException, UnsupportedEncodingException {
-        MimeMessage message = mailSender.createMimeMessage();
-        MimeMessageHelper helper = new MimeMessageHelper(message);
-        helper.setFrom("soportecovec@gmail.com", "Covec Support");
-        helper.setTo(recipientEmail);
-        String subject = "Este es el enlace para restablecer la contraseña";
-
-        String content = "<p>Hola,</p>"
-                + "<p>Ha solicitado restablecer su contraseña.</p>"
-                + "<p>Haga clic en el siguiente enlace para cambiar su contraseña:</p>"
-                + "<p><a href=\"" + restPasswordLink + "\">Cambiar mi contraseña</a></p>"
-                + "<br>"
-                + "<p>Ignore este correo electrónico si recuerda su contraseña, "
-                + "o no ha hecho la solicitud.</p>";
-
-        helper.setSubject(subject);
-
-        helper.setText(content, true);
-
-        mailSender.send(message);
-    }
-
 }
