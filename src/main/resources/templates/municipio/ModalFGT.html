@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://cdn.jsdelivr.net/npm/daisyui@2.8.0/dist/full.css" rel="stylesheet" type="text/css" />
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <title>Municipios | Covec</title>
+</head>
+<body>
+<div th:fragment="modalMuni">
+  <div class="pl-6">
+    <label for="my-modal" class="btn btn-sm modal-button bg-green-600  py-2 px-4">
+      <span class="ml-2 ">Añadir</span>
+       <svg class="fill-current w-4 h-4 mr-2 ml-2" width="19" height="21" viewBox="0 0 19 21" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M18.4722 0L18.3033 0.035L12.6667 2.45L6.33333 0L0.38 2.21667C0.158333 2.29833 0 2.50833 0 2.77667V20.4167C0 20.7433 0.232222 21 0.527778 21L0.696667 20.965L6.33333 18.55L12.6667 21L18.62 18.7833C18.8417 18.7017 19 18.4917 19 18.2233V0.583333C19 0.256667 18.7678 0 18.4722 0ZM12.6667 18.6667L6.33333 16.205V2.33333L12.6667 4.795V18.6667Z" fill="#F3F3F3"/>
+    </svg>
+
+    </label>
+  </div>
+
+  <input type="checkbox" id="my-modal" class="modal-toggle">
+  <div class="modal">
+    <div class="modal-box">
+      <div class="grid grid-cols-1 justify-items-center">
+        <h2 class="font-bold text-2xl">Registro de Municipio</h2>
+        <h4 class="font-light text-lg">Ingrese el nombre</h4>
+      </div>
+      <div class="divider"></div>
+      <form th:object="${municipio}" method="post" th:action="@{/municipios/save}">
+        <div class="grid grid-cols-1 justify-items-center">
+          <h6 class="font-medium text-base">Nombre</h6>
+          <input type="text" th:field="*{nombre}" placeholder="Inserte el nombre aqui" class="input input-bordered w-full max-w-xs"/>
+        </div>
+        <div class="divider"></div>
+        <div class="modal-action">
+          <div class="btn-group">
+            <label for="my-modal" class="btn btn-sm">Cerrar</label>
+            <button type="submit" class="btn btn-sm bg-green-600">Guardar <span class="material-icons ml-2">save_alt</span></button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+</body>
+</html>
