@@ -16,68 +16,106 @@
     rel="stylesheet">
 </head>
 <body>
-    <div class="flex flex-row justify-center pb-7 pt-5 my-3 rounded-2xl shadow-md mx-2" style="background-color: #FFFFFF;">  
-        <div>
-          <h2 class="text-center font-medium leading-tight text-3xl lg:text-4xl">
-            Colonias registradas
-          </h2>
-          <h4 class="text-center text-2xl text-gray-500 pt-1">
-            Municipio: Emiliano Zapata
-          </h4>
-        </div>
-      </div>
-      <div class="overflow-x-auto mx-2 rounded-2xl shadow-md bg-white">
-        <div class="flex flex-col justify-between mx-5 md:lg:flex-row py-4">
-          <div>
-            <!--Modal fragment de crear colonia-->
-            <div th:insert="colonia/coloniamodals :: modal-colonia-crear"></div>
+    <div class="drawer h-screen w-full">
+      <input id="my-drawer-3" type="checkbox" class="drawer-toggle" />
+      <div class="drawer-content flex flex-col" style="background-color: #EBEBEB;">
+        <!-- Navbar -->
+        <div class="w-full navbar shadow-md" style="background-color: #605AD4">
+          <div class="flex-none">
+            <label for="my-drawer-3" class="btn btn-square btn-ghost">
+              <svg width="37" height="25" viewBox="0 0 37 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path
+                  d="M0.875 24.25H36.125V20.3333H0.875V24.25ZM0.875 14.4583H36.125V10.5417H0.875V14.4583ZM0.875 0.75V4.66667H36.125V0.75H0.875Z"
+                  fill="white" />
+              </svg>
+            </label>
           </div>
-          <div class="my-3">
-            <div class="form-control">
-              <div class="input-group">
-                <button class="btn btn-square bg-emerald-700 hover:bg-emerald-600 border-none">
-                  <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
-                </button>
-                <input type="text" placeholder="Nombre o Postal" class="input focus:outline-none input-bordered">  
+          <div class="flex-1 px-2 mx-2 text-white">Menú</div>
+          <div class="flex-none hidden lg:block">
+            <div class="indicator">
+              <div class="card border">
+                <div class="p-2">
+                  <p class="text-white" th:text="${session.user.tipoUsuario}">Administrador</p>
+                </div>
               </div>
             </div>
           </div>
         </div>
-  
-        <table class="table w-full text-left ">
-            <!-- head -->
-            <thead>
-                <tr>
-                    <th>Nombre de la colonia</th>
-                    <th>Código postal</th>
-                    <th class="text-center">Acciones</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr class="hover" th:each="c,i:${colonias}">
-                    <td th:text="${c.nombre}"></td>
-                    <td th:text="${c.codigoPostal}"></td>
-                    <td class="flex flex-row justify-center">
-                        <div th:replace="colonia/coloniamodals::modal-colonia-editar(${c}, ${i.count})" ></div>
-                        <a th:href="@{/colonias/eliminar/{id}(id=${c.id})}" class="btn border-none w-16 mx-2 border-none bg-violet-700 hover:bg-violet-600">
-                          <span class="material-icons">delete</span>
-                        </a>
-                        <a th:href="@{/comites/listar/{id}(id=${c.id})}" class="btn border-none w-16 bg-emerald-700 hover:bg-emerald-600">
-                          <span class="material-icons">groups</span>
-                        </a>
-                  </td>
-                </tr>
-            </tbody>
-        </table>
-        <div class="flex flex-row justify-center py-3">
-          <div class="btn-group">
-              <a 
-                th:each="page:${paginas}" 
-                th:href="@{|/colonias/listar/?page=${page}|}" 
-                th:text="${page}" class="btn btn-outline">
-          </a>
+        <!-- Contenido principal -->
+        
+        <div class="flex flex-row justify-center pb-7 pt-5 my-3 rounded-2xl shadow-md mx-2" style="background-color: #FFFFFF;">  
+          <div>
+            <h2 class="text-center font-medium leading-tight text-3xl lg:text-4xl">
+              Colonias registradas
+            </h2>
+            <h4 class="text-center text-2xl text-gray-500 pt-1">
+              Municipio: Emiliano Zapata
+            </h4>
           </div>
+        </div>
+        <div class="overflow-x-auto mx-2 rounded-2xl shadow-md bg-white">
+          <div class="flex flex-col justify-between mx-5 md:lg:flex-row py-4">
+            <div>
+              <!--Modal fragment de crear colonia-->
+              <div th:insert="colonia/coloniamodals :: modal-colonia-crear"></div>
+            </div>
+            <div class="my-3">
+              <div class="form-control">
+                <div class="input-group">
+                  <button class="btn btn-square bg-emerald-700 hover:bg-emerald-600 border-none">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
+                  </button>
+                  <input type="text" placeholder="Nombre o Postal" class="input focus:outline-none input-bordered">  
+                </div>
+              </div>
+            </div>
+          </div>
+    
+          <table class="table w-full text-left ">
+              <!-- head -->
+              <thead>
+                  <tr>
+                      <th>Nombre de la colonia</th>
+                      <th>Código postal</th>
+                      <th class="text-center">Acciones</th>
+                  </tr>
+              </thead>
+              <tbody>
+                  <tr class="hover" th:each="c,i:${colonias}">
+                      <td th:text="${c.nombre}"></td>
+                      <td th:text="${c.codigoPostal}"></td>
+                      <td class="flex flex-row justify-center">
+                        <div class="tooltip " data-tip="Editar">
+                          <div th:replace="colonia/coloniamodals::modal-colonia-editar(${c}, ${i.count})" ></div>
+                        </div>
+                        <div class="tooltip" data-tip="Eliminar">
+                          <a th:href="@{/colonias/eliminar/{id}(id=${c.id})}" class="btn border-none w-16 mx-2 border-none bg-violet-700 hover:bg-violet-600">
+                            <span class="material-icons">delete</span>
+                          </a>
+                        </div>
+                        <div class="tooltip" data-tip="Ver comités">
+                          <a th:href="@{/comites/listar/{id}(id=${c.id})}" class="btn border-none w-16 bg-emerald-700 hover:bg-emerald-600">
+                            <span class="material-icons">groups</span>
+                          </a>
+                        </div>
+                    </td>
+                  </tr>
+              </tbody>
+          </table>
+          <div class="flex flex-row justify-center py-3">
+            <div class="btn-group">
+                <a 
+                  th:each="page:${paginas}" 
+                  th:href="@{|/colonias/listar/?page=${page}|}" 
+                  th:text="${page}" class="btn btn-outline">
+            </a>
+            </div>
+        </div>
       </div>
+
+      </div>
+      <!--Menu dependiendo del rol-->
+      <div th:replace="menuLayout :: enlace-menu"></div>
     </div>
 </body>
 <script src="https://code.jquery.com/jquery-3.1.1.min.js" crossorigin="anonymous"></script>

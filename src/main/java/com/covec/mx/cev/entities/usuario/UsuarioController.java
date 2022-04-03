@@ -34,8 +34,6 @@ public class UsuarioController {
         String username = authentication.getName();
 		//Add data user session
 
-        System.out.println(username);
-
 		session.setAttribute("user", usuarioService.findByUsername(username));
 
         return "index";

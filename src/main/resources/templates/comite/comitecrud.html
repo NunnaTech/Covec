@@ -16,6 +16,34 @@
     rel="stylesheet">
 </head>
 <body>
+
+
+  <div class="drawer h-screen w-full">
+    <input id="my-drawer-3" type="checkbox" class="drawer-toggle" />
+    <div class="drawer-content flex flex-col" style="background-color: #EBEBEB;">
+      <!-- Navbar -->
+      <div class="w-full navbar shadow-md" style="background-color: #605AD4">
+        <div class="flex-none">
+          <label for="my-drawer-3" class="btn btn-square btn-ghost">
+            <svg width="37" height="25" viewBox="0 0 37 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path
+                d="M0.875 24.25H36.125V20.3333H0.875V24.25ZM0.875 14.4583H36.125V10.5417H0.875V14.4583ZM0.875 0.75V4.66667H36.125V0.75H0.875Z"
+                fill="white" />
+            </svg>
+          </label>
+        </div>
+        <div class="flex-1 px-2 mx-2 text-white">Menú</div>
+        <div class="flex-none hidden lg:block">
+          <div class="indicator">
+            <div class="card border">
+              <div class="p-2">
+                <p class="text-white" th:text="${session.user.tipoUsuario}">Administrador</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Contenido principal -->
       <div class="flex flex-row justify-center pb-7 pt-5 my-3 rounded-2xl shadow-md mx-2" style="background-color: #FFFFFF;">  
         <div>
           <h2 class="text-center font-medium leading-tight text-3xl lg:text-4xl">
@@ -71,12 +99,17 @@
                     </div>
                   </div>
                   <td class="flex flex-row justify-center">
-                    <a  class="btn border-none w-16 mx-2 border-none bg-violet-700 hover:bg-violet-600">
-                      <span class="material-icons">delete</span>
-                    </a>
-                    <a th:href="@{/comites/integrantes/listar/{id}(id=${c.id})}"  class="btn border-none w-16 bg-yellow-500 hover:bg-yellow-400">
-                      <span class="material-icons">edit</span>
-                    </a>
+                    
+                    <div class="tooltip " data-tip="Eliminar">
+                      <a  class="btn border-none w-16 mx-2 border-none bg-violet-700 hover:bg-violet-600">
+                        <span class="material-icons">delete</span>
+                      </a>
+                    </div>
+                    <div class="tooltip " data-tip="Editar">
+                      <a th:href="@{/comites/integrantes/listar/{id}(id=${c.id})}"  class="btn border-none w-16 bg-yellow-500 hover:bg-yellow-400">
+                        <span class="material-icons">edit</span>
+                      </a>
+                    </div>
                   </td>
                 </tr>
 
@@ -112,6 +145,10 @@
           </div>
         </div>
     </div>
+    </div>
+    <!--Menu dependiendo del rol-->
+    <div th:replace="menuLayout :: enlace-menu"></div>
+  </div>
 </body>
 <script src="https://code.jquery.com/jquery-3.1.1.min.js" crossorigin="anonymous"></script>
 </html>

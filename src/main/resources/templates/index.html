@@ -36,15 +36,14 @@
           <div class="indicator">
             <div class="card border">
               <div class="p-2">
-                <p class="text-white">Administrador</p>
+                <p class="text-white" th:text="${session.user.tipoUsuario}">Administrador</p>
               </div>
             </div>
           </div>
         </div>
       </div>
       <!-- Contenido principal -->
-
-
+      
     </div>
     <!--Menu dependiendo del rol-->
     <div th:replace="menuLayout :: admin-menu"></div>
