@@ -20,18 +20,9 @@ public class Municipio {
     @Column(name = "nombre")
     private String nombre;
 
-<<<<<<< HEAD
     @OneToMany(mappedBy = "municipio")
     private List<Colonia> colonias;
 
     @OneToOne(mappedBy = "municipio")
     private Enlace enlace;
-=======
-   // @OneToMany(mappedBy = "municipio")
-  //  private List<Colonia> colonias;
-
-   // @ManyToOne
-    //@JoinColumn(name = "id_enlace")
-    //private Enlace enlace;
->>>>>>> TPF3
 }
