@@ -7,26 +7,23 @@ import com.covec.mx.cev.entities.usuario.Usuario;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
-import javax.persistence.DiscriminatorValue;
-import javax.persistence.Entity;
-import javax.persistence.OneToMany;
-import javax.persistence.PrimaryKeyJoinColumn;
+import javax.persistence.*;
 import java.util.List;
 
 @Data
 @Entity
 @NoArgsConstructor
-@DiscriminatorValue("Integrante")
+@PrimaryKeyJoinColumn(name = "id_usuario")
 public class Integrante extends Usuario {
-    @Column(name = "esPresidente")
+    @Column(name = "es_presidente")
     private Boolean presidente;
 
     @OneToMany(mappedBy = "integrante")
     private List<Incidencia> incidencias;
 
-    @OneToMany(mappedBy = "integrante")
-    private List<Comite> comites;
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "id_comites")
+    private Comite comite;
 
     @OneToMany(mappedBy = "integrante")
     private List<Pago> pagos;

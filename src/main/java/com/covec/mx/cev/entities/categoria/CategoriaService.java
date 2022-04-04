@@ -5,6 +5,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -15,6 +16,10 @@ public class CategoriaService {
 
     public Page<Categoria> getAll(Pageable pageable){
         return repository.findAll(pageable);
+    }
+
+    public List<Categoria> getAllList(){
+        return repository.findAll();
     }
 
     public Categoria getOne(int id){

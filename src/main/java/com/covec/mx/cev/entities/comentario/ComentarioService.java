@@ -17,20 +17,18 @@ public class ComentarioService {
         return repository.findAll();
     }
 
-
-    public List<Comentario> getAllChatEnlace(Incidencia incidencia, Enlace enlace, Boolean value){
-        return repository.getAllByIncidenciaEqualsAndEnlaceEqualsAndEsEnlaceEquals(incidencia, enlace, value);
-    }
-
-
     public List<Comentario> getAllChat(Incidencia incidencia, Enlace enlace){
         return repository.getAllByIncidenciaEqualsAndEnlaceEquals(incidencia, enlace);
+    }
+
+    public  List<Comentario> getAllByIncidencia(Incidencia incidencia){
+        return repository.getAllByIncidenciaEquals(incidencia);
     }
 
     public Comentario getOne(int id){
         Optional<Comentario> exist = repository.findById(id);
         if (exist.isPresent()){
-            Comentario obj = new Comentario();
+            Comentario obj;
             obj = exist.get();
             return obj;
         }

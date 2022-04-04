@@ -16,8 +16,7 @@ import java.util.List;
 public class Enlace extends Usuario {
     @Column(name = "num_empleado")
     private String numEmpleado;
-    @Column(name = "correo_electronico")
-    private String correoElectronico;
+
     @OneToOne
     @JoinColumn(name = "id_municipio")
     private Municipio municipio;

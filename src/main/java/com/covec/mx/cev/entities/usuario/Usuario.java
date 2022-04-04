@@ -4,6 +4,7 @@ import com.covec.mx.cev.entities.operacion.Operacion;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.DiscriminatorFormula;
+import org.springframework.security.core.userdetails.UserDetailsService;
 
 import javax.persistence.*;
 import java.util.List;
@@ -18,6 +19,10 @@ public abstract class Usuario {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_usuario")
     private Integer id;
+    @Column(name = "username")
+    private String username;
+    @Column(name = "password")
+    private String password;
     @Column(name = "nombre_completo")
     private String nombreCompleto;
     @Column(name = "telefono")

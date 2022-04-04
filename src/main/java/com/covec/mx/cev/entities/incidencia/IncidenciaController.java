@@ -1,12 +1,20 @@
 package com.covec.mx.cev.entities.incidencia;
 
+import java.sql.Date;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+import com.covec.mx.cev.entities.categoria.CategoriaService;
 import com.covec.mx.cev.entities.comentario.Comentario;
 import com.covec.mx.cev.entities.comentario.ComentarioService;
+import com.covec.mx.cev.entities.evidencias.Evidencia;
+import com.covec.mx.cev.entities.evidencias.EvidenciaDTO;
 import com.covec.mx.cev.entities.evidencias.EvidenciaService;
 import com.covec.mx.cev.entities.usuario.enlace.Enlace;
 import com.covec.mx.cev.entities.usuario.enlace.EnlaceService;
@@ -22,6 +30,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.websocket.server.PathParam;
+
 @Controller
 @RequestMapping("/incidencias")
 public class IncidenciaController {
@@ -35,10 +45,12 @@ public class IncidenciaController {
     private EnlaceService enlaceService;
     @Autowired
     private IntegranteService integranteService;
+    @Autowired
+    private CategoriaService categoriaService;
 
     @GetMapping("/all/{idenlace}")
     public String allIncidencias(@RequestParam Map<String, Object> params, @PathVariable("idenlace") Integer idEnlace,
-            Model model) {
+                                 Model model) {
         int page = params.get("page") != null ? (Integer.valueOf(params.get("page").toString()) - 1) : 0;
         Enlace enlace = enlaceService.getOne(idEnlace);
         List<Incidencia> incidencias = service.filtrar(service.getAllIncidencias(), enlace);
@@ -58,34 +70,29 @@ public class IncidenciaController {
         return "incidencia/incidenciascrud";
     }
 
-
-    @GetMapping("/allIntegrante/{idIntegrante}")
-    public String allIncidenciasPresidente(@RequestParam Map<String, Object> params, @PathVariable("idIntegrante") Integer idIntegrante,
-            Model model) {
+    @GetMapping("/allPresidente/{id}")
+    public String getAllPresidente(@RequestParam Map<String, Object> params, @PathVariable("id") Integer id,
+                                   Model model) {
         int page = params.get("page") != null ? (Integer.valueOf(params.get("page").toString()) - 1) : 0;
-        Integrante integrante = integranteService.getOne(idIntegrante);
-        List<Incidencia> incidencias = service.getAllIncidenciasIntegrante(integrante);
-        Pageable paging = PageRequest.of(page, 5);
-        int inicioPag = Math.min((int) paging.getOffset(), incidencias.size());
-        int finalPag = Math.min((inicioPag + paging.getPageSize()), incidencias.size());
-        Page<Incidencia> pageIncidenciaFinal = new PageImpl<>(incidencias.subList(inicioPag, finalPag), paging,
-                incidencias.size());
-        int totalPages = pageIncidenciaFinal.getTotalPages();
+        PageRequest pageRequest = PageRequest.of(page, 5);
+        Integrante integrante = integranteService.getOne(id);
+        Page<Incidencia> pageObject = service.getAllIncidenciasIntegrante(integrante, pageRequest);
+        int totalPages = pageObject.getTotalPages();
         if (totalPages > 0) {
             List<Integer> pages = IntStream.rangeClosed(1, totalPages).boxed().collect(Collectors.toList());
             model.addAttribute("paginas", pages);
         }
+        model.addAttribute("incidenciasPresidente", pageObject.getContent());
+        model.addAttribute("categorias", categoriaService.getAllList());
         model.addAttribute("incidencia", new Incidencia());
+        model.addAttribute("evidenciaDTO", new EvidenciaDTO(new ArrayList<>()));
         model.addAttribute("integranteUsuario", integrante);
-        model.addAttribute("incidencias", pageIncidenciaFinal.getContent());
-        return "incidencia/incidenciascrud";
+        return "incidencia/PresidenteCrud";
     }
 
-
-
     @GetMapping("/getOne/{id}/{idenlace}")
-    public String obtenerIncidencia(@PathVariable("id") Integer id, @PathVariable("idenlace") Integer idEnlace,
-            Model model) {
+    public String obtenerIncidencia(@PathVariable("id") Integer id,
+                                    @PathVariable(name = "idenlace") Integer idEnlace, Model model) {
         model.addAttribute("incidencia", service.getOne(id));
         model.addAttribute("evidencias", evidenciaService.getAllEvidencias(service.getOne(id)));
         model.addAttribute("enlace", enlaceService.getOne(idEnlace));
@@ -93,14 +100,55 @@ public class IncidenciaController {
         model.addAttribute("comentarios",
                 comentarioService.getAllChat(service.getOne(id), enlaceService.getOne(idEnlace)));
         return "incidencia/IncidenciaDetalle";
+
+    }
+
+    @GetMapping("/getDetail/{id}")
+    public String obtenerIncidenciaPresidente(@PathVariable("id") Integer id, Model model) {
+        List<Comentario> comentarios = comentarioService.getAllByIncidencia(service.getOne(id));
+        Incidencia incidencia = service.getOne(id);
+        model.addAttribute("incidencia", incidencia);
+        model.addAttribute("enlaceRequired",
+                enlaceService.getByMunicipio(incidencia.getIntegrante().getComite().getColonia().getMunicipio()));
+        model.addAttribute("evidencias", evidenciaService.getAllEvidencias(service.getOne(id)));
+        model.addAttribute("comentarioPresidente", new Comentario());
+        model.addAttribute("comentarios", comentarios);
+        return "incidencia/PresidenteDetalle";
     }
 
     @PostMapping("/update")
     public String updateStatus(@ModelAttribute("categoria") Incidencia incidencia,
-            @RequestParam("idEnlace") Integer idEnlace) {
+                               @RequestParam("idEnlace") Integer idEnlace) {
         int idUrl = enlaceService.getOne(idEnlace).getId();
         service.update(incidencia);
         return "redirect:/incidencias/all/" + idUrl;
+    }
+
+    @PostMapping("/cobrar/{idIncidencia}/{idEnlace}")
+    public String cobrarIncidencia(@PathParam("monto") double monto,
+                                   @PathVariable("idIncidencia") Integer idIncidencia,
+                                   @PathVariable("idEnlace") Integer idEnlace) {
+        Incidencia cobrar = service.getOne(idIncidencia);
+        cobrar.setMonto(monto);
+        cobrar.setPagar(true);
+        service.save(cobrar);
+        return "redirect:/incidencias/getOne/"+cobrar.getId()+"/"+idEnlace;
+    }
+
+    @PostMapping("/uploadEvidencia/{idPresidente}")
+    public String uploadEvidencia(@ModelAttribute("incidenciasPresidente") Incidencia incidencia,
+                                  @ModelAttribute EvidenciaDTO evidenciaDTO, @PathVariable("idPresidente") int id) {
+        Date date = Date.valueOf(LocalDate.now());
+        incidencia.setFechaRegistro(date);
+        service.save(incidencia);
+        for (String link : evidenciaDTO.getLinks()) {
+            Evidencia evidencia = new Evidencia();
+            evidencia.setEvidencia(link);
+            evidencia.setIncidencia(incidencia);
+            evidenciaService.save(evidencia);
+        }
+        Integrante integrante = integranteService.getOne(id);
+        return "redirect:/incidencias/allPresidente/" + integrante.getId();
     }
 
     @PostMapping("/comentar")
@@ -108,5 +156,11 @@ public class IncidenciaController {
         comentarioService.save(comentario);
         return "redirect:/incidencias/getOne/" + comentario.getIncidencia().getId() + "/"
                 + comentario.getEnlace().getId();
+    }
+
+    @PostMapping("/comentarPresidente")
+    public String uploadMessagePresidente(@ModelAttribute("comentarioPresidente") Comentario comentario) {
+        comentarioService.save(comentario);
+        return "redirect:/incidencias/getDetail/" + comentario.getIncidencia().getId();
     }
 }

@@ -14,4 +14,8 @@ public class EvidenciaService {
     public List<Evidencia> getAllEvidencias(Incidencia incidencia){
         return repository.getAllByIncidenciaEquals(incidencia);
     }
+
+    public Evidencia save(Evidencia evidencia){
+        return repository.save(evidencia);
+    }
 }

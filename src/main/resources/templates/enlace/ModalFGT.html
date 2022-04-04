@@ -58,11 +58,20 @@
                   class="input input-bordered w-full max-w-xs"
                 />
               </div>
+              <div>
+                <h6 class="font-medium text-base">Contraseña</h6>
+                <input
+                        type="text"
+                        th:field="*{password}"
+                        placeholder="Inserte el nombre aqui"
+                        class="input input-bordered w-full max-w-xs"
+                />
+              </div>
               <div class="mt-2">
                 <h6 class="font-medium text-base">Correo Electronico</h6>
                 <input
                   type="text"
-                  th:field="*{correoElectronico}"
+                  th:field="*{username}"
                   placeholder="Inserte el nombre aqui"
                   class="input input-bordered w-full max-w-xs"
                 />
@@ -81,7 +90,7 @@
                 </select>
               </div>
               <div>
-                <h6 class="font-medium text-base">Fotografía</h6>
+                <h6 class="font-medium text-base mt-1">Fotografía</h6>
                 <input type="text" id="imagenURL" th:field="*{imagen}" hidden />
                 <label
                   class="w-64 flex flex-col items-center px-4 py-6 bg-white text-blue rounded-lg shadow-lg tracking-wide uppercase border border-blue cursor-pointer hover:bg-blue hover:text-white"

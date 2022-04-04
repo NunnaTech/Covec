@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Data
@@ -14,12 +15,11 @@ import javax.persistence.*;
 public class Comite {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "idComites")
+    @Column(name = "id_comites")
     private Integer id;
 
-    @ManyToOne
-    @JoinColumn(name = "id_integrante")
-    private Integrante integrante;
+    @OneToMany(mappedBy = "comite", cascade = {CascadeType.ALL})
+    private List<Integrante> integrantes;
 
     @ManyToOne
     @JoinColumn(name = "id_colonia")

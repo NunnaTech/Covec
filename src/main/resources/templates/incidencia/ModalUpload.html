@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/daisyui@2.8.0/dist/full.css"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Categorias | Covec</title>
+  </head>
+  <body>
+    <div th:fragment="modalUpload">
+      <label
+        for="upload"
+        class="btn modal-button w-32"
+        style="background-color: #03a538"
+      >
+        Añadir <span class="material-icons">info</span>
+      </label>
+      <input type="checkbox" id="upload" class="modal-toggle" />
+      <div class="modal">
+        <div class="modal-box">
+          <div class="grid grid-cols-1 justify-items-center">
+            <h2 class="font-bold text-2xl">Registro de incidencia</h2>
+            <h4 class="font-light text-lg">Datos de evidencia</h4>
+          </div>
+          <div class="divider"></div>
+
+          <form
+            th:object="${incidencia}"
+            method="post"
+            th:action="@{/incidencias/uploadEvidencia/{id} (id=${integranteUsuario.id})}"
+          >
+            <div
+              class="grid md:grid-cols-1 sm:grid-cols-1 justify-items-center"
+            >
+            <h6 class="font-medium text-base mt-1">Evidencia(s):</h6>
+              <div>
+                <input type="text" id="imagenURL" hidden />
+                <label
+                  class="w-64 flex flex-col items-center px-4 py-6 bg-white text-blue rounded-lg shadow-lg tracking-wide uppercase border border-blue cursor-pointer hover:bg-blue hover:text-white"
+                >
+                  <svg
+                    class="w-8 h-8"
+                    fill="currentColor"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 20 20"
+                  >
+                    <path
+                      d="M16.88 9.1A4 4 0 0 1 16 17H5a5 5 0 0 1-1-9.9V7a3 3 0 0 1 4.52-2.59A4.98 4.98 0 0 1 17 8c0 .38-.04.74-.12 1.1zM11 11h3l-4-4-4 4h3v3h2v-3z"
+                    />
+                  </svg>
+                  <span class="mt-2 text-base leading-normal"
+                    >Elige tus evidencias</span
+                  >
+                  <input
+                    type="file"
+                    id="imagenUpload"
+                    class="hidden"
+                    multiple
+                  />
+                </label>
+              </div>
+              <input name="pagar" type="number" value="0" hidden />
+              <input name="estatus" type="text" value="Pendiente" hidden />
+              <input name="monto" type="number" value="0" hidden />
+              <input
+                name="integrante"
+                th:value="${integranteUsuario.id}"
+                hidden
+              />
+              <select
+                id="selectLinks"
+                hidden
+                class="select w-full max-w-xs"
+                th:field="${evidenciaDTO.links}"
+                multiple="multiple"
+              ></select>
+              <h6 class="font-medium text-base mt-1">Categoria:</h6>
+              <select
+                class="select select-bordered w-full max-w-xs w-60 ml-2 mr-2 mt-2"
+                th:field="*{categoria.id}"
+              >
+                <option
+                  th:each="c:${categorias}"
+                  th:value="${c.id}"
+                  th:text="${c.nombre}"
+                ></option>
+              </select>
+              <h6 class="font-medium text-base mt-1">Descripción:</h6>
+              <textarea
+                maxlength="128"
+                name="descripcion"
+                class="textarea textarea-bordered w-96 mt-2"
+                placeholder="Escriba una descripción"
+              ></textarea>
+              
+            </div>
+            <div class="divider"></div>
+            <div class="modal-action">
+              <div class="btn-group">
+                <label for="upload" class="btn btn-sm">Cerrar</label>
+                <input type="submit" hidden id="subir"/>
+                <a class="btn btn-sm" id="botonEvidencias">Subir</a>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
