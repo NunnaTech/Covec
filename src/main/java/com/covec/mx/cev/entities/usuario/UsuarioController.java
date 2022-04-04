@@ -1,24 +1,55 @@
-package com.covec.mx.cev.entities.email;
+package com.covec.mx.cev.entities.usuario;
 
-import com.covec.mx.cev.config.EmailService;
-import net.bytebuddy.utility.RandomString;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+
+import net.bytebuddy.utility.RandomString;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
+import org.springframework.security.core.Authentication;
+
+import java.io.UnsupportedEncodingException;
+
+import java.time.LocalDateTime;
+
 import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
-import java.io.UnsupportedEncodingException;
+import javax.servlet.http.HttpSession;
+
+import com.covec.mx.cev.config.EmailService;
+import com.covec.mx.cev.entities.email.UsuarioNotFoundException;
+import com.covec.mx.cev.entities.email.Utility;
 
 
 @Controller
-public class UsuarioPasswordController {
-    @Autowired
-    private  UsuarioService usuarioService;
+public class UsuarioController {
     @Autowired
     private EmailService emailService;
+    @Autowired
+    private UsuarioService usuarioService;
+
+    @GetMapping("/")
+    public String login(){
+        return"redirect:/dashboard";
+    }
+
+    @GetMapping("/logout")
+    public String logout(HttpServletRequest request){
+        HttpSession httpSession = request.getSession();
+        httpSession.invalidate();
+        return "redirect:/";
+    }
+
+
+    @GetMapping("/dashboard")
+    public String dashboard(Authentication authentication, HttpSession session){
+        String username = authentication.getName();
+		session.setAttribute("user", usuarioService.findByUsername(username));
+        return "index";
+    }
 
     @GetMapping("/forgot_password")
     public String mostrarFormulario(Model model){
@@ -27,24 +58,20 @@ public class UsuarioPasswordController {
 
    @PostMapping("/forgot_password")
     public String processForgotPasswordForm(HttpServletRequest request, Model model) {
-        String email = request.getParameter("email");
+        String email = request.getParameter("username");
         String token = RandomString.make(45);
+        token+= LocalDateTime.now();
         try {
             usuarioService.updateResetPasswordToken(token,email);
-            //envia gmail
             String restPasswordLink = Utility.getSiteURL(request)+ "/reset_password?token=" + token;
-            //genera link
             emailService.sendEmail(email,restPasswordLink);
             model.addAttribute("message", "Hemos enviado un enlace para restablecer la contraseña a su correo electrónico. Por favor, compruebe.");
         } catch (UsuarioNotFoundException e) {
             model.addAttribute("error",e.getMessage());
-        }catch (UnsupportedEncodingException |MessagingException e){
+        }catch (UnsupportedEncodingException | MessagingException e){
             model.addAttribute("error", "Error al enviar un correo electrónico");
         }
-
-        //System.out.println("Email" + email);
-        //System.out.println("Token" + token);
-        return "email/forgot_password_form";
+        return "redirect:/login";
     }
 
     @GetMapping("/reset_password")

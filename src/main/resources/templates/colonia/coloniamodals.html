@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+    <div th:fragment="modal-colonia-crear">
+        <label for="my-modal" class="btn border-none bg-emerald-700 hover:bg-emerald-600">
+            <span class="material-icons mr-1">maps_ugc</span>
+            Nueva colonia 
+        </label>
+
+        <input type="checkbox" id="my-modal" class="modal-toggle">
+        <div class="modal">
+            <div class="modal-box">
+                <div class="grid grid-cols-1 justify-items-center">
+                    <h2 class="font-bold text-2xl">Nueva colonia</h2>
+                    <h4 class="font-light text-lg">Ingrese nombre y código postal</h4>
+                </div>
+                <div class="divider"></div>
+                <form th:object="${colonia}" method="post" th:action="@{/colonias/guardar}">
+                    <div class="flex flex-col lg:flex-row">
+                        <div class="form-control lg:px-3">
+                            <label class="label">
+                              <span class="label-text">Nombre</span>
+                            </label>
+                            <input type="text" th:field="*{nombre}" placeholder="ej. villas" class="input input-bordered">
+                        </div>
+                        <div class="form-control">
+                            <label class="label">
+                              <span class="label-text">C.P</span>
+                            </label>
+                            <input type="text" th:field="*{codigoPostal}" placeholder="ej. 77777" class="input input-bordered">
+                        </div>
+                    </div>
+                    <div class="divider"></div>
+                    <div class="modal-action">
+                        <div class="btn-group">
+                            <label for="my-modal" class="btn border-none">Cerrar</label>
+                            <button type="submit" class="btn border-none bg-emerald-700 hover:bg-emerald-600">Guardar <span class="material-icons ml-2">save_alt</span></button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+    <div th:fragment="modal-colonia-editar(objeto, i)">
+        <label th:for="${i}" class="btn border-none w-16 bg-yellow-500 hover:bg-yellow-400">
+            <span class="material-icons">edit</span>
+        </label>
+        <input type="checkbox" th:id="${i}" class="modal-toggle">
+        <div class="modal">
+            <div class="modal-box">
+                <div class="grid grid-cols-1 justify-items-center">
+                    <h2 class="font-bold text-2xl">Actualizar categoria</h2>
+                    <h4 class="font-light text-lg">Ingrese el nombre</h4>
+                </div>
+                <div class="divider"></div>
+    
+                <form th:object="${categoria}" method="post" th:action="@{/colonias/actualizar}">
+
+                    <div class="flex flex-col lg:flex-row">
+                        <div class="form-control lg:px-3">
+                            <input hidden th:value="${objeto.id}" name="id"/>
+                            <label class="label">
+                              <span class="label-text">Nombre</span>
+                            </label>
+                            <input type="text" th:value="${objeto.nombre}" name="nombre" placeholder="Nuevo nombre" class="input input-bordered"/>
+                        </div>
+                        <div class="form-control">
+                            <label class="label">
+                              <span class="label-text">C.P</span>
+                            </label>
+                            <input type="text" th:value="${objeto.codigoPostal}" name="codigoPostal" placeholder="Nuevo C.P" class="input input-bordered"/>
+                        </div>
+                    </div>
+                    <div class="divider"></div>
+                    <div class="modal-action">
+                        <div class="btn-group">
+                            <label th:for="${i}" class="btn border-none">Cerrar</label>
+                            <button type="submit" class="btn border-none bg-emerald-700 hover:bg-emerald-600">Guardar cambios<span class="material-icons ml-2">save_alt</span>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

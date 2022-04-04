@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html data-theme="light" lang="en" xmlns:th="https://www.thymeleaf.org/">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Awesome application to manage neighborhood incidents">
+    <meta name="author" content="ThePandaDevs" />
+    <meta name="copyright" content="Copyright 2022 - All rights reserved" />
+    <meta name="robots" content="index, follow">
+    <meta name="keywords" content="reports, neighborhood, incidents, free application">
+    <title>Comité nuevo | Covec</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@2.8.0/dist/full.css" rel="stylesheet" type="text/css" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+    rel="stylesheet">
+</head>
+<body>
+    <div class="flex flex-row justify-center pb-7 pt-5 my-3 rounded-2xl shadow-md mx-2" style="background-color: #FFFFFF;">  
+        <div>
+          <h2 class="text-center font-medium leading-tight text-3xl lg:text-4xl">
+            Nuevo comité
+          </h2>
+          <h4 class="text-center text-gray-500 text-xl lg:text-2xl  pt-1 ">
+            Recuerda designar un presidente.
+          </h4>
+          <div class="flex flex-col  justify-center pt-3 lg:flex-row">
+            <a th:href="@{/comites/listar/{id}(id=${ID})}" class="btn border-none bg-indigo-700 hover:bg-indigo-600 w-36 mr-2  lg:my-0">
+              <span class="material-icons mr-1">keyboard_return</span>
+              Cancelar 
+            </a>
+
+            <div th:if="${#lists.size(integrantes)<=5}">
+                <label for="my-modal" class="btn border-none mr-2  bg-emerald-700 hover:bg-emerald-600 ">
+                    <span class="material-icons mr-1">person_add</span>
+                    Nuevo integrante 
+                </label>
+            </div>
+            
+            <div th:if="${#lists.size(integrantes)>=3}">
+                <a th:href="@{/comites/guardar/{id}(id=${ID})}" class="btn border-none bg-emerald-700 hover:bg-emerald-600 w-36 mr-2  lg:my-0">
+                    <span class="material-icons mr-1">save</span>
+                    Crear
+                </a>
+            </div>
+    
+            <input type="checkbox" id="my-modal" class="modal-toggle">
+            <div class="modal">
+                <div class="modal-box w-11/12 max-w-5xl">
+                    <div class="grid grid-cols-1 justify-items-center">
+                        <h2 class="font-bold text-2xl">Nuevo Integrante</h2>
+                        <h4 class="font-light text-lg">Ingrese los datos</h4>
+                    </div>
+                    <div class="divider"></div>
+                    <form th:object="${integrante}" method="post" th:action="@{/comites/integrantes/agregar}">
+                        <div class="flex flex-col justify-center lg:flex-row">
+                            <div class="form-control mx-2">
+                                <label class="label">
+                                  <span class="label-text">Nombre completo</span>
+                                </label>
+                                <input type="text" th:field="*{nombreCompleto}" placeholder="ej. José Manuel P." class="input input-bordered">
+                            </div>
+                            <div class="form-control mx-2">  
+                                <label class="label">
+                                  <span class="label-text">Teléfono</span>
+                                </label>
+                                <input type="text" th:field="*{telefono}" placeholder="ej. 7777854961" class="input input-bordered">
+                            </div>
+                            <div class="form-control mx-2">  
+                                <label class="label">
+                                  <span class="label-text">Usuario (acceso)</span>
+                                </label>
+                                <input type="text" th:field="*{username}" placeholder="ej. Jose_covec@gmail.com" class="input input-bordered">
+                            </div>
+                        </div>
+                        <div class="flex flex-col justify-center lg:flex-row">
+                            <div class="form-control mx-2">
+                                <label class="label">
+                                  <span class="label-text">Identificación</span>
+                                </label>
+                                <div class="relative h-12 rounded-lg border-dashed border-2 border-gray-200 bg-white flex justify-center items-center hover:cursor-pointer">
+                                    <div class="absolute  hover:cursor-pointer">
+                                        <div class="flex flex-col items-center "> <i class="fa fa-cloud-upload fa-3x text-gray-200"></i> <span class="block text-blue-400 font-normal">Abrir explorador</span> </div>
+                                    </div> 
+                                    <input th:field="*{imagen}" type="file" class="h-full w-full opacity-0  hover:cursor-pointer" name="imagen">
+                                </div>                            
+                            </div>
+                            <div class="form-control mx-2">  
+                                <label class="cursor-pointer label">
+                                    <span class="label-text">Marcar como presidente</span> 
+                                  </label>
+                                  <input th:field="*{presidente}" type="checkbox" checked="checked" class="checkbox checkbox-accent">
+                            </div>
+                        </div>
+                        <div class="divider"></div>
+                        <div class="modal-action">
+                            <div class="btn-group">
+                                <label for="my-modal" class="btn border-none">Cerrar</label>
+                                <button type="submit" class="btn border-none bg-emerald-700 hover:bg-emerald-600">Agregar <span class="material-icons ml-2">add_box</span></button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+      <div class="flex justify-center mx-2 grid grid-cols-1 lg:grid-cols-2">
+        <div th:each="i :${integrantes}" class="card bg-base-100 shadow-xl mx-4 my-4 hover:shadow-2xl duration-300">
+          <figure><img src="https://api.lorem.space/image/shoes?w=400&h=225" alt="Shoes" /></figure>
+          <div class="card-body">
+            <p th:text="${i.presidente} ? 'Presidente':'Integrante'">
+            </p>
+            <h2 class="card-title">[[${i.nombreCompleto}]]</h2>
+            <div class="card-actions justify-start">
+              <div class="badge badge-outline">[[${i.telefono}]]</div>
+              <div class="badge badge-outline">[[${i.username}]]</div> 
+            </div>
+            <div class="flex flex-row">
+              <a th:href="@{/comites/integrantes/quitar/{telefono}(telefono=${i.telefono})}" class="btn border-none w-16 mx-2 bg-indigo-700 hover:bg-indigo-600">
+                <span class="material-icons">person_remove</span>
+              </a>
+            </div>
+          </div>
+
+        </div>
+      </div>
+</body>
+</html>

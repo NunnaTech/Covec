@@ -35,11 +35,8 @@ public class EmailService {
         context.setVariables(map);
 
         String html= templateEngine.process("email/sendEmail",context);
-
         helper.setSubject(subject);
-
         helper.setText(html, true);
-
         mailSender.send(message);
     }
 }
