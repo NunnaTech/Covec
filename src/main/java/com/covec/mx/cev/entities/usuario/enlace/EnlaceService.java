@@ -35,7 +35,7 @@ public class EnlaceService {
         Optional<Enlace> exist = Optional.empty();
         exist = repository.findById(newObject.getId());
         if (!exist.isEmpty()){
-            exist.get().setCorreoElectronico(newObject.getCorreoElectronico());
+            exist.get().setUsername(newObject.getUsername());
             exist.get().setNombreCompleto(newObject.getNombreCompleto());
             exist.get().setTelefono(newObject.getTelefono());
             repository.save(exist.get());

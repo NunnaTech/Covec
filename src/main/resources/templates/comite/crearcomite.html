@@ -68,9 +68,9 @@
                             </div>
                             <div class="form-control mx-2">  
                                 <label class="label">
-                                  <span class="label-text">Correo</span>
+                                  <span class="label-text">Usuario (acceso)</span>
                                 </label>
-                                <input type="text" th:field="*{correo}" placeholder="ej. Jose_covec@gmail.com" class="input input-bordered">
+                                <input type="text" th:field="*{username}" placeholder="ej. Jose_covec@gmail.com" class="input input-bordered">
                             </div>
                         </div>
                         <div class="flex flex-col justify-center lg:flex-row">
@@ -115,7 +115,7 @@
             <h2 class="card-title">[[${i.nombreCompleto}]]</h2>
             <div class="card-actions justify-start">
               <div class="badge badge-outline">[[${i.telefono}]]</div>
-              <div class="badge badge-outline">[[${i.correo}]]</div> 
+              <div class="badge badge-outline">[[${i.username}]]</div> 
             </div>
             <div class="flex flex-row">
               <a th:href="@{/comites/integrantes/quitar/{telefono}(telefono=${i.telefono})}" class="btn border-none w-16 mx-2 bg-indigo-700 hover:bg-indigo-600">

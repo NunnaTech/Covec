@@ -50,7 +50,7 @@ public class EnlaceController {
             str.append(numero);
         }
         enlace.setNumEmpleado(str.toString());
-        enlace.setActivo(true);
+        enlace.setEnabled(true);
         service.save(enlace);
         return "redirect:/enlaces/all";
     }

@@ -36,18 +36,35 @@
           <div class="indicator">
             <div class="card border">
               <div class="p-2">
-                <p class="text-white">Administrador</p>
+                <p class="text-white" th:text="${session.user.tipoUsuario}">Administrador</p>
               </div>
             </div>
           </div>
         </div>
       </div>
       <!-- Contenido principal -->
+      
+      <div sec:authorize="hasAnyAuthority('ROL_ADMIN')">
+        <div th:replace="bievenidaLayout :: admin-cards"></div>
+      </div>
 
+      <div sec:authorize="hasAnyAuthority('ROL_ENLACE')">
+        <div th:replace="bievenidaLayout :: enlace-cards"></div>
+      </div>
+
+      <div sec:authorize="hasAnyAuthority('ROL_PRESIDENTE')">
+        <div th:replace="bievenidaLayout :: presidente-cards"></div>
+      </div>
 
     </div>
     <!--Menu dependiendo del rol-->
-    <div th:replace="menuLayout :: admin-menu"></div>
+    
+      <div sec:authorize="hasAnyAuthority('ROL_ADMIN')" th:replace="menuLayout :: admin-menu"></div>
+
+      <div sec:authorize="hasAnyAuthority('ROL_ENLACE')" th:replace="menuLayout :: enlace-menu"></div>
+
+      <div sec:authorize="hasAnyAuthority('ROL_PRESIDENTE')" th:replace="menuLayout :: presidente-menu"></div>
+
   </div>
 </body>
 <script src="https://code.jquery.com/jquery-3.1.1.min.js" crossorigin="anonymous"></script>
