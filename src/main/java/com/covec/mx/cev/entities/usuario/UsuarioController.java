@@ -17,7 +17,7 @@ public class UsuarioController {
 
     @GetMapping("/")
     public String login(){
-        return"login";
+        return"redirect:/dashboard";
     }
 
     @GetMapping("/logout")
