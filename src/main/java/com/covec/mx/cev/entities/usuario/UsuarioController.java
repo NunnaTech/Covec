@@ -79,7 +79,7 @@ public class UsuarioController {
         Usuario usuario = usuarioService.getByResetPasswordToken(token);
         model.addAttribute("token", token);
         if (usuario == null) {
-            model.addAttribute("message", "Token Invalido");
+            model.addAttribute("message", "Ya has cambiado tu contraseña");
             return "email/message";
         }
         return "email/reset_password_form";
@@ -92,11 +92,11 @@ public class UsuarioController {
         Usuario usuario = usuarioService.getByResetPasswordToken(token);
         model.addAttribute("title","Restablecer su contraseña");
         if (usuario == null){
-            model.addAttribute("message","Token Invalido");
+            model.addAttribute("message","Ya has cambiado tu contraseña");
             return "email/message";
         }else  {
             usuarioService.updatePassword(usuario,password);
-            model.addAttribute("message","Has cambiado satisfactoriamente tu contraseña.");
+            model.addAttribute("message","Has cambiado tu contraseña satisfactoriamente.");
         }
         return "email/message";
     }

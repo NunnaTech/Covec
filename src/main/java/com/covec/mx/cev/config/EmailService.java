@@ -26,7 +26,7 @@ public class EmailService {
 
         helper.setFrom("soportecovec@gmail.com", "Covec | Support");
         helper.setTo(recipientEmail);
-        String subject = "COVEC: Este es el enlace para restablecer la contraseña";
+        String subject = "COVEC: Solicitud de reestablecimiento de contraseña";
 
         Map<String,Object> map = new HashMap<String,Object>();
         map.put("email",recipientEmail);
