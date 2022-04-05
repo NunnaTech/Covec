@@ -7,19 +7,13 @@ import com.covec.mx.cev.entities.usuario.Usuario;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.DiscriminatorValue;
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.util.List;
 
 @Data
 @Entity
 @NoArgsConstructor
-@DiscriminatorValue("Integrante")
+@PrimaryKeyJoinColumn(name = "id_usuario")
 public class Integrante extends Usuario {
     @Column(name = "es_presidente")
     private Boolean presidente;

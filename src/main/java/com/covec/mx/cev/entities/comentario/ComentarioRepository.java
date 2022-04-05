@@ -9,7 +9,7 @@ import java.util.List;
 
 @Repository
 public interface ComentarioRepository extends JpaRepository <Comentario,Integer>{
-    List<Comentario> getAllByIncidenciaEqualsAndEnlaceEqualsAndEsEnlaceEquals(Incidencia incidencia, Enlace enlace,Boolean value);
-
     List<Comentario> getAllByIncidenciaEqualsAndEnlaceEquals(Incidencia incidencia, Enlace enlace);
+
+    List<Comentario> getAllByIncidenciaEquals(Incidencia incidencia);
 }

@@ -25,9 +25,6 @@
         <h3 class="text-lg font-light text-gray-600">
           Categoria: [[${incidencia.categoria.nombre}]]
         </h3>
-        <div th:if="${!incidencia.pagar}">
-          <div th:replace="incidencia/FragmentCobrar::cobrarModal"></div>
-        </div>
       </div>
       <div class="grid grid-cols-2 justify-items-center">
         <a
@@ -36,7 +33,7 @@
           class="w-24 h-24 grid grid-cols-1 justify-items-center ring-2 w-auto rounded p-4 ring-primary ring-offset-base-100 ring-offset-2"
           th:href="@{{link}(link=${e.evidencia})}"
           >Evidencia [[${i.count}]]
-          <span class="material-icons">collections</span>
+          <span class="material-icons"> collections </span>
         </a>
       </div>
       <div class="divider mt-6 mb-3"></div>
@@ -47,29 +44,37 @@
       <div class="divider mt-6 mb-3"></div>
       <div
         th:each="c,i:${comentarios}"
-        th:class="${c.esEnlace} ? 'grid grid-cols-1 justify-items-end rounded drop-shadow-md ring-1 w-auto ring-primary ring-offset-base-100 ring-offset-2 mt-4 p-3':'grid grid-cols-1 justify-items-start rounded drop-shadow-md ring-1 w-auto ring-primary ring-offset-base-100 ring-offset-2 mt-4 p-3'"
+        th:class="${c.esEnlace} ? 'grid grid-cols-1 justify-items-start rounded drop-shadow-md ring-1 w-auto ring-primary ring-offset-base-100 ring-offset-2 mt-4 p-3' :'grid grid-cols-1 justify-items-end rounded drop-shadow-md ring-1 w-auto ring-primary ring-offset-base-100 ring-offset-2 mt-4 p-3'"
       >
-        <h6 th:text="${c.esEnlace} ? 'Tú:': ${c.incidencia.integrante.nombreCompleto}" class="font-semibold"></h6>
+        <h6
+          th:text="${c.esEnlace} ? ${c.enlace.nombreCompleto}: 'Tú:'"
+          class="font-semibold"
+        ></h6>
         <h6 class="font-light">[[${c.comentario}]]</h6>
       </div>
     </div>
 
     <div class="mt-6 mb-6 grid grid-cols-1 justify-items-center">
       <form
-        th:object="${comentarioIncidencia}"
+        th:object="${comentarioPresidente}"
         method="post"
-        th:action="@{/incidencias/comentar}"
+        th:action="@{/incidencias/comentarPresidente}"
       >
         <div class="grid grid-cols-2 justify-items-center">
           <textarea
-          maxlength="128"
+            maxlength="128"
             name="comentario"
             class="textarea textarea-bordered w-96"
             placeholder="Escribe un comentario"
           ></textarea>
           <input name="incidencia" hidden th:value="${incidencia.id}" />
-          <input name="enlace" hidden th:value="${enlace.id}" />
-          <input name="esEnlace" hidden type="number" value="1" />
+          <input
+            name="enlace"
+            th:if="${enlaceRequired != null}"
+            hidden
+            th:value="${enlaceRequired.id}"
+          />
+          <input name="esEnlace" hidden type="number" value="0" />
           <div class="grid grid-cols-1 justify-items-start">
             <button
               class="btn btn-active btn-sm"
@@ -80,11 +85,11 @@
             </button>
             <a
               class="btn btn-active btn-sm"
-              th:href="@{/incidencias/all/{id} (id = ${enlace.id})}"
+              th:href="@{/incidencias/allPresidente/{id} (id = ${incidencia.integrante.id})}"
               style="background-color: #605ad4"
             >
               Regresar
-          </a>
+            </a>
           </div>
         </div>
       </form>

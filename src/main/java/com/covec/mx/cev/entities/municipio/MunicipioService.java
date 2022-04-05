@@ -5,6 +5,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -14,6 +15,10 @@ public class MunicipioService {
 
     public Page<Municipio> getAll(Pageable pageable){
         return municipioRepository.findAll(pageable);
+    }
+
+    public List<Municipio> getAvailable(){
+        return municipioRepository.obtenerDisponibles();
     }
 
     public Municipio getOne(int id){

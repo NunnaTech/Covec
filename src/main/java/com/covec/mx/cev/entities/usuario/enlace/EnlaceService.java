@@ -1,5 +1,6 @@
 package com.covec.mx.cev.entities.usuario.enlace;
 
+import com.covec.mx.cev.entities.municipio.Municipio;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -19,7 +20,7 @@ public class EnlaceService {
     public Enlace getOne(int id){
         Optional<Enlace> exist = repository.findById(id);
         if (exist.isPresent()){
-            Enlace obj = new Enlace();
+            Enlace obj;
             obj = exist.get();
             return obj;
         }
@@ -33,14 +34,25 @@ public class EnlaceService {
 
     public Enlace update(Enlace newObject){
         Optional<Enlace> exist = Optional.empty();
+        Enlace enlace = null;
         exist = repository.findById(newObject.getId());
         if (!exist.isEmpty()){
             exist.get().setUsername(newObject.getUsername());
             exist.get().setNombreCompleto(newObject.getNombreCompleto());
             exist.get().setTelefono(newObject.getTelefono());
             repository.save(exist.get());
+             enlace = exist.get();
         }
-        return exist.get();
+
+        return enlace;
+    }
+
+    public Enlace getByMunicipio(Municipio municipio){
+        Enlace enlace = repository.getByMunicipioEquals(municipio);
+        if (enlace != null){
+            return enlace;
+        }
+        return null;
     }
 
     public void delete(int id){
