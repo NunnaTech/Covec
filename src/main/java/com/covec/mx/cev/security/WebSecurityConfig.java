@@ -28,6 +28,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
                 .antMatchers("/reset_password","/forgot_password","/login", "/css/**", "/js/**", "/image/**", "/imagenes/**")
                 .permitAll()
                 .antMatchers("/colonias/**").hasAnyAuthority("ROL_ENLACE", "ROL_ADMIN")
+                .antMatchers("/incidencias/**").hasAnyAuthority("ROL_ENLACE", "ROL_ADMIN")
                 .antMatchers("/comites/**").hasAnyAuthority("ROL_ENLACE", "ROL_ADMIN")
                 .antMatchers("/categorias/**").hasAnyAuthority("ROL_ENLACE", "ROL_ADMIN")
                 .anyRequest().authenticated()

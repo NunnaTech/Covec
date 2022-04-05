@@ -41,7 +41,7 @@ public class IncidenciaService {
         List<Incidencia> incidencias = new ArrayList<>();
         for (Incidencia incidencia : incidenciaPage) {
             for (Integrante integrante : incidencia.getIntegrante().getComite().getIntegrantes()) {
-                if (integrante.getComite().getColonia().getMunicipio() == enlace.getMunicipio()) {
+                if (integrante.getComite().getColonia().getMunicipio() == enlace.getMunicipio() && integrante.getPresidente()) {
                     incidencias.add(incidencia);
                 }
             }
