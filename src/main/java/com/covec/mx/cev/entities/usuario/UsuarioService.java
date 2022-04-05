@@ -24,7 +24,6 @@ public class UsuarioService {
     public void updateResetPasswordToken(String token, String email) throws UsuarioNotFoundException {
         Usuario usuario = usuarioRepository.findByUsername(email);
         if (usuario != null && checkTokenDate(token)) {
-            System.out.println("entro");
             usuario.setResetPasswordToken(token);
             usuarioRepository.save(usuario);
         } else {
@@ -40,7 +39,6 @@ public class UsuarioService {
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         String encodedPassword = passwordEncoder.encode(newPassword);
         usuario.setPassword(encodedPassword);
-
         usuario.setResetPasswordToken(null);
         usuarioRepository.save(usuario);
     }
