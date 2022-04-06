@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.*;
 import java.util.List;
 import java.util.Set;
 
@@ -20,20 +21,38 @@ public class Usuario {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_usuario")
     private Integer id;
+
+    @Pattern(regexp = "^[a-zA-Z0-9.\\-\\/+=@_ ]*$", message = "Ingresa solo caracteres validos para el correo electronico")
+    @NotEmpty(message = "El correo electronico no debe de estar vacio")
+    @Size(min = 10, max = 45,message = "El correo electronico debe tener un minimo de 10 y maximo de 45 caracteres")
+    @Email(message = "El campo correo electronico debe ser un email")
     @Column(name = "username")
     private String username;
+
     @Column(name = "password")
     private String password;
+
     @Column(name = "reset_password_token")
     private String resetPasswordToken;
+
+    @Pattern(regexp = "^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ.\\-\\/+=@_ ]*$", message = "Ingresa solo caracteres validos para el nombre completo")
+    @NotEmpty(message = "El nombre completo no debe de estar vacio")
+    @Size(min = 4, max = 45,message = "El nombre completo debe tener un minimo de 4 y maximo de 45 caracteres")
     @Column(name = "nombre_completo")
     private String nombreCompleto;
+
+    @NotEmpty(message = "El telefono no debe de estar vacio")
+    @Size(min = 10, max = 10,message = "El numero telefonico debe contener solo 10 digitos")
+    @Pattern(regexp = "^[a-zA-Z0-9.\\-\\/+=@_ ]*$", message = "Ingresa solo caracteres validos para el numero telefonico")
     @Column(name = "telefono")
     private String telefono;
+
     @Column(name = "imagen")
     private String imagen;
+
     @Column(name = "tipo_usuario")
     private String tipoUsuario;
+
     @Column(name = "enabled")
     private Boolean enabled;
 
