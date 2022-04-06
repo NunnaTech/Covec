@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html data-theme="light" xmlns:th="https://www.thymeleaf.org/" lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Awesome application to manage neighborhood incidents">
+    <meta name="author" content="ThePandaDevs" />
+    <meta name="copyright" content="Copyright 2022 - All rights reserved" />
+    <meta name="robots" content="index, follow">
+    <meta name="keywords" content="reports, neighborhood, incidents, free application">
+    <title>Covec | Perfil</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@2.8.0/dist/full.css" rel="stylesheet" type="text/css" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/animation.css}">
+    <style>
+        @import url('https://cdnjs.cloudflare.com/ajax/libs/MaterialDesign-Webfont/5.3.45/css/materialdesignicons.min.css')
+    </style>
+</head>
+
+<body>
+    <div class="w-full relative mt-4 shadow-2xl rounded my-24 overflow-hidden">
+        <div class="top h-64 w-full bg-blue-600 overflow-hidden relative">
+            <img src="https://images.unsplash.com/photo-1503264116251-35a269479413?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80"
+                alt="" class="bg w-full h-full object-cover object-center absolute z-0">
+            <div class="flex flex-col justify-center items-center relative h-full bg-black bg-opacity-50 text-white">
+                <img src="https://i.imgur.com/1WwSnmR.jpg" class="h-24 w-24 object-cover rounded-full">
+                <h1 class="text-2xl font-semibold">Juan Manuel Perez</h1>
+                <h4 class="text-sm font-semibold">Administador</h4>
+            </div>
+        </div>
+        <div class="grid grid-cols-12 bg-white ">
+
+
+
+            <div
+                class="col-span-12 md:border-solid md:border-l md:border-black md:border-opacity-25 h-full pb-12 md:col-span-10">
+                <div class="px-4 pt-4">
+                    <form action="#" class="flex flex-col space-y-8">
+
+                        <div>
+                            <h3 class="text-2xl font-semibold">Información Personal</h3>
+                            <hr>
+                        </div>
+
+                        <div class="flex flex-col space-y-4 md:space-y-0 md:flex-row md:space-x-4">
+
+                            <div class="form-item w-full">
+                                <label for="" class="text-xs font-semibold px-1">Nombre</label>
+                                <div class="flex">
+                                    <div
+                                        class="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center">
+                                        <i class="mdi mdi-account-outline  text-gray-400 text-lg"></i></div>
+                                    <input type="text"
+                                        class="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500"
+                                        placeholder="Juan">
+                                </div>
+                            </div>
+
+
+                            <div class="form-item w-full">
+                                <label for="" class="text-xs font-semibold px-1">Primer Apellido</label>
+                                <div class="flex">
+                                    <div
+                                        class="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center">
+                                        <i class="mdi mdi-account-outline text-gray-400 text-lg"></i></div>
+                                    <input type="text"
+                                        class="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500"
+                                        placeholder="Perez">
+                                </div>
+                            </div>
+                            <div class="form-item w-full">
+                                <label for="" class="text-xs font-semibold px-1">Segundo Apellido</label>
+                                <div class="flex">
+                                    <div
+                                        class="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center">
+                                        <i class="mdi mdi-account-outline text-gray-400 text-lg"></i></div>
+                                    <input type="text"
+                                        class="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500"
+                                        placeholder="Perez">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="flex flex-col space-y-4 md:space-y-0 md:flex-row md:space-x-4">
+
+                            <div class="form-item w-full">
+                                <label for="" class="text-xs font-semibold px-1">Fotografía</label>
+                                <div class="flex">
+                                    <div
+                                        class="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center">
+                                        <i class="mdi mdi-image text-gray-400 text-lg"></i></div>
+                                    <input type="text"
+                                        class="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500">
+                                </div>
+                            </div>
+
+
+                            <div class="form-item w-full">
+                                <label for="" class="text-xs font-semibold px-1">Numero Telefónico</label>
+                                <div class="flex">
+                                    <div
+                                        class="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center">
+                                        <i class="mdi mdi-phone text-gray-400 text-lg"></i></div>
+                                    <input type="text"
+                                        class="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500"
+                                        placeholder="7771077732">
+                                </div>
+                            </div>
+                            <div class="form-item w-full">
+                                <label for="" class="text-xs font-semibold px-1">Correo Electrónico</label>
+                                <div class="flex">
+                                    <div
+                                        class="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center">
+                                        <i class="mdi mdi-email-outline text-gray-400 text-lg"></i></div>
+                                    <input type="text"
+                                        class="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500"
+                                        placeholder="juan@gmail">
+                                </div>
+                            </div>
+                        </div>
+                        <select class="select select-bordered w-full max-w-xs">
+                            <option disabled selected>Municipio</option>
+                            <option>Zapata</option>
+                            <option>Temixco</option>
+                        </select>
+
+                        <div class="btn-group">
+                            <label for="my-modal" class="btn border-none">Cerrar</label>
+                            <button type="submit" class="btn border-none bg-emerald-700 hover:bg-emerald-600">Guardar
+                                Cambios <i class="mdi mdi-download text-text-white-400 text-lg"></i></button>
+                        </div>
+                        <div>
+                            <h3 class="text-2xl font-semibold">Cambio de Contraseña</h3>
+                            <hr>
+                        </div>
+
+                        <div class="flex flex-col space-y-4 md:space-y-0 md:flex-row md:space-x-4">
+
+                            <div class="form-item w-full">
+                                <label for="" class="text-xs font-semibold px-1">Contraseña Actual:</label>
+                                <div class="flex">
+                                    <div
+                                        class="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center">
+                                        <i class="mdi mdi-lock text-gray-400 text-lg"></i></div>
+                                    <input type="text"
+                                        class="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500"
+                                        placeholder="******">
+                                </div>
+                            </div>
+
+
+                            <div class="form-item w-full">
+                                <label for="" class="text-xs font-semibold px-1">Nueva Contraseña:</label>
+                                <div class="flex">
+                                    <div
+                                        class="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center">
+                                        <i class="mdi mdi-lock text-gray-400 text-lg"></i></div>
+                                    <input type="text"
+                                        class="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500"
+                                        placeholder="******">
+                                </div>
+                            </div>
+                            <div class="form-item w-full">
+                                <label for="" class="text-xs font-semibold px-1">Confirmar Contraseña:</label>
+                                <div class="flex">
+                                    <div
+                                        class="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center">
+                                        <i class="mdi mdi-lock text-gray-400 text-lg"></i></div>
+                                    <input type="text"
+                                        class="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500"
+                                        placeholder="******">
+                                </div>
+                            </div>
+                        </div>
+                        <button type="submit" for="my-modal"
+                            class="btn bg-emerald-700 hover:bg-emerald-600 gap-2 border-none md:w-64 ">Cambiar
+                            <i class="mdi mdi-download text-text-white-400 text-lg"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+</body>
+
+<script src="https://code.jquery.com/jquery-3.1.1.min.js" crossorigin="anonymous"></script>
+
+</html>
