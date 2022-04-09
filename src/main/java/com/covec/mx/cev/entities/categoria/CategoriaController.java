@@ -5,8 +5,13 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -35,8 +40,17 @@ public class CategoriaController {
     }
 
     @PostMapping("/save")
-    public String save(@ModelAttribute("categoria") Categoria categoria){
-        service.save(categoria);
+    public String save(@Valid @ModelAttribute("categoria") Categoria categoria, BindingResult result, RedirectAttributes attributes){
+        if (result.hasErrors()){
+            List<String> errores = new ArrayList<>();
+            for (ObjectError error:result.getAllErrors()) {
+                errores.add(error.getDefaultMessage());
+            }
+            attributes.addFlashAttribute("errores", errores);
+        }else {
+            service.save(categoria);
+            attributes.addFlashAttribute("mensaje", "Se ha registrado correctamente");
+        }
         return "redirect:/categorias/all";
     }
 

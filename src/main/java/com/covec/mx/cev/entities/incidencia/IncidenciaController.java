@@ -26,8 +26,12 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.validation.Valid;
 import javax.websocket.server.PathParam;
 
 @Controller
@@ -134,16 +138,25 @@ public class IncidenciaController {
     }
 
     @PostMapping("/uploadEvidencia/{idPresidente}")
-    public String uploadEvidencia(@ModelAttribute("incidenciasPresidente") Incidencia incidencia,
+    public String uploadEvidencia(@Valid @ModelAttribute("incidenciasPresidente") Incidencia incidencia, BindingResult result, RedirectAttributes attributes,
                                   @ModelAttribute EvidenciaDTO evidenciaDTO, @PathVariable("idPresidente") int id) {
-        Date date = Date.valueOf(LocalDate.now());
-        incidencia.setFechaRegistro(date);
-        service.save(incidencia);
-        for (String link : evidenciaDTO.getLinks()) {
-            Evidencia evidencia = new Evidencia();
-            evidencia.setEvidencia(link);
-            evidencia.setIncidencia(incidencia);
-            evidenciaService.save(evidencia);
+        if (result.hasErrors()){
+            List<String> errores = new ArrayList<>();
+            for (ObjectError error:result.getAllErrors()) {
+                errores.add(error.getDefaultMessage());
+            }
+            attributes.addFlashAttribute("errores", errores);
+        }else{
+            Date date = Date.valueOf(LocalDate.now());
+            incidencia.setFechaRegistro(date);
+            service.save(incidencia);
+            for (String link : evidenciaDTO.getLinks()) {
+                Evidencia evidencia = new Evidencia();
+                evidencia.setEvidencia(link);
+                evidencia.setIncidencia(incidencia);
+                evidenciaService.save(evidencia);
+            }
+            attributes.addFlashAttribute("mensaje", "Se ha registrado correctamente");
         }
         Integrante integrante = integranteService.getOne(id);
         return "redirect:/incidencias/allPresidente/" + integrante.getId();

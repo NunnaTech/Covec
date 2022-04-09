@@ -1,113 +1,178 @@
 <!DOCTYPE html>
 <html data-theme="light" lang="en" xmlns:th="http://www.thymeleaf.org">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<head>
+    <meta charset="UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <link
-      href="https://cdn.jsdelivr.net/npm/daisyui@2.8.0/dist/full.css"
-      rel="stylesheet"
-      type="text/css"
+            href="https://cdn.jsdelivr.net/npm/daisyui@2.8.0/dist/full.css"
+            rel="stylesheet"
+            type="text/css"
     />
     <script src="https://cdn.tailwindcss.com"></script>
     <link
-      href="https://fonts.googleapis.com/icon?family=Material+Icons"
-      rel="stylesheet"
+            href="https://fonts.googleapis.com/icon?family=Material+Icons"
+            rel="stylesheet"
     />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/simple-notify@0.5.4/dist/simple-notify.min.css"/>
     <title>Incidencias | Covec</title>
-  </head>
-  <body id="bodyid">
-    <div class="container mx-auto p-5">
-      <div class="grid grid-cols-1 justify-items-center p-6">
+</head>
+<body id="bodyid">
+<div class="container mx-auto p-5">
+    <div class="grid grid-cols-1 justify-items-center p-6">
         <h1 class="text-2xl font-semibold">Mis incidencias</h1>
         <h3 class="text-lg font-light text-gray-600">Lista general</h3>
-      </div>
-
-      <div th:replace="incidencia/ModalUpload::modalUpload"></div>
-
-      <div class="overflow-x-auto p-6">
-        <div class="grid grid-cols-1 justify-items-center">
-          <table id="tabla" class="table w-full">
-            <thead>
-              <tr>
-                <th>Nombre</th>
-                <th>Categoria</th>
-                <th>Estado</th>
-                <th>Fecha de reporte</th>
-                <th>Acciones</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr th:each="e,i:${incidenciasPresidente}">
-                <td th:text="${e.Integrante.nombreCompleto}"></td>
-                <td th:text="${e.Categoria.nombre}"></td>
-                <td th:text="${e.estatus}"></td>
-                <td th:text="${e.fechaRegistro}"></td>
-                <td>
-                  <div class="grid md:grid-cols-2 sm:grid-cols-1">
-                    <a
-                      class="btn w-24"
-                      th:href="@{/incidencias/getDetail/{id}/(id=${e.id})}"
-                      style="background-color: #605ad4"
-                    >
-                      <span class="material-icons">question_answer</span>
-                    </a>
-                  </div>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-      <div class="grid justify-items-end">
-        <div class="btn-group">
-          <a
-            th:each="page:${paginas}"
-            class="btn"
-            style="background-color: white; color: black"
-            th:href="@{|/incidencias/allPresidente/${integranteUsuario.id}/?page=${page}|}"
-            th:text="${page}"
-          ></a>
-        </div>
-      </div>
     </div>
-    <script
-      src="https://code.jquery.com/jquery-3.1.1.min.js"
-      crossorigin="anonymous"
-    ></script>
-    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-    <script>
-      $(document).ready(function () {
+
+    <div th:replace="incidencia/ModalUpload::modalUpload"></div>
+
+    <div class="alert shadow-lg w-auto m-5 bg-yellow-500" id="validaciones" th:if="${errores != null}">
+        <div class="grid grid-cols-1">
+            <div class="flex justify-start">
+                <span class="material-icons text-white drop-shadow-lg">report_problem</span>
+                <h6 class="font-semibold ml-1 text-white drop-shadow-lg">ATENCIÓN</h6>
+            </div>
+            <h6 th:each="e:${errores}" class="text-xs text-white drop-shadow-lg">- [[${e}]]</h6>
+        </div>
+        <div class="flex-none">
+            <button id="cerrar" class="btn btn-sm text-white">Cerrar</button>
+        </div>
+    </div>
+
+    <div class="overflow-x-auto p-6">
+        <div class="grid grid-cols-1 justify-items-center">
+            <table id="tabla" class="table w-full">
+                <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Categoria</th>
+                    <th>Estado</th>
+                    <th>Fecha de reporte</th>
+                    <th>Acciones</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="e,i:${incidenciasPresidente}">
+                    <td th:text="${e.Integrante.nombreCompleto}"></td>
+                    <td th:text="${e.Categoria.nombre}"></td>
+                    <td th:text="${e.estatus}"></td>
+                    <td th:text="${e.fechaRegistro}"></td>
+                    <td>
+                        <div class="grid md:grid-cols-2 sm:grid-cols-1">
+                            <a
+                                    class="btn w-24"
+                                    th:href="@{/incidencias/getDetail/{id}/(id=${e.id})}"
+                                    style="background-color: #605ad4"
+                            >
+                                <span class="material-icons">question_answer</span>
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="grid justify-items-end">
+        <div class="btn-group">
+            <a
+                    th:each="page:${paginas}"
+                    class="btn"
+                    style="background-color: white; color: black"
+                    th:href="@{|/incidencias/allPresidente/${integranteUsuario.id}/?page=${page}|}"
+                    th:text="${page}"
+            ></a>
+        </div>
+    </div>
+</div>
+<script
+        src="https://code.jquery.com/jquery-3.1.1.min.js"
+        crossorigin="anonymous"
+></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/simple-notify@0.5.4/dist/simple-notify.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $("#cerrar").click(() => {
+            $("#validaciones").hide("slow");
+        })
+    });
+</script>
+
+<script th:if="${mensaje != null}">
+    var mensaje = '[[${mensaje}]]'
+    new Notify({
+        status: 'success',
+        title: 'Exito',
+        text: mensaje,
+        effect: 'fade',
+        speed: 300,
+        customClass: '',
+        customIcon: '',
+        showIcon: true,
+        showCloseButton: true,
+        autoclose: false,
+        autotimeout: 3000,
+        gap: 20,
+        distance: 20,
+        type: 1,
+        position: 'bottom left'
+    })
+</script>
+
+<script>
+    $(document).ready(function () {
         $("#botonEvidencias").click(async () => {
-          var files = document.getElementById("imagenUpload");
-          var links = [];
+            var files = document.getElementById("imagenUpload");
+            if (files.files[0] != null) {
+                var links = [];
 
-          for (let i = 0; i < files.files.length; i++) {
-            var form = new FormData();
-            form.append("image", files.files[i]);
-            var settings = {
-              url: "https://api.imgbb.com/1/upload?key=10a3706c41bbed9cdd3896e2fd2271d5",
-              method: "POST",
-              timeout: 0,
-              processData: false,
-              mimeType: "multipart/form-data",
-              contentType: false,
-              data: form,
-            };
+                for (let i = 0; i < files.files.length; i++) {
+                    var form = new FormData();
+                    form.append("image", files.files[i]);
+                    var settings = {
+                        url: "https://api.imgbb.com/1/upload?key=10a3706c41bbed9cdd3896e2fd2271d5",
+                        method: "POST",
+                        timeout: 0,
+                        processData: false,
+                        mimeType: "multipart/form-data",
+                        contentType: false,
+                        data: form,
+                    };
 
-            await axios(settings).then((response) => {
-              links.push(response.data.data.url);
-            });
-          }
+                    await axios(settings).then((response) => {
+                        links.push(response.data.data.url);
+                    });
+                }
 
-          for (let i = 0; i < links.length; i++) {
-            console.log(links[i]);
-           $("#selectLinks").append(`<option selected value="${links[i]}">${links[i]}</option>`)
-          }
-          $("#subir").click();
+                for (let i = 0; i < links.length; i++) {
+                    console.log(links[i]);
+                    $("#selectLinks").append(`<option selected value="${links[i]}">${links[i]}</option>`)
+                }
+                $("#subir").click();
+            } else {
+                new Notify({
+                    status: 'warning',
+                    title: 'Atención',
+                    text: 'Es necesario seleccionar alguna evidencia para continuar',
+                    effect: 'fade',
+                    speed: 300,
+                    customClass: '',
+                    customIcon: '',
+                    showIcon: true,
+                    showCloseButton: true,
+                    autoclose: false,
+                    autotimeout: 3000,
+                    gap: 20,
+                    distance: 20,
+                    type: 1,
+                    position: 'right top'
+                })
+            }
         });
-      });
-    </script>
-  </body>
+    });
+</script>
+</body>
 </html>
