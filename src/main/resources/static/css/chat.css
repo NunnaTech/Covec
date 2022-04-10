@@ -1,0 +1,6 @@
+  .text-left, .text-right {
+    margin-top: auto;
+  }
+  .text-left {
+    margin-bottom: 5px;
+  }
