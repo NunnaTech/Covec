@@ -20,8 +20,7 @@
     <div th:fragment="modalUpdate(objeto, i)">
       <label
         th:for="${i}"
-        class="btn modal-button w-24"
-        style="background-color: #f7bd00"
+        class="btn border-none w-16 bg-yellow-500 hover:bg-yellow-400"
       >
         <span class="material-icons">edit</span>
       </label>
@@ -39,48 +38,50 @@
             method="post"
             th:action="@{/enlaces/update}"
           >
-            <div
-              class="grid md:grid-cols-3 sm:grid-cols-1 justify-items-center"
-            >
-              <div>
-                <input hidden th:value="${objeto.id}" name="id" />
-                <h6 class="font-medium text-base">Nombre Completo</h6>
+            <div class="grid md:grid-cols-3 sm:grid-cols-1 justify-items-center">
+            <input hidden th:value="${objeto.id}" name="id" />
+            <div class="form-control mx-2">
+                <label class="label">
+                  <span class="label-text">Nombre Completo</span>
+                </label>
                 <input
                   type="text"
                   th:value="${objeto.nombreCompleto}"
                   name="nombreCompleto"
-                  placeholder="Inserte el nombre aqui"
+                  placeholder="Ej. José Manuel N."
                   class="input input-bordered w-full max-w-xs"
                 />
-              </div>
-              <div>
-                <h6 class="font-medium text-base">Numero Telefónico</h6>
+            </div>
+            <div class="form-control mx-2">
+                <label class="label">
+                  <span class="label-text">Numero Telefónico</span>
+                </label>
                 <input
                   type="text"
                   th:value="${objeto.telefono}"
                   name="telefono"
-                  placeholder="Inserte el nombre aqui"
+                  placeholder="Ej. 0012221231"
                   class="input input-bordered w-full max-w-xs"
                 />
-              </div>
-              <div>
-                <h6 class="font-medium text-base">Correo Electronico</h6>
+            </div>
+            <div class="form-control mx-2">
+                <label class="label">
+                  <span class="label-text">Correo Electronico</span>
+                </label>
                 <input
-                  type="text"
-                  th:value="${objeto.username}"
-                  name="username"
-                  placeholder="Inserte el nombre aqui"
-                  class="input input-bordered w-full max-w-xs"
-                />
-              </div>
+                type="text"
+                th:value="${objeto.username}"
+                name="username"
+                placeholder="Ej. Jose_covec@gmail.com"
+                class="input input-bordered w-full max-w-xs"
+              />
+            </div>
             </div>
             <div class="divider"></div>
             <div class="modal-action">
               <div class="btn-group">
-                <label th:for="${i}" class="btn btn-sm">Cerrar</label>
-                <button type="submit" class="btn btn-sm bg-green-600">
-                  Guardar <span class="material-icons ml-2">save_alt</span>
-                </button>
+                <label th:for="${i}" class="btn border-none">Cerrar</label>
+                <button type="submit" class="btn border-none bg-emerald-700 hover:bg-emerald-600">Guardar cambios <span class="material-icons ml-2">save_as</span></button>
               </div>
             </div>
           </form>

@@ -18,13 +18,12 @@
   </head>
   <body>
     <div th:fragment="modalUpload">
-      <label
-        for="upload"
-        class="btn modal-button w-32"
-        style="background-color: #03a538"
-      >
-        Añadir <span class="material-icons">info</span>
+      <label for="upload" class="btn border-none bg-emerald-700 hover:bg-emerald-600">
+        Nueva incidencia
+        <span class="material-icons ml-2">error</span>
       </label>
+
+
       <input type="checkbox" id="upload" class="modal-toggle" />
       <div class="modal">
         <div class="modal-box">
@@ -107,9 +106,9 @@
             <div class="divider"></div>
             <div class="modal-action">
               <div class="btn-group">
-                <label for="upload" class="btn btn-sm">Cerrar</label>
                 <input type="submit" hidden id="subir"/>
-                <a class="btn btn-sm" id="botonEvidencias">Subir</a>
+                <label for="upload" class="btn border-none">Cerrar</label>
+                <a id="botonEvidencias" class="btn border-none bg-emerald-700 hover:bg-emerald-600">Guardar <span class="material-icons ml-2">add_box</span></a>
               </div>
             </div>
           </form>

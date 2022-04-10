@@ -18,11 +18,9 @@
   </head>
   <body>
     <div th:fragment="modalFG">
-      <div class="pl-6">
-        <label for="my-modal" class="btn btn-sm modal-button bg-green-600">
-          Añadir <span class="material-icons ml-2">local_offer</span>
+        <label for="my-modal" class="btn border-none bg-emerald-700 hover:bg-emerald-600">
+          Nueva categoria <span class="material-icons ml-2">local_offer</span>
         </label>
-      </div>
 
       <input type="checkbox" id="my-modal" class="modal-toggle" />
       <div class="modal">
@@ -37,24 +35,26 @@
             method="post"
             th:action="@{/categorias/save}"
           >
-            <div class="grid grid-cols-1 justify-items-center">
-              <h6 class="font-medium text-base">Nombre</h6>
-              <input
+          <div class="flex flex-col justify-center lg:flex-row">
+            <div class="form-control lg:px-3">
+                <label class="label">
+                  <span class="label-text">Nombre</span>
+                </label>
+                <input
                 type="text"
                 th:field="*{nombre}"
-                placeholder="Inserte el nombre aqui"
+                placeholder="Ej. Drenaje"
                 class="input input-bordered w-full max-w-xs"
               />
             </div>
+        </div>
             <div class="divider"></div>
             <div class="modal-action">
               <div class="btn-group">
-                <label for="my-modal" class="btn btn-sm">Cerrar</label>
-                <button type="submit" class="btn btn-sm bg-green-600">
-                  Guardar <span class="material-icons ml-2">save_alt</span>
-                </button>
+                  <label for="my-modal" class="btn border-none">Cerrar</label>
+                  <button type="submit" class="btn border-none bg-emerald-700 hover:bg-emerald-600">Guardar <span class="material-icons ml-2">save</span></button>
               </div>
-            </div>
+          </div>
           </form>
         </div>
       </div>

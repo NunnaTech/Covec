@@ -27,10 +27,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
                 .authorizeRequests()
                 .antMatchers("/reset_password","/forgot_password","/login", "/css/**", "/js/**", "/image/**", "/imagenes/**")
                 .permitAll()
-                .antMatchers("/colonias/**").hasAnyAuthority("ROL_ENLACE", "ROL_ADMIN")
-                .antMatchers("/incidencias/**").hasAnyAuthority("ROL_ENLACE", "ROL_ADMIN")
-                .antMatchers("/comites/**").hasAnyAuthority("ROL_ENLACE", "ROL_ADMIN")
-                .antMatchers("/categorias/**").hasAnyAuthority("ROL_ENLACE", "ROL_ADMIN")
+                .antMatchers("/enlaces/**").hasAnyAuthority("ROL_ADMIN")
+                .antMatchers("/municipios/**").hasAnyAuthority("ROL_ADMIN")
+                .antMatchers("/categorias/**").hasAnyAuthority("ROL_ADMIN")
+                .antMatchers("/colonias/**").hasAnyAuthority("ROL_ENLACE")
+                .antMatchers("/incidencias/**").hasAnyAuthority("ROL_ENLACE")
+                .antMatchers("/comites/**").hasAnyAuthority("ROL_ENLACE")
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
@@ -41,8 +43,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
                 .logoutSuccessUrl("/login?logout")
                 .permitAll();
     }
-
-
+    
     @Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 		auth.jdbcAuthentication().dataSource(dataSource)
