@@ -16,108 +16,113 @@
     />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/simple-notify@0.5.4/dist/simple-notify.min.css"/>
     <title>Categorias | Covec</title>
-</head>
-<body id="bodyid">
-<div class="container mx-auto p-5">
-    <div class="grid grid-cols-1 justify-items-center p-6">
-        <h1 class="text-2xl font-semibold">Categorias registradas</h1>
-        <h3 class="text-lg font-light text-gray-600">Lista de categorias</h3>
-    </div>
+  </head>
+  <body>
 
-    <div class="grid grid-cols-4">
-        <div th:replace="categoria/ModalFGT::modalFG"></div>
-    </div>
-
-    <div class="alert shadow-lg w-auto m-5 bg-yellow-500" id="validaciones" th:if="${errores != null}">
-        <div class="grid grid-cols-1">
-            <div class="flex justify-start">
-                <span class="material-icons text-white drop-shadow-lg">report_problem</span>
-                <h6 class="font-semibold ml-1 text-white drop-shadow-lg">ATENCIÓN</h6>
+    <div class="drawer h-screen w-full">
+      <input id="my-drawer-3" type="checkbox" class="drawer-toggle" />
+      <div class="drawer-content flex flex-col" style="background-color: #EBEBEB;">
+        <!-- Navbar -->
+        <div class="w-full navbar shadow-md" style="background-color: #605AD4">
+          <div class="flex-none">
+            <label for="my-drawer-3" class="btn btn-square btn-ghost">
+              <svg width="37" height="25" viewBox="0 0 37 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path
+                  d="M0.875 24.25H36.125V20.3333H0.875V24.25ZM0.875 14.4583H36.125V10.5417H0.875V14.4583ZM0.875 0.75V4.66667H36.125V0.75H0.875Z"
+                  fill="white" />
+              </svg>
+            </label>
+          </div>
+          <div class="flex-1 px-2 mx-2 text-white">Menú</div>
+          <div class="flex-none hidden lg:block">
+            <div class="indicator">
+              <div class="card border">
+                <div class="p-2">
+                  <p class="text-white" th:text="${session.user.tipoUsuario}">Administrador</p>
+                </div>
+              </div>
             </div>
-            <h6 th:each="e:${errores}" class="text-xs text-white drop-shadow-lg">- [[${e}]]</h6>
+          </div>
         </div>
-        <div class="flex-none">
-            <button id="cerrar" class="btn btn-sm text-white">Cerrar</button>
+        <!-- Contenido principal -->
+        
+        <div class="flex flex-row justify-center pb-7 pt-5 my-3 rounded-2xl shadow-md mx-2" style="background-color: #FFFFFF;">  
+          <div>
+            <h2 class="text-center font-medium leading-tight text-3xl lg:text-4xl">
+              Categorias registradas
+            </h2>
+            <h4 class="text-center text-2xl text-gray-500 pt-1">
+              Lista de categorias
+            </h4>
+          </div>
         </div>
-    </div>
 
-    <div class="overflow-x-auto p-6">
-        <div class="grid grid-cols-1 justify-items-center">
-            <table id="tabla" class="table w-full">
-                <thead>
-                <tr>
-                    <th>Nombre</th>
-                    <th>Acciones</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr th:each="c,i:${categorias}">
-                    <td th:text="${c.nombre}"></td>
-                    <td>
-                        <div class="grid grid-cols-2">
-                            <div
-                                    th:replace="categoria/ModalUpdate::modalUpdate(${c}, ${i.count})"
-                            ></div>
-                            <a
-                                    class="btn w-24"
-                                    th:href="@{/categorias/delete/{id}(id=${c.id})}"
-                                    style="background-color: #605ad4"
-                            >
-                                <span class="material-icons">delete</span>
-                            </a>
-                        </div>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
+        <div class="flex flex-col justify-between px-5 mx-2 md:lg:flex-row py-4 shadow-md rounded-2xl" style="background-color: #FFFFFF;">
+          <div>
+            <!--Modal fragment de crear colonia-->
+            <div th:replace="categoria/ModalFGT::modalFG"></div>
+          </div>
+          <div class="my-3 md:lg:my-0">
+            <div class="form-control">
+              <div class="input-group">
+                <button class="btn btn-square bg-emerald-700 hover:bg-emerald-600 border-none">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
+                </button>
+                <input type="text" placeholder="Buscar por nombre" class="input focus:outline-none input-bordered">  
+              </div>
+            </div>
+          </div>
         </div>
-    </div>
 
-    <div class="grid justify-items-end">
-        <div class="btn-group">
-            <a
-                    th:each="page:${paginas}"
-                    class="btn"
-                    style="background-color: white; color: black"
-                    th:href="@{|/categorias/all/?page=${page}|}"
-                    th:text="${page}"
+        <div class=" mx-2 my-3 rounded-2xl shadow-md bg-white">
+          <table class="table w-full">
+              <!-- head -->
+              <thead>
+                  <tr>
+                      <th class="text-center">Nombre</th>
+                      <th class="text-center">Acciones</th>
+                  </tr>
+              </thead>
+              <tbody>
+                <tr class="hover " th:each="c,i:${categorias}">
+                  <td class="text-center" th:text="${c.nombre}"></td>
+                  <td class="flex flex-row justify-center">
+                    <div class="tooltip " data-tip="Editar">
+                      <div th:replace="categoria/ModalUpdate::modalUpdate(${c}, ${i.count})"></div>
+                    </div>
+                    <div class="tooltip" data-tip="Eliminar">
+                      <a class="btn border-none w-16 mx-2 border-none bg-violet-700 hover:bg-violet-600" th:href="@{/categorias/delete/{id}(id=${c.id})}" style="background-color: #605ad4">
+                        <span class="material-icons">delete</span>
+                      </a>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+          </table>
+          <div class="flex flex-row justify-center py-3">
+            <div class="btn-group">
+              <a
+              th:each="page:${paginas}"
+              class="btn"
+              style="background-color: white; color: black"
+              th:href="@{|/categorias/all/?page=${page}|}"
+              th:text="${page}"
             ></a>
+            </div>
         </div>
+      </div>
+  
+      </div>
+      <!--Menu dependiendo del rol-->
+      
+        <div sec:authorize="hasAnyAuthority('ROL_ADMIN')" th:replace="menuLayout :: admin-menu"></div>
+  
+        <div sec:authorize="hasAnyAuthority('ROL_ENLACE')" th:replace="menuLayout :: enlace-menu"></div>
+  
+        <div sec:authorize="hasAnyAuthority('ROL_PRESIDENTE')" th:replace="menuLayout :: presidente-menu"></div>
+  
     </div>
-</div>
 
-<script
-        src="https://code.jquery.com/jquery-3.1.1.min.js"
-        crossorigin="anonymous"
-></script>
-<script src="https://cdn.jsdelivr.net/npm/simple-notify@0.5.4/dist/simple-notify.min.js"></script>
-<script>
-    $(document).ready(function () {
-        $("#cerrar").click(() => {
-            $("#validaciones").hide("slow");
-        })
-    });
-</script>
 
-<script th:if="${mensaje != null}">
-    var mensaje = '[[${mensaje}]]'
-    new Notify({
-        status: 'success',
-        title: 'Exito',
-        text: mensaje,
-        effect: 'fade',
-        speed: 300,
-        customClass: '',
-        customIcon: '',
-        showIcon: true,
-        showCloseButton: true,
-        autoclose: false,
-        autotimeout: 3000,
-        gap: 20,
-        distance: 20,
-        type: 1,
-        position: 'bottom left'
-    })
-</script>
-</body>
+  </body>
 </html>

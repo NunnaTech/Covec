@@ -18,11 +18,10 @@
   </head>
   <body>
     <div th:fragment="modalFG">
-      <div class="pl-6">
-        <label for="my-modal" class="btn btn-sm modal-button bg-green-600">
-          Añadir <span class="material-icons ml-2">local_offer</span>
-        </label>
-      </div>
+      <label for="my-modal" class="btn border-none bg-emerald-700 hover:bg-emerald-600">
+        Nuevo enlace <span class="material-icons ml-2">local_offer</span>
+      </label>
+
 
       <input type="checkbox" hidden id="my-modal" class="modal-toggle" />
       <div class="modal">
@@ -40,86 +39,102 @@
             <div
               class="grid md:grid-cols-3 sm:grid-cols-1 justify-items-center"
             >
-              <div>
-                <h6 class="font-medium text-base">Nombre Completo</h6>
-                <input
-                  type="text"
-                  th:field="*{nombreCompleto}"
-                  placeholder="Inserte el nombre aqui"
-                  class="input input-bordered w-full max-w-xs"
+            
+            <div class="form-control mx-2">
+              <label class="label">
+                <span class="label-text">Nombre Completo</span>
+              </label>
+              <input
+              type="text"
+              th:field="*{nombreCompleto}"
+              placeholder="Inserte el nombre aqui"
+              class="input input-bordered w-full max-w-xs"
+            />
+            </div>
+
+            <div class="form-control mx-2">
+              <label class="label">
+                <span class="label-text">Numero Telefónico</span>
+              </label>
+              <input
+              type="text"
+              th:field="*{telefono}"
+              placeholder="Inserte el nombre aqui"
+              class="input input-bordered w-full max-w-xs"
+            />
+            </div>
+
+            <div class="form-control mx-2">
+              <label class="label">
+                <span class="label-text">Contraseña</span>
+              </label>
+              <input
+              type="text"
+              th:field="*{password}"
+              placeholder="Inserte el nombre aqui"
+              class="input input-bordered w-full max-w-xs"
+              />
+            </div>
+
+            <div class="form-control mx-2">
+              <label class="label">
+                <span class="label-text">Correo Electronico</span>
+              </label>
+              <input
+              type="text"
+              th:field="*{username}"
+              placeholder="Inserte el nombre aqui"
+              class="input input-bordered w-full max-w-xs"
+            />
+            </div>
+
+            <div class="form-control mx-2">
+              <label class="label">
+                <span class="label-text">Municipio</span>
+              </label>
+              <select
+              class="select select-bordered w-full max-w-xs w-60 ml-2 mr-2"
+              th:field="*{municipio.id}"
+              >
+              <option
+                th:each="m:${municipios}"
+                th:value="${m.id}"
+                th:text="${m.nombre}"
+              ></option>
+            </select>
+            </div>
+
+            <div class="form-control mx-2">
+              <label class="label">
+                <span class="label-text">Fotografía</span>
+              </label>
+              <label
+              class="w-64 flex flex-col items-center px-4 py-6 bg-white text-blue rounded-lg shadow-lg tracking-wide uppercase border border-blue cursor-pointer hover:bg-blue hover:text-white"
+            >
+              <svg
+                class="w-8 h-8"
+                fill="currentColor"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 20 20"
+              >
+                <path
+                  d="M16.88 9.1A4 4 0 0 1 16 17H5a5 5 0 0 1-1-9.9V7a3 3 0 0 1 4.52-2.59A4.98 4.98 0 0 1 17 8c0 .38-.04.74-.12 1.1zM11 11h3l-4-4-4 4h3v3h2v-3z"
                 />
-              </div>
-              <div>
-                <h6 class="font-medium text-base">Numero Telefónico</h6>
-                <input
-                  type="text"
-                  th:field="*{telefono}"
-                  placeholder="Inserte el nombre aqui"
-                  class="input input-bordered w-full max-w-xs"
-                />
-              </div>
-              <div>
-                <h6 class="font-medium text-base">Contraseña</h6>
-                <input
-                        type="password"
-                        th:field="*{password}"
-                        placeholder="Inserte el nombre aqui"
-                        class="input input-bordered w-full max-w-xs"
-                />
-              </div>
-              <div class="mt-2">
-                <h6 class="font-medium text-base">Correo Electronico</h6>
-                <input
-                  type="text"
-                  th:field="*{username}"
-                  id="username"
-                  placeholder="Inserte el nombre aqui"
-                  class="input input-bordered w-full max-w-xs"
-                />
-              </div>
-              <div class="mt-2">
-                <h6 class="font-medium text-base">Municipio</h6>
-                <select
-                  class="select select-bordered w-full max-w-xs w-60 ml-2 mr-2"
-                  th:field="*{municipio.id}"
-                >
-                  <option
-                    th:each="m:${municipios}"
-                    th:value="${m.id}"
-                    th:text="${m.nombre}"
-                  ></option>
-                </select>
-              </div>
-              <div>
-                <h6 class="font-medium text-base mt-1">Fotografía</h6>
-                <input type="text" id="imagenURL" th:field="*{imagen}" hidden />
-                <label
-                  class="w-64 flex flex-col items-center px-4 py-6 bg-white text-blue rounded-lg shadow-lg tracking-wide uppercase border border-blue cursor-pointer hover:bg-blue hover:text-white"
-                >
-                  <svg
-                    class="w-8 h-8"
-                    fill="currentColor"
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 20 20"
-                  >
-                    <path
-                      d="M16.88 9.1A4 4 0 0 1 16 17H5a5 5 0 0 1-1-9.9V7a3 3 0 0 1 4.52-2.59A4.98 4.98 0 0 1 17 8c0 .38-.04.74-.12 1.1zM11 11h3l-4-4-4 4h3v3h2v-3z"
-                    />
-                  </svg>
-                  <span class="mt-2 text-base leading-normal"
-                    >Elige una foto</span
-                  >
-                  <input type="file" id="imagenUpload" class="hidden" />
-                </label>
-              </div>
+              </svg>
+              <span class="mt-2 text-base leading-normal"
+                >Elige una foto</span
+              >
+              <input type="file" id="imagenUpload" class="hidden" />
+            </label>
+              <input type="text" id="imagenURL" th:field="*{imagen}" hidden />
+            </div>
             </div>
             <div class="divider"></div>
             <div class="modal-action">
               <div class="btn-group">
-                <label for="my-modal" class="btn btn-sm">Cerrar</label>
-                <input type="submit" hidden id="subir" />
-                <a id="botonUpload" class="btn btn-sm bg-green-600"
-                  >Guardar <span class="material-icons ml-2">save_alt</span>
+                <label for="my-modal" class="btn border-none">Cerrar</label>
+                  <input type="submit" hidden id="subir" /> 
+                  <a id="botonUpload" type="submit" class="btn border-none bg-emerald-700 hover:bg-emerald-600">Guardar <span class="material-icons ml-2">save</span></a>
                 </a>
               </div>
             </div>
