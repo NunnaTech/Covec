@@ -31,6 +31,7 @@ import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import javax.websocket.server.PathParam;
 
@@ -50,11 +51,12 @@ public class IncidenciaController {
     @Autowired
     private CategoriaService categoriaService;
 
-    @GetMapping("/all/{idenlace}")
-    public String allIncidencias(@RequestParam Map<String, Object> params, @PathVariable("idenlace") Integer idEnlace,
-                                 Model model) {
+    
+    @GetMapping("/all")
+    public String allIncidencias(@RequestParam Map<String, Object> params, HttpSession httpSession, Model model) {
+        Enlace enlaceSession = (Enlace) httpSession.getAttribute("user");
         int page = params.get("page") != null ? (Integer.valueOf(params.get("page").toString()) - 1) : 0;
-        Enlace enlace = enlaceService.getOne(idEnlace);
+        Enlace enlace = enlaceService.getOne(enlaceSession.getId());
         List<Incidencia> incidencias = service.filtrar(service.getAllIncidencias(), enlace);
         Pageable paging = PageRequest.of(page, 5);
         int inicioPag = Math.min((int) paging.getOffset(), incidencias.size());
@@ -72,12 +74,13 @@ public class IncidenciaController {
         return "incidencia/incidenciascrud";
     }
 
-    @GetMapping("/allPresidente/{id}")
-    public String getAllPresidente(@RequestParam Map<String, Object> params, @PathVariable("id") Integer id,
-                                   Model model) {
+    
+    @GetMapping("/allPresidente")
+    public String getAllPresidente(@RequestParam Map<String, Object> params,HttpSession httpSession, Model model) {
+        Integrante integranteSession = (Integrante) httpSession.getAttribute("user");
         int page = params.get("page") != null ? (Integer.valueOf(params.get("page").toString()) - 1) : 0;
         PageRequest pageRequest = PageRequest.of(page, 5);
-        Integrante integrante = integranteService.getOne(id);
+        Integrante integrante = integranteService.getOne(integranteSession.getId());
         Page<Incidencia> pageObject = service.getAllIncidenciasIntegrante(integrante, pageRequest);
         int totalPages = pageObject.getTotalPages();
         if (totalPages > 0) {

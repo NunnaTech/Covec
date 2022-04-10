@@ -5,7 +5,10 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+import javax.servlet.http.HttpSession;
+
 import com.covec.mx.cev.entities.municipio.MunicipioService;
+import com.covec.mx.cev.entities.usuario.enlace.Enlace;
 
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
@@ -30,8 +33,7 @@ public class ColoniaController {
     private MunicipioService municipioService;
 
     @GetMapping("/listar")
-    public String getAll(@RequestParam Map<String,Object> params, Model model){
-        
+    public String getAll(@RequestParam Map<String,Object> params,HttpSession httpSession, Model model){
         //Obtenemos el contexto(número) actual de la vista(página)
         int page = params.get("page") != null ? (Integer.valueOf(params.get("page").toString()) - 1) : 0;
 
@@ -56,7 +58,9 @@ public class ColoniaController {
     }
  
     @PostMapping("/actualizar")
-    public String update(@ModelAttribute("colonia") Colonia colonia){
+    public String update(@ModelAttribute("colonia") Colonia colonia, HttpSession httpSession){
+        Enlace enlaceSession = (Enlace) httpSession.getAttribute("user");
+        colonia.setMunicipio(enlaceSession.getMunicipio());
         coloniaService.update(colonia);
         return "redirect:/colonias/listar";
     }

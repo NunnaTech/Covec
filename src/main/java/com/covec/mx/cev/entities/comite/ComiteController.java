@@ -99,6 +99,12 @@ public class ComiteController {
     @PostMapping("/integrantes/agregar")
     public String add(Model model, Integrante integrante){
         integrante.setComite(comite);
+        integrante.setEnabled(true);
+        if(integrante.getPresidente()){
+            integrante.setTipoUsuario("Presidente");
+        }
+
+        integrante.setTipoUsuario("Integrante");
         integrantes.add(integrante);
         return "redirect:/comites/integrantes/nuevo";
     }
@@ -176,6 +182,7 @@ public class ComiteController {
 
     @GetMapping("/eliminar/{id}")
     public String delete(@PathVariable("id") Integer id) {
-        return "redirect:/comites/listar{id}";
+        comiteService.delete(id);
+        return "redirect:/comites/listar/"+coloniaID;
     }
 }
