@@ -1,13 +1,17 @@
 package com.covec.mx.cev.entities.usuario.enlace;
 
 import com.covec.mx.cev.entities.municipio.MunicipioService;
+import com.covec.mx.cev.entities.usuario.Usuario;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -21,6 +25,7 @@ public class EnlaceController {
     private EnlaceService service;
     @Autowired
     private MunicipioService municipioService;
+
 
     @GetMapping("/all")
     public String allCategories(@RequestParam Map<String,Object> params, Model model){
@@ -39,7 +44,7 @@ public class EnlaceController {
     }
 
     @PostMapping("/save")
-    public String save(@ModelAttribute("enlace") Enlace enlace){
+    public String save(@ModelAttribute("enlace") Enlace enlace,Model model){
         List<Integer> caracteres = new ArrayList<>();
         for(int i = 1; i <=10; i++) {
             int getRandomValue = (int) (Math.random()*(10-1)) + 1;
@@ -54,6 +59,19 @@ public class EnlaceController {
         enlace.setEnabled(true);
         service.save(enlace);
         return "redirect:/enlaces/all";
+    }
+
+    @GetMapping("/perfil_enlace")
+    public String perfilEnlace(Model model, HttpSession httpSession){
+        Usuario usuarioSession = (Usuario) httpSession.getAttribute("user");
+        model.addAttribute("enlace",usuarioSession);
+        return"profile/perfil";
+    }
+
+    @PostMapping("/guardar_enlace")
+    public String save(Model model, @ModelAttribute("enlace") Enlace enlace) {
+                service.save(enlace);
+        return "redirect:/perfil_enlace";
     }
 
     @PostMapping("/update")

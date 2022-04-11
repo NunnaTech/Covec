@@ -44,42 +44,18 @@
                             <h3 class="text-2xl font-semibold">Información Personal</h3>
                             <hr>
                         </div>
-
+                        <form th:action="@{/enlaces/guardar_enlace}" method="post" th:object="${enlace}">
                         <div class="flex flex-col space-y-4 md:space-y-0 md:flex-row md:space-x-4">
 
                             <div class="form-item w-full">
-                                <label for="" class="text-xs font-semibold px-1">Nombre</label>
+                                <label for="nombreCompleto" class="text-xs font-semibold px-1">Nombre Completo:</label>
                                 <div class="flex">
                                     <div
                                         class="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center">
                                         <i class="mdi mdi-account-outline  text-gray-400 text-lg"></i></div>
-                                    <input type="text"
+                                    <input type="text"   id="nombreCompleto" name="nombreCompleto"   th:value="${nombreCompleto}"
                                         class="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500"
                                         placeholder="Juan">
-                                </div>
-                            </div>
-
-
-                            <div class="form-item w-full">
-                                <label for="" class="text-xs font-semibold px-1">Primer Apellido</label>
-                                <div class="flex">
-                                    <div
-                                        class="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center">
-                                        <i class="mdi mdi-account-outline text-gray-400 text-lg"></i></div>
-                                    <input type="text"
-                                        class="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500"
-                                        placeholder="Perez">
-                                </div>
-                            </div>
-                            <div class="form-item w-full">
-                                <label for="" class="text-xs font-semibold px-1">Segundo Apellido</label>
-                                <div class="flex">
-                                    <div
-                                        class="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center">
-                                        <i class="mdi mdi-account-outline text-gray-400 text-lg"></i></div>
-                                    <input type="text"
-                                        class="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500"
-                                        placeholder="Perez">
                                 </div>
                             </div>
                         </div>
@@ -132,6 +108,8 @@
                             <button type="submit" class="btn border-none bg-emerald-700 hover:bg-emerald-600">Guardar
                                 Cambios <i class="mdi mdi-download text-text-white-400 text-lg"></i></button>
                         </div>
+                        </form>
+
                         <div>
                             <h3 class="text-2xl font-semibold">Cambio de Contraseña</h3>
                             <hr>
