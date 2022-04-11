@@ -88,7 +88,7 @@
       </div>
 
       <div class="overflow-x-auto mx-2 my-3 rounded-2xl shadow-md bg-white">
-        <table class="table w-full text-left ">
+        <table class="table w-full text-left">
           <!-- head -->
           <thead>
             <tr>
@@ -136,8 +136,8 @@
   </div>
   </div>
   <script src="https://code.jquery.com/jquery-3.1.1.min.js" crossorigin="anonymous"></script>
-  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/simple-notify@0.5.4/dist/simple-notify.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
 
   <script>
     $(document).ready(function () {
@@ -169,32 +169,45 @@
   </script>
 
   <script>
+    const SUPABASE_URL = 'https://zafetnpukdsurpyhykzj.supabase.co'
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InphZmV0bnB1a2RzdXJweWh5a3pqIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTY0OTU2NjYwMSwiZXhwIjoxOTY1MTQyNjAxfQ.aBRLQAAxG4L4nxWINeNlFJZgozonsSJcqkxuRgKeY9Y'
+    const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
+
     $(document).ready(function () {
       $("#botonEvidencias").click(async () => {
         var files = document.getElementById("imagenUpload");
         if (files.files[0] != null) {
           var links = [];
-
           for (let i = 0; i < files.files.length; i++) {
-            var form = new FormData();
-            form.append("image", files.files[i]);
-            var settings = {
-              url: "https://api.imgbb.com/1/upload?key=10a3706c41bbed9cdd3896e2fd2271d5",
-              method: "POST",
-              timeout: 0,
-              processData: false,
-              mimeType: "multipart/form-data",
-              contentType: false,
-              data: form,
-            };
+            const { data, error } = await _supabase.storage
+                    .from('covec')
+                    .upload(`public/${files.files[i].name}`, files.files[i])
+            if (data!=null){
+              links.push(data.Key)
+            }
 
-            await axios(settings).then((response) => {
-              links.push(response.data.data.url);
-            });
+            if (error!=null){
+              new Notify({
+                status: 'error',
+                title: 'Atención',
+                text: 'Ocurrio un error al subir la imagen al servidor',
+                effect: 'fade',
+                speed: 300,
+                customClass: '',
+                customIcon: '',
+                showIcon: true,
+                showCloseButton: true,
+                autoclose: false,
+                autotimeout: 3000,
+                gap: 20,
+                distance: 20,
+                type: 1,
+                position: 'bottom x-center'
+              })
+            }
           }
 
           for (let i = 0; i < links.length; i++) {
-            console.log(links[i]);
             $("#selectLinks").append(`<option selected value="${links[i]}">${links[i]}</option>`)
           }
           $("#subir").click();
