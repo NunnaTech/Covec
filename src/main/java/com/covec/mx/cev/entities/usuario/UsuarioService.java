@@ -2,11 +2,14 @@ package com.covec.mx.cev.entities.usuario;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.Optional;
 
 import javax.transaction.Transactional;
 
+import com.covec.mx.cev.entities.colonia.Colonia;
 import com.covec.mx.cev.entities.email.UsuarioNotFoundException;
 
+import com.covec.mx.cev.entities.usuario.enlace.Enlace;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -19,6 +22,34 @@ public class UsuarioService {
 
     public Usuario findByUsername(String username){
         return usuarioRepository.findByUsername(username);
+    }
+    public Usuario getOne(int id){
+        Optional<Usuario> exist = usuarioRepository.findById(id);
+        if (exist.isPresent()){
+            Usuario obj;
+            obj = exist.get();
+            return obj;
+        }
+        return null;
+    }
+    public Usuario save(Usuario newObject){
+        usuarioRepository.save(newObject);
+        return newObject;
+    }
+
+    public Usuario update(Usuario newObject){
+        Optional<Usuario> exist = Optional.empty();
+        Usuario usuario = null;
+        exist = usuarioRepository.findById(newObject.getId());
+        if (!exist.isEmpty()){
+            exist.get().setUsername(newObject.getUsername());
+            exist.get().setNombreCompleto(newObject.getNombreCompleto());
+            exist.get().setTelefono(newObject.getTelefono());
+            usuarioRepository.save(exist.get());
+            usuario = exist.get();
+        }
+
+        return usuario;
     }
 
     public void updateResetPasswordToken(String token, String email) throws UsuarioNotFoundException {
@@ -53,4 +84,5 @@ public class UsuarioService {
         }
          return false;
      }
+
 }

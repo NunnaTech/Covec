@@ -1,9 +1,13 @@
 package com.covec.mx.cev.entities.usuario;
 
+
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
+import org.springframework.web.bind.annotation.*;
 
 import net.bytebuddy.utility.RandomString;
 
@@ -14,14 +18,18 @@ import org.springframework.security.core.Authentication;
 import java.io.UnsupportedEncodingException;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
 import com.covec.mx.cev.config.EmailService;
 import com.covec.mx.cev.entities.email.UsuarioNotFoundException;
 import com.covec.mx.cev.entities.email.Utility;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 
 @Controller
@@ -30,6 +38,8 @@ public class UsuarioController {
     private EmailService emailService;
     @Autowired
     private UsuarioService usuarioService;
+    @Autowired
+    PasswordEncoder passwordEncoder;
 
     @GetMapping("/")
     public String login(){
@@ -51,6 +61,49 @@ public class UsuarioController {
         return "index";
     }
 
+    @GetMapping("/perfil/{idUsuario}")
+    public String profileUser(Model model, @PathVariable("idUsuario") Integer idUsuario){
+        Usuario usuario = usuarioService.getOne(idUsuario);
+        model.addAttribute("usuario", usuario);
+        return"profile/perfil";
+    }
+
+    @PostMapping("/actualizar")
+    public String save(@Valid @ModelAttribute("usuario") Usuario usuario, BindingResult result, RedirectAttributes attributes) {
+       if(result.hasErrors()){
+           List<String> errores = new ArrayList<>();
+           for (ObjectError error:result.getAllErrors()) {
+               errores.add(error.getDefaultMessage());
+           }
+           attributes.addFlashAttribute("errores", errores);
+       }else {
+           usuarioService.update(usuario);
+           System.out.println(usuario);
+           attributes.addFlashAttribute("mensaje", "Se realizo el cambio correctamente");
+       }
+        return "redirect:/dashboard";
+    }
+
+    @PostMapping("/updatePassword")
+    public String uptadePassword(Model model, @RequestParam("idUsuario") Integer idUsuario,
+                                 @RequestParam("oldPassword") String oldPassword,
+                                 @RequestParam("newPassword") String newPassword, RedirectAttributes attributes,HttpSession httpSession){
+
+      Usuario usuario = usuarioService.getOne(idUsuario);
+        System.out.println("old "+oldPassword);
+        System.out.println("new "+newPassword);
+        System.out.println(usuario.getPassword());
+
+        if (this.passwordEncoder.matches(oldPassword,usuario.getPassword())){
+                    usuario.setPassword(this.passwordEncoder.encode(newPassword));
+                    this.usuarioService.save(usuario);
+            attributes.addFlashAttribute("mensaje", "Se cambio correctamente la contraseña");
+        }else {
+            attributes.addFlashAttribute("mensaje", "Error en el cambio de contraseña");
+        }
+
+        return "redirect:/dashboard";
+    }
 
 
     @GetMapping("/forgot_password")

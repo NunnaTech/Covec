@@ -58,18 +58,6 @@ public class EnlaceController {
         return "redirect:/enlaces/all";
     }
 
-    @GetMapping("/perfil_enlace")
-    public String perfilEnlace(Model model, HttpSession httpSession){
-        Usuario usuarioSession = (Usuario) httpSession.getAttribute("user");
-        model.addAttribute("enlace",usuarioSession);
-        return"profile/perfil";
-    }
-
-    @PostMapping("/guardar_enlace")
-    public String save(Model model, @ModelAttribute("enlace") Enlace enlace) {
-                service.save(enlace);
-        return "redirect:/perfil_enlace";
-    }
 
     @PostMapping("/update")
     public String update(@ModelAttribute("enlace") Enlace enlace){
