@@ -20,8 +20,7 @@
     <div th:fragment="modalUpdate(objeto, i)">
       <label
         th:for="${i}"
-        class="btn modal-button w-24"
-        style="background-color: #f7bd00"
+        class="btn border-none w-16 bg-yellow-500 hover:bg-yellow-400"
       >
         <span class="material-icons">edit</span>
       </label>
@@ -29,7 +28,7 @@
       <div class="modal">
         <div class="modal-box">
           <div class="grid grid-cols-1 justify-items-center">
-            <h2 class="font-bold text-2xl">Registro de categoria</h2>
+            <h2 class="font-bold text-2xl">Actualización de categoria</h2>
             <h4 class="font-light text-lg">Ingrese el nombre</h4>
           </div>
           <div class="divider"></div>
@@ -39,10 +38,15 @@
             method="post"
             th:action="@{/categorias/update}"
           >
-            <div class="grid grid-cols-1 justify-items-center">
-              <h6 class="font-medium text-base">Nombre</h6>
-              <input hidden th:value="${objeto.id}" name="id" />
-              <input
+
+
+          <div class="flex flex-col justify-center lg:flex-row">
+            <div class="form-control lg:px-3">
+                <label class="label">
+                  <span class="label-text">Nombre</span>
+                </label>
+                <input hidden th:value="${objeto.id}" name="id" />
+                <input
                 type="text"
                 th:value="${objeto.nombre}"
                 name="nombre"
@@ -50,13 +54,14 @@
                 class="input input-bordered w-full max-w-xs"
               />
             </div>
+        </div>
             <div class="divider"></div>
             <div class="modal-action">
               <div class="btn-group">
-                <label th:for="${i}" class="btn btn-sm">Cerrar</label>
-                <button type="submit" class="btn btn-sm bg-green-600">
-                  Guardar <span class="material-icons ml-2">save_alt</span>
-                </button>
+                <div class="btn-group">
+                  <label th:for="${i}" class="btn border-none">Cerrar</label>
+                  <button type="submit" class="btn border-none bg-emerald-700 hover:bg-emerald-600">Guardar cambios <span class="material-icons ml-2">save_as</span></button>
+              </div>
               </div>
             </div>
           </form>

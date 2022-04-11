@@ -16,7 +16,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(securedEnabled = true)
-public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
+public class    WebSecurityConfig extends WebSecurityConfigurerAdapter{
     
     @Autowired
     DataSource dataSource;
@@ -27,10 +27,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
                 .authorizeRequests()
                 .antMatchers("/reset_password","/forgot_password","/login", "/css/**", "/js/**", "/image/**", "/imagenes/**")
                 .permitAll()
-                .antMatchers("/colonias/**").hasAnyAuthority("ROL_ENLACE", "ROL_ADMIN")
-                .antMatchers("/incidencias/**").hasAnyAuthority("ROL_ENLACE", "ROL_ADMIN")
-                .antMatchers("/comites/**").hasAnyAuthority("ROL_ENLACE", "ROL_ADMIN")
-                .antMatchers("/categorias/**").hasAnyAuthority("ROL_ENLACE", "ROL_ADMIN")
+                .antMatchers("/enlaces/**").hasAnyAuthority("ROL_ADMIN")
+                .antMatchers("/municipios/**").hasAnyAuthority("ROL_ADMIN")
+                .antMatchers("/categorias/**").hasAnyAuthority("ROL_ADMIN")
+                .antMatchers("/colonias/**").hasAnyAuthority("ROL_ENLACE")
+                .antMatchers("/incidencias/all").hasAnyAuthority("ROL_ENLACE")
+                .antMatchers("/incidencias/allPresidente").hasAnyAuthority("ROL_PRESIDENTE")
+                .antMatchers("/comites/**").hasAnyAuthority("ROL_ENLACE")
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
@@ -41,8 +44,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
                 .logoutSuccessUrl("/login?logout")
                 .permitAll();
     }
-
-
+    
     @Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 		auth.jdbcAuthentication().dataSource(dataSource)

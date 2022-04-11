@@ -18,13 +18,11 @@
   </head>
   <body>
     <div th:fragment="modalUpdate(objeto, i)">
-      <label
-        th:for="${i}"
-        class="btn modal-button w-24"
-        style="background-color: #f7bd00"
-      >
+      <label th:for="${i}" class="btn border-none w-16 bg-yellow-500 hover:bg-yellow-400">
         <span class="material-icons">edit</span>
       </label>
+
+
       <input type="checkbox" th:id="${i}" class="modal-toggle" />
       <div class="modal">
         <div class="modal-box">
@@ -84,14 +82,8 @@
             <div class="divider"></div>
             <div class="modal-action">
               <div class="btn-group">
-                <label th:for="${i}" class="btn btn-sm">Cerrar</label>
-                <button
-                  id="botonUpload"
-                  type="submit"
-                  class="btn btn-sm bg-green-600"
-                >
-                  Guardar <span class="material-icons ml-2">save_alt</span>
-                </button>
+                <label th:for="${i}" class="btn border-none">Cerrar</label>
+                <button type="submit" class="btn border-none bg-emerald-700 hover:bg-emerald-600">Guardar cambios <span class="material-icons ml-2">save_as</span></button>
               </div>
             </div>
           </form>

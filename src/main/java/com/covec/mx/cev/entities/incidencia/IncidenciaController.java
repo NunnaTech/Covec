@@ -26,8 +26,13 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 import javax.websocket.server.PathParam;
 
 @Controller
@@ -46,11 +51,12 @@ public class IncidenciaController {
     @Autowired
     private CategoriaService categoriaService;
 
-    @GetMapping("/all/{idenlace}")
-    public String allIncidencias(@RequestParam Map<String, Object> params, @PathVariable("idenlace") Integer idEnlace,
-                                 Model model) {
+    
+    @GetMapping("/all")
+    public String allIncidencias(@RequestParam Map<String, Object> params, HttpSession httpSession, Model model) {
+        Enlace enlaceSession = (Enlace) httpSession.getAttribute("user");
         int page = params.get("page") != null ? (Integer.valueOf(params.get("page").toString()) - 1) : 0;
-        Enlace enlace = enlaceService.getOne(idEnlace);
+        Enlace enlace = enlaceService.getOne(enlaceSession.getId());
         List<Incidencia> incidencias = service.filtrar(service.getAllIncidencias(), enlace);
         Pageable paging = PageRequest.of(page, 5);
         int inicioPag = Math.min((int) paging.getOffset(), incidencias.size());
@@ -68,12 +74,13 @@ public class IncidenciaController {
         return "incidencia/incidenciascrud";
     }
 
-    @GetMapping("/allPresidente/{id}")
-    public String getAllPresidente(@RequestParam Map<String, Object> params, @PathVariable("id") Integer id,
-                                   Model model) {
+    
+    @GetMapping("/allPresidente")
+    public String getAllPresidente(@RequestParam Map<String, Object> params,HttpSession httpSession, Model model) {
+        Integrante integranteSession = (Integrante) httpSession.getAttribute("user");
         int page = params.get("page") != null ? (Integer.valueOf(params.get("page").toString()) - 1) : 0;
         PageRequest pageRequest = PageRequest.of(page, 5);
-        Integrante integrante = integranteService.getOne(id);
+        Integrante integrante = integranteService.getOne(integranteSession.getId());
         Page<Incidencia> pageObject = service.getAllIncidenciasIntegrante(integrante, pageRequest);
         int totalPages = pageObject.getTotalPages();
         if (totalPages > 0) {
@@ -134,16 +141,25 @@ public class IncidenciaController {
     }
 
     @PostMapping("/uploadEvidencia/{idPresidente}")
-    public String uploadEvidencia(@ModelAttribute("incidenciasPresidente") Incidencia incidencia,
+    public String uploadEvidencia(@Valid @ModelAttribute("incidenciasPresidente") Incidencia incidencia, BindingResult result, RedirectAttributes attributes,
                                   @ModelAttribute EvidenciaDTO evidenciaDTO, @PathVariable("idPresidente") int id) {
-        Date date = Date.valueOf(LocalDate.now());
-        incidencia.setFechaRegistro(date);
-        service.save(incidencia);
-        for (String link : evidenciaDTO.getLinks()) {
-            Evidencia evidencia = new Evidencia();
-            evidencia.setEvidencia(link);
-            evidencia.setIncidencia(incidencia);
-            evidenciaService.save(evidencia);
+        if (result.hasErrors()){
+            List<String> errores = new ArrayList<>();
+            for (ObjectError error:result.getAllErrors()) {
+                errores.add(error.getDefaultMessage());
+            }
+            attributes.addFlashAttribute("errores", errores);
+        }else{
+            Date date = Date.valueOf(LocalDate.now());
+            incidencia.setFechaRegistro(date);
+            service.save(incidencia);
+            for (String link : evidenciaDTO.getLinks()) {
+                Evidencia evidencia = new Evidencia();
+                evidencia.setEvidencia(link);
+                evidencia.setIncidencia(incidencia);
+                evidenciaService.save(evidencia);
+            }
+            attributes.addFlashAttribute("mensaje", "Se ha registrado correctamente");
         }
         Integrante integrante = integranteService.getOne(id);
         return "redirect:/incidencias/allPresidente/" + integrante.getId();

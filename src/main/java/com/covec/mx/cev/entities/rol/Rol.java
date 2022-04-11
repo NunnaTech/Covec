@@ -20,7 +20,7 @@ public class Rol {
     @Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_rol")
-	private Long id;
+	private Integer id;
     
 	@Column(nullable = false, length = 45, unique = true)
 	private String authority;

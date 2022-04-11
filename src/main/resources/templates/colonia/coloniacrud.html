@@ -53,24 +53,25 @@
             </h4>
           </div>
         </div>
-        <div class="overflow-x-auto mx-2 rounded-2xl shadow-md bg-white">
-          <div class="flex flex-col justify-between mx-5 md:lg:flex-row py-4">
-            <div>
-              <!--Modal fragment de crear colonia-->
-              <div th:insert="colonia/coloniamodals :: modal-colonia-crear"></div>
-            </div>
-            <div class="my-3">
-              <div class="form-control">
-                <div class="input-group">
-                  <button class="btn btn-square bg-emerald-700 hover:bg-emerald-600 border-none">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
-                  </button>
-                  <input type="text" placeholder="Nombre o Postal" class="input focus:outline-none input-bordered">  
-                </div>
+
+        <div class="flex flex-col justify-between px-5 mx-2 md:lg:flex-row py-4 shadow-md rounded-2xl" style="background-color: #FFFFFF;">
+          <div>
+            <!--Modal fragment de crear colonia-->
+            <div th:insert="colonia/coloniamodals :: modal-colonia-crear"></div>
+          </div>
+          <div class="my-3 md:lg:my-0">
+            <div class="form-control">
+              <div class="input-group">
+                <button class="btn btn-square bg-emerald-700 hover:bg-emerald-600 border-none">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
+                </button>
+                <input type="text" placeholder="Nombre o Postal" class="input focus:outline-none input-bordered">  
               </div>
             </div>
           </div>
-    
+        </div>
+
+        <div class="overflow-x-auto mx-2 my-3 rounded-2xl shadow-md bg-white">
           <table class="table w-full text-left ">
               <!-- head -->
               <thead>

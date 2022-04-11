@@ -16,7 +16,7 @@
     rel="stylesheet">
 </head>
 <body>
-    <div class="flex flex-row justify-center pb-7 pt-5 my-3 rounded-2xl shadow-md mx-2" style="background-color: #FFFFFF;">  
+    <div class="sticky top-0 z-50 flex flex-row justify-center pb-7 pt-5 my-3 rounded-2xl shadow-md mx-2" style="background-color: #FFFFFF;">  
         <div>
           <h2 class="text-center font-medium leading-tight text-3xl lg:text-4xl">
             Nuevo comité
@@ -32,14 +32,14 @@
 
             <div th:if="${#lists.size(integrantes)<=5}">
                 <label for="my-modal" class="btn border-none mr-2  bg-emerald-700 hover:bg-emerald-600 ">
-                    <span class="material-icons mr-1">person_add</span>
+                    <span class="material-icons mr-2">person_add</span>
                     Nuevo integrante 
                 </label>
             </div>
             
             <div th:if="${#lists.size(integrantes)>=3}">
                 <a th:href="@{/comites/guardar/{id}(id=${ID})}" class="btn border-none bg-emerald-700 hover:bg-emerald-600 w-36 mr-2  lg:my-0">
-                    <span class="material-icons mr-1">save</span>
+                    <span class="material-icons mr-2">save</span>
                     Crear
                 </a>
             </div>

@@ -8,6 +8,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import java.sql.Date;
 import java.util.List;
 
@@ -20,6 +23,9 @@ public class Incidencia {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_incidencias")
     private Integer id;
+    @Pattern(regexp = "^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ,.\\-\\/+=@_ ]*$", message = "Ingresa solo caracteres validos para la descripción")
+    @NotEmpty(message = "La descripción no debe de estar vacia")
+    @Size(min = 20, max = 128,message = "La descripción debe tener un minimo de 20 y maximo de 128 caracteres")
     @Column(name = "descripcion")
     private String descripcion;
     @Column(name = "fecha_registro")
