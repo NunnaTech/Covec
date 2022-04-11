@@ -124,9 +124,8 @@ public class IncidenciaController {
     @PostMapping("/update")
     public String updateStatus(@ModelAttribute("categoria") Incidencia incidencia,
                                @RequestParam("idEnlace") Integer idEnlace) {
-        int idUrl = enlaceService.getOne(idEnlace).getId();
         service.update(incidencia);
-        return "redirect:/incidencias/all/" + idUrl;
+        return "redirect:/incidencias/all";
     }
 
     @PostMapping("/cobrar/{idIncidencia}/{idEnlace}")
