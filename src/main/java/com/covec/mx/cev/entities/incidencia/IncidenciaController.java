@@ -162,7 +162,7 @@ public class IncidenciaController {
             attributes.addFlashAttribute("mensaje", "Se ha registrado correctamente");
         }
         Integrante integrante = integranteService.getOne(id);
-        return "redirect:/incidencias/allPresidente/" + integrante.getId();
+        return "redirect:/incidencias/allPresidente";
     }
 
     @PostMapping("/comentar")
