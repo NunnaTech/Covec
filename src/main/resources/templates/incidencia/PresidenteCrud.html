@@ -106,12 +106,15 @@
               <td th:text="${e.estatus}"></td>
               <td th:text="${e.fechaRegistro}"></td>
               <td class="flex flex-row justify-center">
-                <div class="tooltip" data-tip="Ver comentarios">
-                  <a class="btn border-none bg-indigo-700 hover:bg-indigo-600 w-16"
-                    th:href="@{/incidencias/getDetail/{id}/(id=${e.id})}">
-                    <span class="material-icons">question_answer</span>
-                  </a>
+                <div th:if="${e.estatus == 'Pendiente' || e.estatus == 'Canalizada' || e.estatus == 'Atentida'}">
+                  <div class="tooltip" data-tip="Ver comentarios">
+                    <a class="btn border-none bg-indigo-700 hover:bg-indigo-600 w-16"
+                       th:href="@{/incidencias/getDetail/{id}/(id=${e.id})}">
+                      <span class="material-icons">question_answer</span>
+                    </a>
+                  </div>
                 </div>
+                <div class="invisible">Blanco</div>
               </td>
             </tr>
           </tbody>
@@ -210,6 +213,7 @@
           for (let i = 0; i < links.length; i++) {
             $("#selectLinks").append(`<option selected value="${links[i]}">${links[i]}</option>`)
           }
+
           $("#subir").click();
         } else {
           new Notify({

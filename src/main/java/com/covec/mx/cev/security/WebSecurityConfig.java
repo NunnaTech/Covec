@@ -31,7 +31,7 @@ public class    WebSecurityConfig extends WebSecurityConfigurerAdapter{
                 .antMatchers("/municipios/**").hasAnyAuthority("ROL_ADMIN")
                 .antMatchers("/categorias/**").hasAnyAuthority("ROL_ADMIN")
                 .antMatchers("/colonias/**").hasAnyAuthority("ROL_ENLACE")
-                .antMatchers("/incidencias/**").hasAnyAuthority("ROL_ENLACE")
+                .antMatchers("/incidencias/**").hasAnyAuthority("ROL_ENLACE","ROL_PRESIDENTE")
                 .antMatchers("/comites/**").hasAnyAuthority("ROL_ENLACE")
                 .anyRequest().authenticated()
                 .and()
