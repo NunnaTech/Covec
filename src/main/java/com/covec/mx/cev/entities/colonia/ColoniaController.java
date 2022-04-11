@@ -34,25 +34,28 @@ public class ColoniaController {
 
     @GetMapping("/listar")
     public String getAll(@RequestParam Map<String,Object> params,HttpSession httpSession, Model model){
+        Enlace enlaceSession = (Enlace) httpSession.getAttribute("user");
         //Obtenemos el contexto(número) actual de la vista(página)
         int page = params.get("page") != null ? (Integer.valueOf(params.get("page").toString()) - 1) : 0;
 
         //Mandamos una consulta al repositorio en base al número actual(0) de la vista (0-5), numeramos de 5 en 5
         //(0-5) (5-10) (10-15)
-        Page<Colonia> coloniaPages = coloniaService.getAll(PageRequest.of(page,5));
+        Page<Colonia> coloniaPages = coloniaService.getAllByMunicipio(enlaceSession.getMunicipio().getId(),PageRequest.of(page,5));
     
         if(coloniaPages.getTotalPages()>0){
             List<Integer> pages = IntStream.rangeClosed(1,coloniaPages.getTotalPages()).boxed().collect(Collectors.toList());
             model.addAttribute("paginas",pages);
         }
+        model.addAttribute("municipio",enlaceSession.getMunicipio().getNombre());
         model.addAttribute("colonia",new Colonia());
         model.addAttribute("colonias",coloniaPages.getContent());
         return "colonia/coloniacrud";
     }
 
     @PostMapping("/guardar")
-    public String save(@ModelAttribute("colonia") Colonia colonia){
-        colonia.setMunicipio(municipioService.getOne(1));
+    public String save(@ModelAttribute("colonia") Colonia colonia, HttpSession httpSession){
+        Enlace enlaceSession = (Enlace) httpSession.getAttribute("user");
+        colonia.setMunicipio(municipioService.getOne(enlaceSession.getMunicipio().getId()));
         coloniaService.save(colonia);
         return"redirect:/colonias/listar";
     }
