@@ -1,7 +1,5 @@
 package com.covec.mx.cev.entities.usuario;
 
-
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -65,7 +63,7 @@ public class UsuarioController {
     public String profileUser(Model model, @PathVariable("idUsuario") Integer idUsuario){
         Usuario usuario = usuarioService.getOne(idUsuario);
         model.addAttribute("usuario", usuario);
-        return"profile/perfil";
+        return"perfil";
     }
 
     @PostMapping("/actualizar")
@@ -78,31 +76,24 @@ public class UsuarioController {
            attributes.addFlashAttribute("errores", errores);
        }else {
            usuarioService.update(usuario);
-           System.out.println(usuario);
            attributes.addFlashAttribute("mensaje", "Se realizo el cambio correctamente");
        }
-        return "redirect:/dashboard";
+        return "redirect:/perfil/"+usuario.getId();
     }
 
     @PostMapping("/updatePassword")
     public String uptadePassword(Model model, @RequestParam("idUsuario") Integer idUsuario,
                                  @RequestParam("oldPassword") String oldPassword,
-                                 @RequestParam("newPassword") String newPassword, RedirectAttributes attributes,HttpSession httpSession){
-
+                                 @RequestParam("newPassword") String newPassword, RedirectAttributes attributes){
       Usuario usuario = usuarioService.getOne(idUsuario);
-        System.out.println("old "+oldPassword);
-        System.out.println("new "+newPassword);
-        System.out.println(usuario.getPassword());
         if (this.passwordEncoder.matches(oldPassword,usuario.getPassword())){
                     usuario.setPassword(this.passwordEncoder.encode(newPassword));
                     this.usuarioService.save(usuario);
-           // httpSession.setAttribute("mensaje","Se cambio correctamente la contraseña");
             attributes.addFlashAttribute("mensaje", "Se cambio correctamente la contraseña");
         }else {
-           // httpSession.setAttribute("mensaje","Error en el cambio de contraseña");
-            attributes.addFlashAttribute("mensaje", "Error en el cambio de contraseña");
+            attributes.addFlashAttribute("errores", "Verifique que sea su contraseña correcta");
         }
-        return "redirect:/dashboard";
+        return "redirect:/perfil/"+usuario.getId();
     }
 
 
