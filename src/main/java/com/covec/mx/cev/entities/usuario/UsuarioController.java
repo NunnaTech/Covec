@@ -93,15 +93,15 @@ public class UsuarioController {
         System.out.println("old "+oldPassword);
         System.out.println("new "+newPassword);
         System.out.println(usuario.getPassword());
-
         if (this.passwordEncoder.matches(oldPassword,usuario.getPassword())){
                     usuario.setPassword(this.passwordEncoder.encode(newPassword));
                     this.usuarioService.save(usuario);
+           // httpSession.setAttribute("mensaje","Se cambio correctamente la contraseña");
             attributes.addFlashAttribute("mensaje", "Se cambio correctamente la contraseña");
         }else {
+           // httpSession.setAttribute("mensaje","Error en el cambio de contraseña");
             attributes.addFlashAttribute("mensaje", "Error en el cambio de contraseña");
         }
-
         return "redirect:/dashboard";
     }
 
