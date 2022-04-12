@@ -49,7 +49,7 @@
                   <input hidden th:value="${objeto.id}" name="id" />
                   <input
                     type="radio"
-                    checked
+                    th:checked="${objeto.estatus == 'Cancelada'}"
                     class="checkbox ml-2 checkbox-primary"
                     name="estatus"
                     value="Cancelada"
@@ -61,6 +61,7 @@
                   <span class="label-text">Canalizada</span>
                   <input
                     type="radio"
+                    th:checked="${objeto.estatus == 'Canalizada'}"
                     class="checkbox ml-2 checkbox-primary"
                     name="estatus"
                     value="Canalizada"
@@ -72,9 +73,22 @@
                   <span class="label-text">Atentida</span>
                   <input
                     type="radio"
+                    th:checked="${objeto.estatus == 'Atentida'}"
                     class="checkbox ml-2 checkbox-primary"
                     name="estatus"
                     value="Atentida"
+                  />
+                </label>
+              </div>
+              <div class="form-control" hidden>
+                <label class="label cursor-pointer">
+                  <span class="label-text">Pendiente</span>
+                  <input
+                          type="radio"
+                          th:checked="${objeto.estatus == 'Pendiente'}"
+                          class="checkbox ml-2 checkbox-primary"
+                          name="estatus"
+                          value="Atentida"
                   />
                 </label>
               </div>

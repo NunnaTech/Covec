@@ -93,15 +93,20 @@
               <td th:text="${e.estatus}"></td>
               <td th:text="${e.fechaRegistro}"></td>
               <td class="flex flex-row justify-center">
-                <div class="tooltip " data-tip="Editar">
-                  <div th:replace="incidencia/ModalUpdate::modalUpdate(${e}, ${i.count})"></div>
+                <div th:if="${e.estatus == 'Pendiente' || e.estatus == 'Canalizada'}">
+                  <div class="tooltip " data-tip="Editar">
+                    <div th:replace="incidencia/ModalUpdate::modalUpdate(${e}, ${i.count})"></div>
+                  </div>
                 </div>
-                <div class="tooltip " data-tip="Ver comentarios">
-                  <a class="btn border-none w-16 mx-2 border-none bg-violet-700 hover:bg-violet-600"
-                    th:href="@{/incidencias/getOne/{id}/{idenlace}(id=${e.id}, idenlace=${enlaceUsuario.id})}">
-                    <span class="material-icons">question_answer</span>
-                  </a>
+                <div th:if="${e.estatus == 'Pendiente' || e.estatus == 'Canalizada' || e.estatus == 'Atentida'}">
+                  <div class="tooltip " data-tip="Ver comentarios">
+                    <a class="btn border-none w-16 mx-2 border-none bg-violet-700 hover:bg-violet-600"
+                       th:href="@{/incidencias/getOne/{id}/{idenlace}(id=${e.id}, idenlace=${enlaceUsuario.id})}">
+                      <span class="material-icons">question_answer</span>
+                    </a>
+                  </div>
                 </div>
+                <div class="invisible">Blanco</div>
               </td>
             </tr>
           </tbody>

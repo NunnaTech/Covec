@@ -124,9 +124,8 @@ public class IncidenciaController {
     @PostMapping("/update")
     public String updateStatus(@ModelAttribute("categoria") Incidencia incidencia,
                                @RequestParam("idEnlace") Integer idEnlace) {
-        int idUrl = enlaceService.getOne(idEnlace).getId();
         service.update(incidencia);
-        return "redirect:/incidencias/all/" + idUrl;
+        return "redirect:/incidencias/all";
     }
 
     @PostMapping("/cobrar/{idIncidencia}/{idEnlace}")
@@ -162,7 +161,7 @@ public class IncidenciaController {
             attributes.addFlashAttribute("mensaje", "Se ha registrado correctamente");
         }
         Integrante integrante = integranteService.getOne(id);
-        return "redirect:/incidencias/allPresidente/" + integrante.getId();
+        return "redirect:/incidencias/allPresidente";
     }
 
     @PostMapping("/comentar")

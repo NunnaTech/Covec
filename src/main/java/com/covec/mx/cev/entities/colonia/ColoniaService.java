@@ -17,6 +17,10 @@ public class ColoniaService {
         return repository.findAll(pageable);
     }
 
+    public Page<Colonia> getAllByMunicipio(Integer id,Pageable pageable){
+        return repository.findAllByMunicipio(id, pageable);
+    }
+
     public Colonia getOne(int id){
         Optional<Colonia> exist = repository.findById(id);
         if (exist.isPresent()){
