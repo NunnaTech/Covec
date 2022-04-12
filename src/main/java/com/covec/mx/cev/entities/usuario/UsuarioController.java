@@ -38,6 +38,8 @@ public class UsuarioController {
     private UsuarioService usuarioService;
     @Autowired
     PasswordEncoder passwordEncoder;
+    @Autowired
+    private UsuarioRepository repository;
 
     @GetMapping("/")
     public String login(){
@@ -68,16 +70,19 @@ public class UsuarioController {
 
     @PostMapping("/actualizar")
     public String save(@Valid @ModelAttribute("usuario") Usuario usuario, BindingResult result, RedirectAttributes attributes) {
-       if(result.hasErrors()){
+        Usuario existingUser = repository.findByUsername(usuario.getUsername());
+        if(result.hasErrors()){
            List<String> errores = new ArrayList<>();
            for (ObjectError error:result.getAllErrors()) {
                errores.add(error.getDefaultMessage());
            }
            attributes.addFlashAttribute("errores", errores);
+       }if (existingUser!=null){
+            attributes.addFlashAttribute("errores", "El correo electronico esta ya esta en uso");
        }else {
-           usuarioService.update(usuario);
-           attributes.addFlashAttribute("mensaje", "Se realizo el cambio correctamente");
-       }
+            usuarioService.update(usuario);
+            attributes.addFlashAttribute("mensaje", "Se realizo el cambio correctamente");
+        }
         return "redirect:/perfil/"+usuario.getId();
     }
 
