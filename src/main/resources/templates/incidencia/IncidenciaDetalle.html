@@ -44,7 +44,7 @@
       <div
         th:class="${c.esEnlace} ? 'rounded drop-shadow-md rounded-tl-xl rounded-bl-xl rounded-tr-xl bg-indigo-700 text-white mt-4 p-3' :'rounded-tl-lg rounded-tl-xl rounded-br-xl rounded-tr-xl bg-gray-50 text-black mt-4 p-3'"
         style="inline-size: auto;">
-        <h6 th:text="${c.esEnlace} ? '':${c.incidencia.integrante.nombreCompleto}" class="font-semibold">Un usuario
+        <h6 th:text="${c.esEnlace} ? ${c.enlace.nombreCompleto}: ${c.incidencia.integrante.nombreCompleto} " class="font-semibold">Un usuario
           promedio:</h6>
         <h6 class="font-normal">[[${c.comentario}]]</h6>
       </div>

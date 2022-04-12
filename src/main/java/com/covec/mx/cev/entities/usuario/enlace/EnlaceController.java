@@ -41,7 +41,7 @@ public class EnlaceController {
             List<Integer> pages = IntStream.rangeClosed(1,totalPages).boxed().collect(Collectors.toList());
             model.addAttribute("paginas",pages);
         }
-        model.addAttribute("municipios",municipioService.getAvailable());
+        model.addAttribute("municipios",municipioService.getAllMunicipios());
         model.addAttribute("enlace",new Enlace());
         model.addAttribute("enlaces",pageObject.getContent());
         return "enlace/enlacecrud";

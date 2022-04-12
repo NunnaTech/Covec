@@ -18,7 +18,7 @@ public class Enlace extends Usuario {
     @Column(name = "num_empleado")
     private String numEmpleado;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "id_municipio")
     private Municipio municipio;
 

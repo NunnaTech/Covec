@@ -14,6 +14,8 @@ import com.covec.mx.cev.entities.comentario.ComentarioService;
 import com.covec.mx.cev.entities.evidencias.Evidencia;
 import com.covec.mx.cev.entities.evidencias.EvidenciaDTO;
 import com.covec.mx.cev.entities.evidencias.EvidenciaService;
+import com.covec.mx.cev.entities.municipio.Municipio;
+import com.covec.mx.cev.entities.municipio.MunicipioService;
 import com.covec.mx.cev.entities.usuario.enlace.Enlace;
 import com.covec.mx.cev.entities.usuario.enlace.EnlaceService;
 import com.covec.mx.cev.entities.usuario.integrante.Integrante;
@@ -51,7 +53,9 @@ public class IncidenciaController {
     @Autowired
     private CategoriaService categoriaService;
 
-    
+    @Autowired
+    private MunicipioService municipioService;
+
     @GetMapping("/all")
     public String allIncidencias(@RequestParam Map<String, Object> params, HttpSession httpSession, Model model) {
         Enlace enlaceSession = (Enlace) httpSession.getAttribute("user");
@@ -74,7 +78,7 @@ public class IncidenciaController {
         return "incidencia/incidenciascrud";
     }
 
-    
+
     @GetMapping("/allPresidente")
     public String getAllPresidente(@RequestParam Map<String, Object> params,HttpSession httpSession, Model model) {
         Integrante integranteSession = (Integrante) httpSession.getAttribute("user");
@@ -96,14 +100,21 @@ public class IncidenciaController {
     }
 
     @GetMapping("/getOne/{id}/{idenlace}")
-    public String obtenerIncidencia(@PathVariable("id") Integer id,
-                                    @PathVariable(name = "idenlace") Integer idEnlace, Model model) {
-        model.addAttribute("incidencia", service.getOne(id));
+    public String obtenerIncidencia(@PathVariable("id") Integer id,@PathVariable(name = "idenlace") Integer idEnlace, Model model) {
+        Enlace enlace = enlaceService.getOne(idEnlace);
+        Incidencia incidencia = service.getOne(id);
+        model.addAttribute("incidencia", incidencia);
         model.addAttribute("evidencias", evidenciaService.getAllEvidencias(service.getOne(id)));
-        model.addAttribute("enlace", enlaceService.getOne(idEnlace));
+        model.addAttribute("enlace", enlace);
         model.addAttribute("comentarioIncidencia", new Comentario());
-        model.addAttribute("comentarios",
-                comentarioService.getAllChat(service.getOne(id), enlaceService.getOne(idEnlace)));
+        List<Comentario> comentarios = comentarioService.getAll();
+        List<Comentario> filtrados = new ArrayList<>();
+        for (Comentario c: comentarios) {
+            if (c.getIncidencia().getIntegrante().getComite().getColonia().getMunicipio().getId() == enlace.getMunicipio().getId() && c.getIncidencia().getId()==incidencia.getId()){
+                filtrados.add(c);
+            }
+        }
+        model.addAttribute("comentarios", filtrados);
         return "incidencia/IncidenciaDetalle";
 
     }
@@ -113,8 +124,6 @@ public class IncidenciaController {
         List<Comentario> comentarios = comentarioService.getAllByIncidencia(service.getOne(id));
         Incidencia incidencia = service.getOne(id);
         model.addAttribute("incidencia", incidencia);
-        model.addAttribute("enlaceRequired",
-                enlaceService.getByMunicipio(incidencia.getIntegrante().getComite().getColonia().getMunicipio()));
         model.addAttribute("evidencias", evidenciaService.getAllEvidencias(service.getOne(id)));
         model.addAttribute("comentarioPresidente", new Comentario());
         model.addAttribute("comentarios", comentarios);
@@ -160,7 +169,6 @@ public class IncidenciaController {
             }
             attributes.addFlashAttribute("mensaje", "Se ha registrado correctamente");
         }
-        Integrante integrante = integranteService.getOne(id);
         return "redirect:/incidencias/allPresidente";
     }
 
