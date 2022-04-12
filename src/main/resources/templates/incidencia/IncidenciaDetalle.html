@@ -58,7 +58,7 @@
         <input name="incidencia" hidden th:value="${incidencia.id}" />
         <input name="enlace" hidden th:value="${enlace.id}" />
         <input name="esEnlace" hidden type="number" value="1" />
-        <input type="text" placeholder="Escribe un comentario!" maxlength="250" name="comentario"
+        <input pattern="^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ,.\\-\\/+=@_ ]*$" minlength="2" type="text" placeholder="Escribe un comentario!" maxlength="250" name="comentario" required
           class="mx-3 px-4 w-full focus:outline-none focus:placeholder-gray-400 text-gray-600 placeholder-gray-600 bg-gray-200 rounded-md py-3">
         <div class="flex flex-col md:lg:flex-row justify-center">
           <a class="my-1 mx-2 rounded-lg px-4 py-3 transition duration-500 ease-in-out text-white  bg-emerald-700 hover:bg-emerald-600 border-none focus:outline-none"

@@ -1,63 +1,53 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link
-      href="https://cdn.jsdelivr.net/npm/daisyui@2.8.0/dist/full.css"
-      rel="stylesheet"
-      type="text/css"
-    />
-    <link
-      href="https://fonts.googleapis.com/icon?family=Material+Icons"
-      rel="stylesheet"
-    />
-    <script src="https://cdn.tailwindcss.com"></script>
-    <title>Categorias | Covec</title>
-  </head>
-  <body>
-    <div th:fragment="modalFG">
-        <label for="my-modal" class="btn border-none bg-emerald-700 hover:bg-emerald-600">
-          Nueva categoria <span class="material-icons ml-2">local_offer</span>
-        </label>
 
-      <input type="checkbox" id="my-modal" class="modal-toggle" />
-      <div class="modal">
-        <div class="modal-box">
-          <div class="grid grid-cols-1 justify-items-center">
-            <h2 class="font-bold text-2xl">Registro de categoria</h2>
-            <h4 class="font-light text-lg">Ingrese el nombre</h4>
-          </div>
-          <div class="divider"></div>
-          <form
-            th:object="${categoria}"
-            method="post"
-            th:action="@{/categorias/save}"
-          >
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="https://cdn.jsdelivr.net/npm/daisyui@2.8.0/dist/full.css" rel="stylesheet" type="text/css" />
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <title>Categorias | Covec</title>
+</head>
+
+<body>
+  <div th:fragment="modalFG">
+    <label for="my-modal" class="btn border-none bg-emerald-700 hover:bg-emerald-600">
+      <span class="material-icons mr-2">local_offer</span>
+      Nueva categoría
+    </label>
+
+    <input type="checkbox" id="my-modal" class="modal-toggle" />
+    <div class="modal">
+      <div class="modal-box">
+        <div class="grid grid-cols-1 justify-items-center">
+          <h2 class="font-bold text-2xl">Registro de categoria</h2>
+          <h4 class="font-light text-lg">Ingrese el nombre</h4>
+        </div>
+        <div class="divider"></div>
+        <form th:object="${categoria}" method="post" th:action="@{/categorias/save}">
           <div class="flex flex-col justify-center lg:flex-row">
             <div class="form-control lg:px-3">
-                <label class="label">
-                  <span class="label-text">Nombre</span>
-                </label>
-                <input
-                type="text"
-                th:field="*{nombre}"
-                placeholder="Ej. Drenaje"
-                class="input input-bordered w-full max-w-xs"
-              />
+              <label class="label">
+                <span class="label-text">Nombre</span>
+              </label>
+              <input type="text" th:field="*{nombre}" placeholder="Ej. Drenaje"
+                class="input input-bordered w-full max-w-xs" />
             </div>
-        </div>
-            <div class="divider"></div>
-            <div class="modal-action">
-              <div class="btn-group">
-                  <label for="my-modal" class="btn border-none">Cerrar</label>
-                  <button type="submit" class="btn border-none bg-emerald-700 hover:bg-emerald-600">Guardar <span class="material-icons ml-2">save</span></button>
-              </div>
           </div>
-          </form>
-        </div>
+          <div class="divider"></div>
+          <div class="modal-action">
+            <div class="btn-group">
+              <label for="my-modal" class="btn border-none">Cerrar</label>
+              <button type="submit" class="btn border-none bg-emerald-700 hover:bg-emerald-600">Guardar <span
+                  class="material-icons ml-2">save</span></button>
+            </div>
+          </div>
+        </form>
       </div>
     </div>
-  </body>
+  </div>
+</body>
+
 </html>

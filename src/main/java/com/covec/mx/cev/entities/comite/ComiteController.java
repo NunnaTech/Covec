@@ -1,10 +1,13 @@
 package com.covec.mx.cev.entities.comite;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+
+import javax.validation.Valid;
 
 import com.covec.mx.cev.entities.colonia.Colonia;
 import com.covec.mx.cev.entities.colonia.ColoniaService;
@@ -17,12 +20,15 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/comites")
@@ -97,15 +103,23 @@ public class ComiteController {
     }
 
     @PostMapping("/integrantes/agregar")
-    public String add(Model model, Integrante integrante){
-        integrante.setComite(comite);
-        integrante.setEnabled(true);
-        if(integrante.getPresidente()){
-            integrante.setTipoUsuario("Presidente");
+    public String add(@Valid Integrante integrante, BindingResult result, RedirectAttributes attributes, Model model){
+        if (result.hasErrors()){
+            List<String> errores = new ArrayList<>();
+            for (ObjectError error:result.getAllErrors()) {
+                errores.add(error.getDefaultMessage());
+            }
+            attributes.addFlashAttribute("errores", errores);
+        }else {
+            integrante.setComite(comite);
+            integrante.setEnabled(true);
+            if(integrante.getPresidente()){
+                integrante.setTipoUsuario("Presidente");
+            }
+            integrante.setTipoUsuario("Integrante");
+            integrantes.add(integrante);
+            attributes.addFlashAttribute("mensaje", "Se ha agregado correctamente");
         }
-
-        integrante.setTipoUsuario("Integrante");
-        integrantes.add(integrante);
         return "redirect:/comites/integrantes/nuevo";
     }
     
@@ -114,10 +128,6 @@ public class ComiteController {
         integrantes.removeIf(i -> (i.getTelefono().equals(telefono)));
         return "redirect:/comites/integrantes/nuevo";
     }
-
-
-
-    
 
     @GetMapping("/integrantes/existente/nuevo")
     public String existingGroup(Model model){

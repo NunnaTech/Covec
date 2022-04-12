@@ -74,20 +74,22 @@
         </div>
       </div>
 
-      <div class="alert shadow-lg w-auto m-5 bg-yellow-500" id="validaciones" th:if="${errores != null}">
+      <div class=" alert shadow-lg w-auto m-5 border-t-4 border-yellow-500" id="validaciones" th:if="${errores != null}">
         <div class="grid grid-cols-1">
           <div class="flex justify-start">
-            <span class="material-icons text-white drop-shadow-lg">report_problem</span>
-            <h6 class="font-semibold ml-1 text-white drop-shadow-lg">ATENCIÓN</h6>
+            <span class=" material-icons text-yellow-500">report_problem</span>
+            <h6 class="font-semibold ml-1 text-yellow-500 text-lg">ATENCIÓN - Datos inválidos</h6>
           </div>
-          <h6 th:each="e:${errores}" class="text-xs text-white drop-shadow-lg">- [[${e}]]</h6>
+          <h6 th:each="e:${errores}" class="text-sm">► [[${e}]]</h6>
         </div>
         <div class="flex-none">
-          <button id="cerrar" class="btn btn-sm text-white">Cerrar</button>
+          <button id="cerrar" class="btn border-none btn-square btn-outline hover:bg-yellow-500">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+          </button>
         </div>
       </div>
 
-      <div class="overflow-x-auto mx-2 my-3 rounded-2xl shadow-md bg-white">
+      <div class="mx-2 my-3 rounded-2xl shadow-md bg-white">
         <table class="table w-full text-left">
           <!-- head -->
           <thead>
@@ -114,9 +116,9 @@
                     </a>
                   </div>
                 </div>
-                <div class="invisible">Blanco</div>
               </td>
             </tr>
+            <div class="invisible">Blanco</div>
           </tbody>
         </table>
         <div class="flex flex-row justify-center py-3">

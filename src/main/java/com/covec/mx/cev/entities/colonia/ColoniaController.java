@@ -1,11 +1,13 @@
 package com.covec.mx.cev.entities.colonia;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
 import com.covec.mx.cev.entities.municipio.MunicipioService;
 import com.covec.mx.cev.entities.usuario.enlace.Enlace;
@@ -13,12 +15,15 @@ import com.covec.mx.cev.entities.usuario.enlace.Enlace;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 
@@ -53,10 +58,19 @@ public class ColoniaController {
     }
 
     @PostMapping("/guardar")
-    public String save(@ModelAttribute("colonia") Colonia colonia, HttpSession httpSession){
+    public String save(@Valid @ModelAttribute("colonia") Colonia colonia, BindingResult result, RedirectAttributes attributes, HttpSession httpSession){
         Enlace enlaceSession = (Enlace) httpSession.getAttribute("user");
         colonia.setMunicipio(municipioService.getOne(enlaceSession.getMunicipio().getId()));
-        coloniaService.save(colonia);
+        if (result.hasErrors()){
+            List<String> errores = new ArrayList<>();
+            for (ObjectError error:result.getAllErrors()) {
+                errores.add(error.getDefaultMessage());
+            }
+            attributes.addFlashAttribute("errores", errores);
+        }else {
+            coloniaService.save(colonia);
+            attributes.addFlashAttribute("mensaje", "Se ha registrado correctamente");
+        }
         return"redirect:/colonias/listar";
     }
  

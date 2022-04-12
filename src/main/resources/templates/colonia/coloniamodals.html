@@ -26,13 +26,13 @@
                             <label class="label">
                               <span class="label-text">Nombre</span>
                             </label>
-                            <input type="text" th:field="*{nombre}" placeholder="ej. villas" class="input input-bordered">
+                            <input type="text" th:field="*{nombre}" placeholder="ej. villas" class="input input-bordered" required>
                         </div>
                         <div class="form-control">
                             <label class="label">
                               <span class="label-text">C.P</span>
                             </label>
-                            <input type="text" th:field="*{codigoPostal}" placeholder="ej. 77777" class="input input-bordered">
+                            <input type="number" th:field="*{codigoPostal}" placeholder="ej. 77777" class="input input-bordered" required>
                         </div>
                     </div>
                     <div class="divider"></div>

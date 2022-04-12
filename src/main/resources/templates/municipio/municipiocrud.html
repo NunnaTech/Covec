@@ -7,6 +7,7 @@
     <link href="https://cdn.jsdelivr.net/npm/daisyui@2.8.0/dist/full.css" rel="stylesheet" type="text/css"/>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/simple-notify@0.5.4/dist/simple-notify.min.css" />
     <title>Municipios | Covec</title>
 </head>
 <body id="bodyid">
@@ -66,7 +67,22 @@
             </div>
           </div>
 
-          <div class=" mx-2 my-3 rounded-2xl shadow-md bg-white">
+          <div class=" alert shadow-lg w-auto m-5 border-t-4 border-yellow-500" id="validaciones" th:if="${errores != null}">
+            <div class="grid grid-cols-1">
+              <div class="flex justify-start">
+                <span class=" material-icons text-yellow-500">report_problem</span>
+                <h6 class="font-semibold ml-1 text-yellow-500 text-lg">ATENCIÓN - Datos inválidos</h6>
+              </div>
+              <h6 th:each="e:${errores}" class="text-sm">► [[${e}]]</h6>
+            </div>
+            <div class="flex-none">
+              <button id="cerrar" class="btn border-none btn-square btn-outline hover:bg-yellow-500">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+              </button>
+            </div>
+          </div>
+
+          <div class="mx-2 my-3 rounded-2xl shadow-md bg-white">
             <table class="table w-full">
                 <!-- head -->
                 <thead>
@@ -110,7 +126,35 @@
           <div sec:authorize="hasAnyAuthority('ROL_PRESIDENTE')" th:replace="menuLayout :: presidente-menu"></div>
     
       </div>
-
-
+      <script src="https://code.jquery.com/jquery-3.1.1.min.js" crossorigin="anonymous"></script>
+      <script src="https://cdn.jsdelivr.net/npm/simple-notify@0.5.4/dist/simple-notify.min.js"></script>
+      <script>
+        $(document).ready(function () {
+          $("#cerrar").click(() => {
+            $("#validaciones").fadeOut("slow");
+          })
+        });
+      </script>
+    
+      <script th:if="${mensaje != null}">
+        var mensaje = '[[${mensaje}]]'
+        new Notify({
+          status: 'success',
+          title: 'Exito',
+          text: mensaje,
+          effect: 'fade',
+          speed: 300,
+          customClass: '',
+          customIcon: '',
+          showIcon: true,
+          showCloseButton: true,
+          autoclose: true,
+          autotimeout: 4000,
+          gap: 20,
+          distance: 20,
+          type: 1,
+          position: 'bottom right'
+        })
+      </script>
 </body>
 </html>
