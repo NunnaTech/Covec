@@ -1,16 +1,19 @@
 package com.covec.mx.cev.entities.comite;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
-
+import java.util.*;
 import javax.validation.Valid;
 
 import com.covec.mx.cev.entities.colonia.Colonia;
 import com.covec.mx.cev.entities.colonia.ColoniaService;
+import com.covec.mx.cev.entities.rol.Rol;
+import com.covec.mx.cev.entities.rol.RolService;
 import com.covec.mx.cev.entities.usuario.integrante.Integrante;
 import com.covec.mx.cev.entities.usuario.integrante.IntegranteService;
 
@@ -18,6 +21,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -41,7 +45,13 @@ public class ComiteController {
     private ColoniaService coloniaService;
 
     @Autowired
+    PasswordEncoder passwordEncoder;
+
+    @Autowired
     private IntegranteService integranteService;
+
+    @Autowired
+    private RolService rolService;
 
     private List<Integer>listIds = new LinkedList<>(); 
     private List<Integrante> integrantes = new LinkedList<>();
@@ -94,16 +104,23 @@ public class ComiteController {
         return "comite/integrantecrud";
     }
 
+
+    /**
+     * Vista para un nuevo comite 
+     */
     @GetMapping("/integrantes/nuevo")
     public String newGroup(Model model){
         model.addAttribute("ID",coloniaID);
         model.addAttribute(CONST_INTEGRANTE, new Integrante());
-        model.addAttribute(CONST_INTEGRANTES,integrantes);
         return "comite/crearcomite";
     }
 
+    /**
+     * Método para crear un integrante | enlace
+     */
     @PostMapping("/integrantes/agregar")
     public String add(@Valid Integrante integrante, BindingResult result, RedirectAttributes attributes, Model model){
+        Colonia colonia = coloniaService.getOne(coloniaID); 
         if (result.hasErrors()){
             List<String> errores = new ArrayList<>();
             for (ObjectError error:result.getAllErrors()) {
@@ -111,16 +128,27 @@ public class ComiteController {
             }
             attributes.addFlashAttribute("errores", errores);
         }else {
-            integrante.setComite(comite);
+            Comite nuevoComite = new Comite();
+            integrante.setComite(nuevoComite);
             integrante.setEnabled(true);
-            if(integrante.getPresidente()){
-                integrante.setTipoUsuario("Presidente");
-            }
-            integrante.setTipoUsuario("Integrante");
+            integrante.setTipoUsuario("Presidente");
+            integrante.setPresidente(true);
+            String encode = passwordEncoder.encode(integrante.getPassword());
+            integrante.setPassword(encode);
+            Rol rolUsuario = rolService.getOne(3);
+            Set<Rol> roles = new HashSet<>();
+            roles.add(rolUsuario);
+            integrante.setRoles(roles);
+
             integrantes.add(integrante);
+            
+            nuevoComite.setIntegrantes(integrantes);
+            nuevoComite.setColonia(colonia);
+            nuevoComite.setActivo(false);
+            comiteService.save(nuevoComite);
             attributes.addFlashAttribute("mensaje", "Se ha agregado correctamente");
         }
-        return "redirect:/comites/integrantes/nuevo";
+        return "redirect:/comites/listar/"+coloniaID;
     }
     
     @GetMapping("/integrantes/quitar/{telefono}")
