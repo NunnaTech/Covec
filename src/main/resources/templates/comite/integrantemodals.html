@@ -22,18 +22,18 @@
                 <div class="divider"></div>
 
                 <form th:object="${integrante}" method="post" th:action="@{/comites/integrantes/existente/actualizar}">
-                    <input type="text" hidden id="linkUpdate" th:value="${iex.imagen}" name="imagen" />
+                    <input type="text" hidden th:id="'linkUpdate' + ${i}" th:value="${iex.imagen}" name="imagen" />
                     <input type="text" hidden th:value="${iex.password}" name="password" />
                     <input type="text" hidden th:value="${iex.id}" name="id" />
                     <input type="text" th:value="${iex.tipoUsuario}" th:name="tipoUsuario" />
-
+                    <input type="text" th:value="${i}">
                     <div class="flex flex-col justify-center lg:flex-row">
                         <input hidden th:value="${iex.id}" name="id" />
                         <div class="form-control px-5 w-full">
                             <label class="label">
                                 <span class="label-text">Nombre completo</span>
                             </label>
-                            <input id="uncompleto" type="text" th:value="${iex.nombreCompleto}" th:name="nombreCompleto"
+                            <input th:id="'uncompleto' + ${i}" type="text" th:value="${iex.nombreCompleto}" th:name="nombreCompleto"
                                 placeholder="ej. José Manuel P." class="input input-bordered" minlength="20"
                                 maxlength="45" required />
                         </div>
@@ -41,7 +41,7 @@
                             <label class="label">
                                 <span class="label-text">Teléfono</span>
                             </label>
-                            <input id="utelefono" type="text" th:value="${iex.telefono}" th:name="telefono"
+                            <input th:id="'utelefono' + ${i}" type="text" th:value="${iex.telefono}" th:name="telefono"
                                 placeholder="ej. 7777854961" class="input input-bordered" minlength="10" maxlength="10"
                                 required />
                         </div>
@@ -49,7 +49,7 @@
                             <label class="label">
                                 <span class="label-text">Correo</span>
                             </label>
-                            <input id="uemail" type="email" th:value="${iex.username}" th:name="username"
+                            <input th:id="'uemail' + ${i}" type="email" th:value="${iex.username}" th:name="username"
                                 placeholder="ej. Jose_covec@gmail.com" class="input input-bordered" minlength="5" maxlength="45" required />
                         </div>
                     </div>
@@ -66,7 +66,7 @@
                                         <span class="block text-blue-400 font-normal">Abrir explorador</span>
                                     </div>
                                 </div>
-                                <input id="imagenUploadactualizar" type="file"
+                                <input th:id="'imagenUploadactualizar' + ${i}" type="file"
                                     class="h-full w-full opacity-0 hover:cursor-pointer"/>
                             </div>
                         </div>
@@ -75,8 +75,8 @@
                     <div class="modal-action">
                         <div class="btn-group">
                             <label th:for="${i}" class="btn border-none">Cerrar</label>
-                            <input hidden id="actualizar" type="submit" />
-                            <a id="botonActualizar" class="btn border-none bg-emerald-700 hover:bg-emerald-600">Guardar
+                            <input hidden th:id="'actualizar' + ${i}" type="submit" />
+                            <a th:id="'botonActualizar' + ${i}" class="btn border-none bg-emerald-700 hover:bg-emerald-600">Guardar
                                 <span class="material-icons ml-2">save_as</span></a>
                         </div>
                     </div>
@@ -92,13 +92,13 @@
         const SUPABASE_ANON_KEY =
             "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InphZmV0bnB1a2RzdXJweWh5a3pqIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTY0OTU2NjYwMSwiZXhwIjoxOTY1MTQyNjAxfQ.aBRLQAAxG4L4nxWINeNlFJZgozonsSJcqkxuRgKeY9Y";
         const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
+        var value = $('#valor').attr('value')
         $(document).ready(function () {
-            $("#botonActualizar").click(async () => {
-                var updatefiles = document.getElementById("imagenUploadactualizar");
-                var nombre = $("#uncompleto").val();
-                var telefono = $("#utelefono").val();
-                var email = $("#uemail").val();
+            $("#botonActualizar"+value).click(async () => {
+                var updatefiles = document.getElementById("imagenUploadactualizar"+value);
+                var nombre = $("#uncompleto"+value).val();
+                var telefono = $("#utelefono"+value).val();
+                var email = $("#uemail"+value).val();
                 if (
                     updatefiles.files[0] != null &&
                     nombre != "" &&
@@ -113,7 +113,7 @@
                         );
 
                     if (data != null) {
-                        $("#linkUpdate").val(data.Key);
+                        $("#linkUpdate"+value).val(data.Key);
                     } else if (error != null) {
                         new Notify({
                             status: "error",
@@ -134,7 +134,7 @@
                         });
                     }
 
-                    $("#actualizar").click();
+                    $("#actualizar"+value).click();
                 } else {
                     new Notify({
                         status: "warning",
@@ -154,13 +154,6 @@
                         position: "right top",
                     });
                 }
-            });
-        });
-    </script>
-    <script>
-        $(document).ready(function () {
-            $("#cerrar").click(() => {
-                $("#validaciones").fadeOut("slow");
             });
         });
     </script>
