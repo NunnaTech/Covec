@@ -78,79 +78,77 @@
       </div>
 
       <div class="flex flex-row justify-center pb-7 pt-5 my-3 rounded-2xl shadow-md mx-2"
-      style="background-color: #FFFFFF;">
-      <form class="w-full" th:object="${integrante}" method="post" th:action="@{/comites/integrantes/agregar}">
+        style="background-color: #FFFFFF;">
+        <form class="w-full" th:object="${integrante}" method="post" th:action="@{/comites/integrantes/agregar}">
 
-        <input type="text" hidden id="link" name="imagen">
-        
-        <div class="flex flex-col justify-center lg:flex-row">
-          <div class="form-control px-5 w-full">
-            <label class="label">
-              <span class="label-text">Nombre completo</span>
-            </label>
-            <input id="ncompleto" type="text" th:field="*{nombreCompleto}" placeholder="ej. José Manuel P."
-              class="input input-bordered" minlength="20" maxlength="45" required>
-          </div>
-          <div class="form-control px-5 w-full">
-            <label class="label">
-              <span class="label-text">Teléfono</span>
-            </label>
-            <input id="telefono" type="text" th:field="*{telefono}" placeholder="ej. 7777854961"
-              class="input input-bordered" minlength="10" maxlength="10" required>
-          </div>
-          <div class="form-control px-5 w-full">
-            <label class="label">
-              <span class="label-text">Usuario (acceso)</span>
-            </label>
-            <input id="email" type="email" th:field="*{username}" placeholder="ej. Jose_covec@gmail.com"
-              class="input input-bordered  px-5 w-full" required>
-          </div>
-        </div>
-        <div class="flex flex-col justify-center lg:flex-row">
-          <div class="form-control  px-5 w-full">
-            <label class="label">
-              <span class="label-text">Identificación</span>
-            </label>
-            <div
-              class="relative h-12 rounded-lg border-dashed border-2 border-gray-200 bg-white flex justify-center items-center hover:cursor-pointer">
-              <div class="absolute  hover:cursor-pointer">
-                <div class="flex flex-col items-center "> <i
-                    class="fa fa-cloud-upload fa-3x text-gray-200"></i>
-                  <span class="block text-blue-400 font-normal">Abrir explorador</span>
-                </div>
-              </div>
-              <input id="imagenUpload" th:field="*{imagen}" type="file"
-                class="h-full w-full opacity-0  hover:cursor-pointer" name="imagen" required>
+          <input type="text" hidden id="linkUpdate" name="imagen">
+
+          <div class="flex flex-col justify-center lg:flex-row">
+            <div class="form-control px-5 w-full">
+              <label class="label">
+                <span class="label-text">Nombre completo</span>
+              </label>
+              <input id="ncompleto" type="text" th:field="*{nombreCompleto}" placeholder="ej. José Manuel P."
+                class="input input-bordered" minlength="20" maxlength="45" required>
+            </div>
+            <div class="form-control px-5 w-full">
+              <label class="label">
+                <span class="label-text">Teléfono</span>
+              </label>
+              <input id="telefono" type="text" th:field="*{telefono}" placeholder="ej. 7777854961"
+                class="input input-bordered" minlength="10" maxlength="10" required>
+            </div>
+            <div class="form-control px-5 w-full">
+              <label class="label">
+                <span class="label-text">Usuario (acceso)</span>
+              </label>
+              <input id="email" type="email" th:field="*{username}" placeholder="ej. Jose_covec@gmail.com"
+                class="input input-bordered  px-5 w-full" required>
             </div>
           </div>
-          <div class="form-control px-5 w-full">
-            <label class="cursor-pointer label">
-              <span class="label-text">Contraseña: </span>
-            </label>
-            <input id="password" th:field="*{password}" type="password" class="input input-bordered">
+          <div class="flex flex-col justify-center lg:flex-row">
+            <div class="form-control  px-5 w-full">
+              <label class="label">
+                <span class="label-text">Identificación</span>
+              </label>
+              <div
+                class="relative h-12 rounded-lg border-dashed border-2 border-gray-200 bg-white flex justify-center items-center hover:cursor-pointer">
+                <div class="absolute  hover:cursor-pointer">
+                  <div class="flex flex-col items-center "> <i class="fa fa-cloud-upload fa-3x text-gray-200"></i>
+                    <span class="block text-blue-400 font-normal">Abrir explorador</span>
+                  </div>
+                </div>
+                <input id="imagenUpload" type="file"
+                  class="h-full w-full opacity-0  hover:cursor-pointer" required>
+              </div>
+            </div>
+            <div class="form-control px-5 w-full">
+              <label class="cursor-pointer label">
+                <span class="label-text">Contraseña: </span>
+              </label>
+              <input id="password" th:field="*{password}" type="password" class="input input-bordered">
+            </div>
+            <div class="form-control px-5 w-full">
+              <label class="cursor-pointer label">
+                <span class="label-text">Confirmar contraseña: </span>
+              </label>
+              <input id="passwordConfirmar" type="password" class="input input-bordered">
+            </div>
           </div>
-          <div class="form-control px-5 w-full">
-            <label class="cursor-pointer label">
-              <span class="label-text">Confirmar contraseña: </span>
-            </label>
-            <input id="passwordConfirm" type="password" class="input input-bordered">
+          <div class="divider"></div>
+          <div class="modal-action mx-5">
+            <div class="btn-group">
+              <a th:href="@{/comites/listar/{id}(id=${ID})}" class="btn border-none">
+                <span class="material-icons mr-1">keyboard_return</span>
+                Cancelar
+              </a>
+              <input hidden id="subir" type="submit">
+              <a id="botonSubir" class="btn border-none bg-emerald-700 hover:bg-emerald-600">Agregar <span
+                  class="material-icons ml-2">add_box</span></a>
+            </div>
           </div>
-        </div>
-        <div class="divider"></div>
-        <div class="modal-action mx-5">
-          <div class="btn-group">
-            <a th:href="@{/comites/listar/{id}(id=${ID})}"
-            class="btn border-none">
-            <span class="material-icons mr-1">keyboard_return</span>
-            Cancelar
-          </a>
-            <input hidden id="subir" type="submit">
-            <a id="botonSubir" class="btn border-none bg-emerald-700 hover:bg-emerald-600">Agregar <span
-                class="material-icons ml-2">add_box</span></a>
-          </div>
-        </div>
-      </form>
-    </div>
+        </form>
+      </div>
 
     </div>
     <!--Menu dependiendo del rol-->
@@ -162,8 +160,7 @@
     <div sec:authorize="hasAnyAuthority('ROL_PRESIDENTE')" th:replace="menuLayout :: presidente-menu"></div>
 
   </div>
-</body>
-<script src="https://code.jquery.com/jquery-3.1.1.min.js" crossorigin="anonymous"></script>
+  <script src="https://code.jquery.com/jquery-3.1.1.min.js" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/simple-notify@0.5.4/dist/simple-notify.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
 <script>
@@ -172,16 +169,42 @@
   const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
 
   $(document).ready(function () {
+
     $("#botonSubir").click(async () => {
       var files = document.getElementById("imagenUpload");
-      if (files.files[0] != null) {
-        
-        const { data, error } = await _supabase.storage
+      var nombre = $('#ncompleto').val();
+      var telefono = $('#telefono').val();
+      var email = $('#email').val();
+      var password = $('#password').val();
+      var passwordConfirmar = $('#passwordConfirmar').val();
+      if (files.files[0] != null && nombre != ""  && telefono != "" && email!="" && password!= "" && passwordConfirmar!= "") {
+
+        if(password!= passwordConfirmar){
+          new Notify({
+          status: 'warning',
+          title: 'Atención',
+          text: 'Las contraseñas no coinciden, revisalas nuevamente',
+          effect: 'fade',
+          speed: 300,
+          customClass: '',
+          customIcon: '',
+          showIcon: true,
+          showCloseButton: true,
+          autoclose: false,
+          autotimeout: 3000,
+          gap: 20,
+          distance: 20,
+          type: 1,
+          position: 'right top'
+        })
+        }else{
+          const { data, error } = await _supabase.storage
           .from('covec')
           .upload(`public/${files.files[0].name}`, files.files[0])
 
         if (data != null) {
           $('#link').val(data.Key);
+          alert(data.Key)
 
         } else if (error != null) {
           new Notify({
@@ -204,12 +227,12 @@
         }
 
         $("#subir").click();
-
+        }
       } else {
         new Notify({
           status: 'warning',
           title: 'Atención',
-          text: 'Es necesario seleccionar alguna evidencia para continuar',
+          text: 'Es necesario llenar todos los campos',
           effect: 'fade',
           speed: 300,
           customClass: '',
@@ -225,6 +248,7 @@
         })
       }
     });
+
   });
 </script>
 <script>
@@ -234,26 +258,5 @@
     })
   });
 </script>
-
-<script th:if="${mensaje != null}">
-  var mensaje = '[[${mensaje}]]'
-  new Notify({
-    status: 'success',
-    title: 'Exito',
-    text: mensaje,
-    effect: 'fade',
-    speed: 300,
-    customClass: '',
-    customIcon: '',
-    showIcon: true,
-    showCloseButton: true,
-    autoclose: false,
-    autotimeout: 3000,
-    gap: 20,
-    distance: 20,
-    type: 1,
-    position: 'bottom left'
-  })
-</script>
-
+</body>
 </html>

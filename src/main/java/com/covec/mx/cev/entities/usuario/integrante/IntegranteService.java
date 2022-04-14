@@ -23,4 +23,8 @@ public class IntegranteService {
         }
         return null;
     }
+
+    public void deleteById(Integer id){
+        integranteRepository.deleteById(id);
+    }
 }
