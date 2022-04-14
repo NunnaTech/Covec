@@ -81,7 +81,7 @@
         style="background-color: #FFFFFF;">
         <form class="w-full" th:object="${integrante}" method="post" th:action="@{/comites/integrantes/agregar}">
 
-          <input type="text" hidden id="linkUpdate" name="imagen">
+          <input type="text" hidden id="link" name="imagen">
 
           <div class="flex flex-col justify-center lg:flex-row">
             <div class="form-control px-5 w-full">
@@ -103,7 +103,7 @@
                 <span class="label-text">Usuario (acceso)</span>
               </label>
               <input id="email" type="email" th:field="*{username}" placeholder="ej. Jose_covec@gmail.com"
-                class="input input-bordered  px-5 w-full" required>
+                class="input input-bordered  px-5 w-full" minlength="5" maxlength="45" required>
             </div>
           </div>
           <div class="flex flex-col justify-center lg:flex-row">

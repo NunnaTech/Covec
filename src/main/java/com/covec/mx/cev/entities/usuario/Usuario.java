@@ -24,7 +24,7 @@ public class Usuario {
 
     @Pattern(regexp = "^[a-zA-Z0-9.\\-\\/+=@_ ]*$", message = "No se permiten caracteres especiales en el usuario")
     @NotEmpty(message = "El usuario no debe de estar vacio")
-    @Size(min = 10, max = 45,message = "El usuario debe tener un mínimo de 10 y máximo de 45 caracteres")
+    @Size(min = 5, max = 45,message = "El usuario debe tener un mínimo de 5 y máximo de 45 caracteres")
     @Email(message = "El campo usuario debe ser un email")
     @Column(name = "username")
     private String username;
