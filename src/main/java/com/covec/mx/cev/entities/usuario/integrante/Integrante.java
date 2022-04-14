@@ -26,6 +26,4 @@ public class Integrante extends Usuario {
     @JoinColumn(name = "id_comites")
     private Comite comite;
 
-    @OneToMany(mappedBy = "integrante")
-    private List<Pago> pagos;
 }

@@ -3,6 +3,7 @@ package com.covec.mx.cev.entities.incidencia;
 import com.covec.mx.cev.entities.categoria.Categoria;
 import com.covec.mx.cev.entities.comentario.Comentario;
 import com.covec.mx.cev.entities.evidencias.Evidencia;
+import com.covec.mx.cev.entities.pago.Pago;
 import com.covec.mx.cev.entities.usuario.integrante.Integrante;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -50,4 +51,7 @@ public class Incidencia {
 
     @OneToMany(mappedBy = "incidencia")
     private List<Comentario> comentarios;
+
+    @OneToMany(mappedBy = "incidencia")
+    private List<Pago> pagos;
 }

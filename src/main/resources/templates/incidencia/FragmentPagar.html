@@ -12,36 +12,38 @@
 </head>
 
 <body>
-    <div th:fragment="cobrarModal">
+    <div th:fragment="pagarModal(objeto)">
         <label for="cobrar" class="btn border-none bg-emerald-700 hover:bg-emerald-600">
             <span class="material-icons">
                 attach_money
                 </span>
-            Realizar cobro
+            Realizar Pago
         </label>
         <input type="checkbox" id="cobrar" class="modal-toggle" />
         <div class="modal">
             <div class="modal-box">
                 <div class="grid grid-cols-1 justify-items-center">
-                    <h2 class="font-bold text-2xl">Cobro de incidencia</h2>
+                    <h2 class="font-bold text-2xl">Pago de incidencia</h2>
                     <h4 class="font-light text-lg">
-                        Seleccione el monto a cobrar
+                        Detalles sobre el pago de la incidencia
                     </h4>
                 </div>
                 <div class="divider"></div>
-                <form method="post"
-                    th:action="@{/incidencias/cobrar/{idIncidencia}/{idEnlace} (idIncidencia = ${incidencia.id}, idEnlace = ${enlace.id})}">
+                <form th:object="${pago}" method="post" th:action="@{/incidencias/pagar/{idIncidencia} (idIncidencia=${objeto.id})} ">
                     <div class="grid md:grid-cols-1 sm:grid-cols-1 justify-items-center">
-                        <h2 class="font-normal">Monto:</h2>
-                        <input type="number" name="monto" placeholder="500.00"
-                            class="input input-bordered w-full max-w-xs">
+                        <h4 class="font-light text-lg">
+                            El monto a pagar por esta incidencia es de:
+                        </h4>
+                        <h6 class="text-xl font-bold text-gray-500">$[[${objeto.monto}]]</h6>
+                        <input type="number" name="cantidad" th:value="${objeto.monto}" hidden>
+                        <input type="number" name="incidencia" th:value="${objeto.id}" hidden>
                     </div>
                     <div class="divider"></div>
                     <div class="modal-action">
                         <div class="btn-group">
                             <div class="btn-group">
                                 <label for="cobrar" class="btn border-none">Cerrar</label>
-                                <button type="submit" class="btn border-none bg-emerald-700 hover:bg-emerald-600">Cobrar<span class="material-icons ml-2">attach_money</span></button>
+                                <button type="submit" class="btn border-none bg-emerald-700 hover:bg-emerald-600">Pagar<span class="material-icons ml-2">attach_money</span></button>
                             </div>
                         </div>
                     </div>
