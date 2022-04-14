@@ -6,6 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -25,6 +26,10 @@ public class EnlaceService {
             return obj;
         }
         return null;
+    }
+
+    public List<Enlace> getAllByMunicipio(Municipio municipio){
+        return repository.findAllByMunicipioEquals(municipio);
     }
 
     public Enlace save(Enlace newObject){

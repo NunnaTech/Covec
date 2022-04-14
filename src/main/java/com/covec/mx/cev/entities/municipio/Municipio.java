@@ -23,6 +23,6 @@ public class Municipio {
     @OneToMany(mappedBy = "municipio")
     private List<Colonia> colonias;
 
-    @OneToOne(mappedBy = "municipio")
-    private Enlace enlace;
+    @OneToMany(mappedBy = "municipio")
+    private List<Enlace> enlaces;
 }

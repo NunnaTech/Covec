@@ -1,5 +1,6 @@
 package com.covec.mx.cev.entities.pago;
 
+import com.covec.mx.cev.entities.incidencia.Incidencia;
 import com.covec.mx.cev.entities.usuario.integrante.Integrante;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -18,7 +19,10 @@ public class Pago {
     @Column(name = "cantidad")
     private Double cantidad;
 
+    @Column(name = "fecha_pago")
+    private String fecha;
+
     @ManyToOne
-    @JoinColumn(name = "id_integrante")
-    private Integrante integrante;
+    @JoinColumn(name = "id_incidencia")
+    private Incidencia incidencia;
 }

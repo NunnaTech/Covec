@@ -27,6 +27,10 @@ public class IncidenciaService {
         return repository.getAllByIntegranteEquals(integrante, pageable);
     }
 
+    public List<Incidencia> getAllIntegrante(Integrante integrante){
+        return repository.getAllByIntegranteEquals(integrante);
+    }
+
     public Incidencia getOne(int id) {
         Optional<Incidencia> exist = repository.findById(id);
         if (exist.isPresent()) {

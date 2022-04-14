@@ -21,6 +21,10 @@ public class MunicipioService {
         return municipioRepository.obtenerDisponibles();
     }
 
+    public List<Municipio> getAllMunicipios(){
+        return municipioRepository.findAll();
+    }
+
     public Municipio getOne(int id){
         Optional<Municipio> exist = municipioRepository.findById(id);
         if (exist.isPresent()){

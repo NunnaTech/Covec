@@ -14,6 +14,10 @@ import com.covec.mx.cev.entities.comentario.ComentarioService;
 import com.covec.mx.cev.entities.evidencias.Evidencia;
 import com.covec.mx.cev.entities.evidencias.EvidenciaDTO;
 import com.covec.mx.cev.entities.evidencias.EvidenciaService;
+import com.covec.mx.cev.entities.municipio.Municipio;
+import com.covec.mx.cev.entities.municipio.MunicipioService;
+import com.covec.mx.cev.entities.pago.Pago;
+import com.covec.mx.cev.entities.pago.PagoService;
 import com.covec.mx.cev.entities.usuario.enlace.Enlace;
 import com.covec.mx.cev.entities.usuario.enlace.EnlaceService;
 import com.covec.mx.cev.entities.usuario.integrante.Integrante;
@@ -51,7 +55,12 @@ public class IncidenciaController {
     @Autowired
     private CategoriaService categoriaService;
 
-    
+    @Autowired
+    private MunicipioService municipioService;
+
+    @Autowired
+    private PagoService pagoService;
+
     @GetMapping("/all")
     public String allIncidencias(@RequestParam Map<String, Object> params, HttpSession httpSession, Model model) {
         Enlace enlaceSession = (Enlace) httpSession.getAttribute("user");
@@ -74,7 +83,7 @@ public class IncidenciaController {
         return "incidencia/incidenciascrud";
     }
 
-    
+
     @GetMapping("/allPresidente")
     public String getAllPresidente(@RequestParam Map<String, Object> params,HttpSession httpSession, Model model) {
         Integrante integranteSession = (Integrante) httpSession.getAttribute("user");
@@ -95,15 +104,39 @@ public class IncidenciaController {
         return "incidencia/PresidenteCrud";
     }
 
+    @GetMapping("/allPagos")
+    public String getAllpagos(@RequestParam Map<String,Object> params, HttpSession httpSession, Model model){
+        Integrante session = (Integrante) httpSession.getAttribute("user");
+        int page = params.get("page") != null ? (Integer.valueOf(params.get("page").toString()) - 1) : 0;
+        PageRequest pageRequest = PageRequest.of(page, 5);
+        Integrante integrante = integranteService.getOne(session.getId());
+        List<Incidencia> incidencias = service.getAllIntegrante(integrante);
+        Page<Pago> pageObject = pagoService.getAllByIntegrante(incidencias,pageRequest);
+        int totalPages = pageObject.getTotalPages();
+        if (totalPages > 0) {
+            List<Integer> pages = IntStream.rangeClosed(1, totalPages).boxed().collect(Collectors.toList());
+            model.addAttribute("paginas", pages);
+        }
+        model.addAttribute("pagos", pageObject.getContent());
+        return "incidencia/PagosIntegrante";
+    }
+
     @GetMapping("/getOne/{id}/{idenlace}")
-    public String obtenerIncidencia(@PathVariable("id") Integer id,
-                                    @PathVariable(name = "idenlace") Integer idEnlace, Model model) {
-        model.addAttribute("incidencia", service.getOne(id));
+    public String obtenerIncidencia(@PathVariable("id") Integer id,@PathVariable(name = "idenlace") Integer idEnlace, Model model) {
+        Enlace enlace = enlaceService.getOne(idEnlace);
+        Incidencia incidencia = service.getOne(id);
+        model.addAttribute("incidencia", incidencia);
         model.addAttribute("evidencias", evidenciaService.getAllEvidencias(service.getOne(id)));
-        model.addAttribute("enlace", enlaceService.getOne(idEnlace));
+        model.addAttribute("enlace", enlace);
         model.addAttribute("comentarioIncidencia", new Comentario());
-        model.addAttribute("comentarios",
-                comentarioService.getAllChat(service.getOne(id), enlaceService.getOne(idEnlace)));
+        List<Comentario> comentarios = comentarioService.getAll();
+        List<Comentario> filtrados = new ArrayList<>();
+        for (Comentario c: comentarios) {
+            if (c.getIncidencia().getIntegrante().getComite().getColonia().getMunicipio().getId() == enlace.getMunicipio().getId() && c.getIncidencia().getId()==incidencia.getId()){
+                filtrados.add(c);
+            }
+        }
+        model.addAttribute("comentarios", filtrados);
         return "incidencia/IncidenciaDetalle";
 
     }
@@ -113,8 +146,7 @@ public class IncidenciaController {
         List<Comentario> comentarios = comentarioService.getAllByIncidencia(service.getOne(id));
         Incidencia incidencia = service.getOne(id);
         model.addAttribute("incidencia", incidencia);
-        model.addAttribute("enlaceRequired",
-                enlaceService.getByMunicipio(incidencia.getIntegrante().getComite().getColonia().getMunicipio()));
+        model.addAttribute("pago", new Pago());
         model.addAttribute("evidencias", evidenciaService.getAllEvidencias(service.getOne(id)));
         model.addAttribute("comentarioPresidente", new Comentario());
         model.addAttribute("comentarios", comentarios);
@@ -131,11 +163,12 @@ public class IncidenciaController {
     @PostMapping("/cobrar/{idIncidencia}/{idEnlace}")
     public String cobrarIncidencia(@PathParam("monto") double monto,
                                    @PathVariable("idIncidencia") Integer idIncidencia,
-                                   @PathVariable("idEnlace") Integer idEnlace) {
+                                   @PathVariable("idEnlace") Integer idEnlace, RedirectAttributes attributes) {
         Incidencia cobrar = service.getOne(idIncidencia);
         cobrar.setMonto(monto);
         cobrar.setPagar(true);
         service.save(cobrar);
+        attributes.addFlashAttribute("mensaje","El cobro se realizo exitosamente");
         return "redirect:/incidencias/getOne/"+cobrar.getId()+"/"+idEnlace;
     }
 
@@ -160,7 +193,6 @@ public class IncidenciaController {
             }
             attributes.addFlashAttribute("mensaje", "Se ha registrado correctamente");
         }
-        Integrante integrante = integranteService.getOne(id);
         return "redirect:/incidencias/allPresidente";
     }
 
@@ -169,6 +201,16 @@ public class IncidenciaController {
         comentarioService.save(comentario);
         return "redirect:/incidencias/getOne/" + comentario.getIncidencia().getId() + "/"
                 + comentario.getEnlace().getId();
+    }
+
+    @PostMapping("/pagar/{idIncidencia}")
+    public String pagarIncidencia(@PathVariable("idIncidencia") Integer idIncidencia, @ModelAttribute("pago") Pago pago){
+        pago.setFecha(LocalDate.now().toString());
+        pagoService.save(pago);
+        Incidencia incidencia = service.getOne(idIncidencia);
+        incidencia.setMonto(0.0);
+        service.save(incidencia);
+        return "redirect:/incidencias/getDetail/" + idIncidencia;
     }
 
     @PostMapping("/comentarPresidente")
