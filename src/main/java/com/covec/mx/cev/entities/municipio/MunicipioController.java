@@ -16,7 +16,11 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+
+import com.covec.mx.cev.entities.operacion.OperacionService;
+import com.covec.mx.cev.entities.usuario.administrador.Administrador;
 
 @Controller
 @RequestMapping("/municipios")
@@ -24,6 +28,9 @@ public class MunicipioController {
 
     @Autowired
     private MunicipioService municipioService;
+
+    @Autowired
+    private OperacionService operacionService;
 
     @GetMapping("/all")
     public String allMunicipios(@RequestParam Map<String,Object> params, Model model){
@@ -41,7 +48,8 @@ public class MunicipioController {
     }
 
     @PostMapping("/save")
-    public String save(@Valid @ModelAttribute("municipio") Municipio municipio, BindingResult result, RedirectAttributes attributes){
+    public String save(@Valid @ModelAttribute("municipio") Municipio municipio, BindingResult result, RedirectAttributes attributes, HttpSession httpSession){
+        Administrador sesion = (Administrador) httpSession.getAttribute("user");
         if(result.hasErrors()){
             List<String> errores = new ArrayList<>();
             for (ObjectError error:result.getAllErrors()) {
@@ -50,14 +58,15 @@ public class MunicipioController {
             attributes.addFlashAttribute("errores", errores);
         }else {
             municipioService.save(municipio);
+            operacionService.guardarOperacion("Insert", sesion.getId(), "{nombre:'Sin registro previo'}", "{nombre:'"+municipio.getNombre()+"'}");
             attributes.addFlashAttribute("mensaje", "Se ha registrado correctamente");
         }
-        
         return "redirect:/municipios/all";
     }
 
     @PostMapping("/update")
-    public String update(@Valid @ModelAttribute("municipio") Municipio municipio, BindingResult result, RedirectAttributes attributes){
+    public String update(@Valid @ModelAttribute("municipio") Municipio municipio, BindingResult result, RedirectAttributes attributes, HttpSession httpSession){
+        Administrador sesion = (Administrador) httpSession.getAttribute("user");
         if(result.hasErrors()){
             List<String> errores = new ArrayList<>();
             for (ObjectError error:result.getAllErrors()) {
@@ -65,6 +74,8 @@ public class MunicipioController {
             }
             attributes.addFlashAttribute("errores", errores);
         }else {
+            Municipio old = municipioService.getOne(municipio.getId());
+            operacionService.guardarOperacion("Update", sesion.getId(), "{nombre:'"+old.getNombre()+"'}", "{nombre:'"+municipio.getNombre()+"'}");
             municipioService.update(municipio);
             attributes.addFlashAttribute("mensaje", "Se ha actualizado correctamente");
         }        
@@ -72,7 +83,10 @@ public class MunicipioController {
     }
 
     @GetMapping("/delete/{id}")
-    public String delete(@PathVariable Integer id){
+    public String delete(@PathVariable Integer id, HttpSession httpSession){
+        Administrador sesion = (Administrador) httpSession.getAttribute("user");
+        Municipio old = municipioService.getOne(id);
+            operacionService.guardarOperacion("Delete", sesion.getId(), "{nombre:'"+old.getNombre()+"'}", "{nombre:'Se elimino el registro'");
         municipioService.delete(id);
         return "redirect:/municipios/all";
     }
