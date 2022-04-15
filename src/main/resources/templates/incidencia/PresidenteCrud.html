@@ -74,7 +74,8 @@
         </div>
       </div>
 
-      <div class=" alert shadow-lg w-auto m-5 border-t-4 border-yellow-500" id="validaciones" th:if="${errores != null}">
+      <div class=" alert shadow-lg w-auto m-5 border-t-4 border-yellow-500" id="validaciones"
+        th:if="${errores != null}">
         <div class="grid grid-cols-1">
           <div class="flex justify-start">
             <span class=" material-icons text-yellow-500">report_problem</span>
@@ -84,7 +85,10 @@
         </div>
         <div class="flex-none">
           <button id="cerrar" class="btn border-none btn-square btn-outline hover:bg-yellow-500">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+              stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            </svg>
           </button>
         </div>
       </div>
@@ -111,7 +115,7 @@
                 <div th:if="${e.estatus == 'Pendiente' || e.estatus == 'Canalizada' || e.estatus == 'Atentida'}">
                   <div class="tooltip" data-tip="Ver comentarios">
                     <a class="btn border-none bg-indigo-700 hover:bg-indigo-600 w-16"
-                       th:href="@{/incidencias/getDetail/{id}/(id=${e.id})}">
+                      th:href="@{/incidencias/getDetail/{id}/(id=${e.id})}">
                       <span class="material-icons">question_answer</span>
                     </a>
                   </div>
@@ -179,19 +183,26 @@
     const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
 
     $(document).ready(function () {
+
+      function uuidv4() {
+        return ([1e9] + -43 + -8e3 + -11).replace(/[018]/g, c =>
+          (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
+        );
+      }
+
       $("#botonEvidencias").click(async () => {
         var files = document.getElementById("imagenUpload");
         if (files.files[0] != null) {
           var links = [];
           for (let i = 0; i < files.files.length; i++) {
             const { data, error } = await _supabase.storage
-                    .from('covec')
-                    .upload(`public/${files.files[i].name}`, files.files[i])
-            if (data!=null){
+              .from('covec')
+              .upload(`public/${uuidv4()}`, files.files[i])
+            if (data != null) {
               links.push(data.Key)
             }
 
-            if (error!=null){
+            if (error != null) {
               new Notify({
                 status: 'error',
                 title: 'Atención',

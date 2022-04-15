@@ -1,7 +1,6 @@
 package com.covec.mx.cev.entities.pago;
 
 import com.covec.mx.cev.entities.incidencia.Incidencia;
-import com.covec.mx.cev.entities.usuario.integrante.Integrante;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

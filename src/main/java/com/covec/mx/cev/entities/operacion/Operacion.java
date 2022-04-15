@@ -11,6 +11,12 @@ import java.sql.Date;
 @Table(name = "Operaciones")
 @Data
 @NoArgsConstructor
+@NamedStoredProcedureQuery(name = "operaciones", procedureName = "operaciones", parameters = {
+    @StoredProcedureParameter(mode = ParameterMode.IN, name = "eaccion", type = String.class),
+    @StoredProcedureParameter(mode = ParameterMode.IN, name = "eid_usuario", type = Integer.class),
+    @StoredProcedureParameter(mode = ParameterMode.IN, name = "eanterior", type = String.class),
+    @StoredProcedureParameter(mode = ParameterMode.IN, name = "eactual", type = String.class)
+})
 public class Operacion {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

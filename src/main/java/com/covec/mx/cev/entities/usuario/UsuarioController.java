@@ -27,6 +27,8 @@ import javax.validation.Valid;
 import com.covec.mx.cev.config.EmailService;
 import com.covec.mx.cev.entities.email.UsuarioNotFoundException;
 import com.covec.mx.cev.entities.email.Utility;
+import com.covec.mx.cev.entities.sesion.SesionService;
+
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 
@@ -40,6 +42,8 @@ public class UsuarioController {
     PasswordEncoder passwordEncoder;
     @Autowired
     private UsuarioRepository repository;
+    @Autowired
+    private SesionService sesionService;
 
     @GetMapping("/")
     public String login(){
@@ -57,7 +61,9 @@ public class UsuarioController {
     @GetMapping("/dashboard")
     public String dashboard(Authentication authentication, HttpSession session){
         String username = authentication.getName();
-		session.setAttribute("user", usuarioService.findByUsername(username));
+        Usuario user = usuarioService.findByUsername(username);
+		session.setAttribute("user", user);
+        sesionService.guardarSesion(user.getId());
         return "index";
     }
 
@@ -77,7 +83,9 @@ public class UsuarioController {
                errores.add(error.getDefaultMessage());
            }
            attributes.addFlashAttribute("errores", errores);
-       }if (existingUser!=null){
+       }
+       
+       if (existingUser!=null){
             attributes.addFlashAttribute("errores", "El correo electronico esta ya esta en uso");
        }else {
             usuarioService.update(usuario);

@@ -23,6 +23,6 @@ public class Pago {
     private String fecha;
 
     @ManyToOne
-    @JoinColumn(name = "id_incidencia")
+    @JoinColumn(name = "id_incidencias")
     private Incidencia incidencia;
 }

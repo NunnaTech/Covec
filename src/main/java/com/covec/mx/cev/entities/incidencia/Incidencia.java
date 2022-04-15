@@ -54,4 +54,11 @@ public class Incidencia {
 
     @OneToMany(mappedBy = "incidencia")
     private List<Pago> pagos;
+
+    public String toStringIncidencia() {
+        return  "{ descripcion:" + descripcion + ", estatus:" + estatus
+                + ", fechaRegistro:" + fechaRegistro + ", id:" + id + ", monto:" + monto
+                + ", pagar:" + pagar + "}";
+    }
+
 }
