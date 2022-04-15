@@ -55,8 +55,17 @@ public class CategoriaController {
     }
 
     @PostMapping("/update")
-    public String update(@ModelAttribute("categoria") Categoria categoria){
-        service.update(categoria);
+    public String update(@Valid @ModelAttribute("categoria") Categoria categoria, BindingResult result, RedirectAttributes attributes){
+        if (result.hasErrors()){
+            List<String> errores = new ArrayList<>();
+            for (ObjectError error:result.getAllErrors()) {
+                errores.add(error.getDefaultMessage());
+            }
+            attributes.addFlashAttribute("errores", errores);
+        }else {
+            service.update(categoria);
+            attributes.addFlashAttribute("mensaje", "Se ha actualizado correctamente");
+        }
         return "redirect:/categorias/all";
     }
 

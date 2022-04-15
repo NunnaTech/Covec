@@ -1,75 +1,162 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 </head>
+
 <body>
     <div th:fragment="modal-comite-editar(iex, i)">
         <label th:for="${i}" class="btn border-none w-16 bg-yellow-500 hover:bg-yellow-400">
             <span class="material-icons">edit</span>
         </label>
-        <input type="checkbox" th:id="${i}" class="modal-toggle">
+        <input type="checkbox" th:id="${i}" class="modal-toggle" />
         <div class="modal">
-            <div class="modal-box  w-11/12 max-w-5xl">
+            <div class="modal-box w-11/12 max-w-5xl">
                 <div class="grid grid-cols-1 justify-items-center">
                     <h2 class="font-bold text-2xl">Actualizar integrante</h2>
                     <h4 class="font-light text-lg">Ingrese los datos</h4>
                 </div>
                 <div class="divider"></div>
-    
+
                 <form th:object="${integrante}" method="post" th:action="@{/comites/integrantes/existente/actualizar}">
+                    <input type="text" hidden th:id="'linkUpdate' + ${i}" th:value="${iex.imagen}" name="imagen" />
+                    <input type="text" hidden th:value="${iex.password}" name="password" />
+                    <input type="text" hidden th:value="${iex.id}" name="id" />
+                    <input type="text" th:value="${iex.tipoUsuario}" th:name="tipoUsuario" />
+                    <input type="text" th:value="${i}">
                     <div class="flex flex-col justify-center lg:flex-row">
-                        <input hidden th:value="${iex.id}" name="id"/>
-                        <div class="form-control mx-2">
+                        <input hidden th:value="${iex.id}" name="id" />
+                        <div class="form-control px-5 w-full">
                             <label class="label">
-                              <span class="label-text">Nombre completo</span>
+                                <span class="label-text">Nombre completo</span>
                             </label>
-                            <input type="text" th:value="${iex.nombreCompleto}" th:name="nombreCompleto" placeholder="ej. José Manuel P." class="input input-bordered">
+                            <input th:id="'uncompleto' + ${i}" type="text" th:value="${iex.nombreCompleto}" th:name="nombreCompleto"
+                                placeholder="ej. José Manuel P." class="input input-bordered" minlength="20"
+                                maxlength="45" required />
                         </div>
-                        <div class="form-control mx-2">  
+                        <div class="form-control px-5 w-full">
                             <label class="label">
-                              <span class="label-text">Teléfono</span>
+                                <span class="label-text">Teléfono</span>
                             </label>
-                            <input type="text" th:value="${iex.telefono}" th:name="telefono" placeholder="ej. 7777854961" class="input input-bordered">
+                            <input th:id="'utelefono' + ${i}" type="text" th:value="${iex.telefono}" th:name="telefono"
+                                placeholder="ej. 7777854961" class="input input-bordered" minlength="10" maxlength="10"
+                                required />
                         </div>
-                        <div class="form-control mx-2">  
+                        <div class="form-control px-5 w-full">
                             <label class="label">
-                              <span class="label-text">Correo</span>
+                                <span class="label-text">Correo</span>
                             </label>
-                            <input type="text" th:value="${iex.username}" th:name="username" placeholder="ej. Jose_covec@gmail.com" class="input input-bordered">
+                            <input th:id="'uemail' + ${i}" type="email" th:value="${iex.username}" th:name="username"
+                                placeholder="ej. Jose_covec@gmail.com" class="input input-bordered" minlength="5" maxlength="45" required />
                         </div>
                     </div>
                     <div class="flex flex-col justify-center lg:flex-row">
-                        <div class="form-control mx-2">
+                        <div class="form-control px-5 w-full">
                             <label class="label">
-                              <span class="label-text">Identificación</span>
+                                <span class="label-text">Identificación</span>
                             </label>
-                            <div class="relative h-12 rounded-lg border-dashed border-2 border-gray-200 bg-white flex justify-center items-center hover:cursor-pointer">
-                                <div class="absolute  hover:cursor-pointer">
-                                    <div class="flex flex-col items-center "> <i class="fa fa-cloud-upload fa-3x text-gray-200"></i> <span class="block text-blue-400 font-normal">Abrir explorador</span> </div>
-                                </div> 
-                                <input th:value="${iex.imagen}" th:name="imagen" type="file" class="h-full w-full opacity-0  hover:cursor-pointer" name="imagen">
-                            </div>                            
-                        </div>
-                        <div class="form-control mx-2">  
-                            <label class="cursor-pointer label">
-                                <span class="label-text">Marcar como presidente</span> 
-                              </label>
-                              <input type="checkbox" th:checked="${iex.presidente}" th:name="presidente" class="checkbox checkbox-accent">
+                            <div
+                                class="relative h-12 rounded-lg border-dashed border-2 border-gray-200 bg-white flex justify-center items-center hover:cursor-pointer">
+                                <div class="absolute hover:cursor-pointer">
+                                    <div class="flex flex-col items-center">
+                                        <i class="fa fa-cloud-upload fa-3x text-gray-200"></i>
+                                        <span class="block text-blue-400 font-normal">Abrir explorador</span>
+                                    </div>
+                                </div>
+                                <input th:id="'imagenUploadactualizar' + ${i}" type="file"
+                                    class="h-full w-full opacity-0 hover:cursor-pointer"/>
+                            </div>
                         </div>
                     </div>
                     <div class="divider"></div>
                     <div class="modal-action">
                         <div class="btn-group">
                             <label th:for="${i}" class="btn border-none">Cerrar</label>
-                            <button type="submit" class="btn border-none bg-emerald-700 hover:bg-emerald-600">Guardar <span class="material-icons ml-2">add_box</span></button>
+                            <input hidden th:id="'actualizar' + ${i}" type="submit" />
+                            <a th:id="'botonActualizar' + ${i}" class="btn border-none bg-emerald-700 hover:bg-emerald-600">Guardar
+                                <span class="material-icons ml-2">save_as</span></a>
                         </div>
                     </div>
                 </form>
             </div>
         </div>
     </div>
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/simple-notify@0.5.4/dist/simple-notify.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+    <script>
+        const SUPABASE_URL = "https://zafetnpukdsurpyhykzj.supabase.co";
+        const SUPABASE_ANON_KEY =
+            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InphZmV0bnB1a2RzdXJweWh5a3pqIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTY0OTU2NjYwMSwiZXhwIjoxOTY1MTQyNjAxfQ.aBRLQAAxG4L4nxWINeNlFJZgozonsSJcqkxuRgKeY9Y";
+        const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        var value = $('#valor').attr('value')
+        $(document).ready(function () {
+            $("#botonActualizar"+value).click(async () => {
+                var updatefiles = document.getElementById("imagenUploadactualizar"+value);
+                var nombre = $("#uncompleto"+value).val();
+                var telefono = $("#utelefono"+value).val();
+                var email = $("#uemail"+value).val();
+                if (
+                    updatefiles.files[0] != null &&
+                    nombre != "" &&
+                    telefono != "" &&
+                    email != ""
+                ) {
+                    const { data, error } = await _supabase.storage
+                        .from("covec")
+                        .upload(
+                            `public/${updatefiles.files[0].name}`,
+                            updatefiles.files[0]
+                        );
+
+                    if (data != null) {
+                        $("#linkUpdate"+value).val(data.Key);
+                    } else if (error != null) {
+                        new Notify({
+                            status: "error",
+                            title: "Atención",
+                            text: "Ocurrio un error al subir la imagen al servidor",
+                            effect: "fade",
+                            speed: 300,
+                            customClass: "",
+                            customIcon: "",
+                            showIcon: true,
+                            showCloseButton: true,
+                            autoclose: false,
+                            autotimeout: 3000,
+                            gap: 20,
+                            distance: 20,
+                            type: 1,
+                            position: "bottom x-center",
+                        });
+                    }
+
+                    $("#actualizar"+value).click();
+                } else {
+                    new Notify({
+                        status: "warning",
+                        title: "Atención",
+                        text: "Es necesario llenar todos los campos",
+                        effect: "fade",
+                        speed: 300,
+                        customClass: "",
+                        customIcon: "",
+                        showIcon: true,
+                        showCloseButton: true,
+                        autoclose: false,
+                        autotimeout: 3000,
+                        gap: 20,
+                        distance: 20,
+                        type: 1,
+                        position: "right top",
+                    });
+                }
+            });
+        });
+    </script>
 </body>
+
 </html>

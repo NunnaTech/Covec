@@ -25,4 +25,7 @@ public class Comite {
     @ManyToOne
     @JoinColumn(name = "id_colonia")
     private Colonia colonia;
+
+    @Column(name = "activo")
+    private boolean activo;
 }

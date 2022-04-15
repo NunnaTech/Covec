@@ -5,12 +5,18 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+
+import javax.validation.Valid;
 
 @Controller
 @RequestMapping("/municipios")
@@ -35,14 +41,33 @@ public class MunicipioController {
     }
 
     @PostMapping("/save")
-    public String save(@ModelAttribute("municipio") Municipio municipio){
-        municipioService.save(municipio);
+    public String save(@Valid @ModelAttribute("municipio") Municipio municipio, BindingResult result, RedirectAttributes attributes){
+        if(result.hasErrors()){
+            List<String> errores = new ArrayList<>();
+            for (ObjectError error:result.getAllErrors()) {
+                errores.add(error.getDefaultMessage());
+            }
+            attributes.addFlashAttribute("errores", errores);
+        }else {
+            municipioService.save(municipio);
+            attributes.addFlashAttribute("mensaje", "Se ha registrado correctamente");
+        }
+        
         return "redirect:/municipios/all";
     }
 
     @PostMapping("/update")
-    public String update(@ModelAttribute("municipio") Municipio municipio){
-        municipioService.update(municipio);
+    public String update(@Valid @ModelAttribute("municipio") Municipio municipio, BindingResult result, RedirectAttributes attributes){
+        if(result.hasErrors()){
+            List<String> errores = new ArrayList<>();
+            for (ObjectError error:result.getAllErrors()) {
+                errores.add(error.getDefaultMessage());
+            }
+            attributes.addFlashAttribute("errores", errores);
+        }else {
+            municipioService.update(municipio);
+            attributes.addFlashAttribute("mensaje", "Se ha actualizado correctamente");
+        }        
         return "redirect:/municipios/all";
     }
 

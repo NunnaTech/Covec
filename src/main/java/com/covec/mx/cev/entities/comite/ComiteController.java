@@ -1,28 +1,37 @@
 package com.covec.mx.cev.entities.comite;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+import java.util.*;
+import javax.validation.Valid;
 
 import com.covec.mx.cev.entities.colonia.Colonia;
 import com.covec.mx.cev.entities.colonia.ColoniaService;
+import com.covec.mx.cev.entities.rol.Rol;
+import com.covec.mx.cev.entities.rol.RolService;
 import com.covec.mx.cev.entities.usuario.integrante.Integrante;
 import com.covec.mx.cev.entities.usuario.integrante.IntegranteService;
 
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/comites")
@@ -35,7 +44,14 @@ public class ComiteController {
     private ColoniaService coloniaService;
 
     @Autowired
+    PasswordEncoder passwordEncoder;
+
+    @Autowired
     private IntegranteService integranteService;
+
+    @Autowired
+    private RolService rolService;
+
 
     private List<Integer>listIds = new LinkedList<>(); 
     private List<Integrante> integrantes = new LinkedList<>();
@@ -70,6 +86,10 @@ public class ComiteController {
         return "comite/comitecrud";
     }
     
+
+    /**
+     * Vista para listar los integrantes existentes de un comite
+     */
     @GetMapping("/integrantes/listar/{id}")
     public String seeMembers(@PathVariable("id") Integer id, Model model){
         comite = comiteService.getOne(id);
@@ -80,85 +100,123 @@ public class ComiteController {
         return "comite/integrantecrud";
     }
 
-    @GetMapping("/integrantes/listar/refrescar")
-    public String seeUpdatedMembers(Model model){
-        model.addAttribute(CONST_INTEGRANTE, new Integrante());
-        model.addAttribute(CONST_INTEGRANTES,integrantes);
-        model.addAttribute(CONST_COMITE,comite);
-        return "comite/integrantecrud";
-    }
-
+    /**
+     * Vista para crear un nuevo comite 
+     */
     @GetMapping("/integrantes/nuevo")
     public String newGroup(Model model){
         model.addAttribute("ID",coloniaID);
         model.addAttribute(CONST_INTEGRANTE, new Integrante());
-        model.addAttribute(CONST_INTEGRANTES,integrantes);
         return "comite/crearcomite";
     }
 
+    /**
+     * Método para crear un integrante | enlace
+     */
     @PostMapping("/integrantes/agregar")
-    public String add(Model model, Integrante integrante){
-        integrante.setComite(comite);
-        integrante.setEnabled(true);
-        if(integrante.getPresidente()){
+    public String add(@Valid Integrante integrante, BindingResult result, RedirectAttributes attributes, Model model){
+        Colonia colonia = coloniaService.getOne(coloniaID);
+        if (result.hasErrors()){
+            List<String> errores = new ArrayList<>();
+            for (ObjectError error:result.getAllErrors()) {
+                errores.add(error.getDefaultMessage());
+            }
+            attributes.addFlashAttribute("errores", errores);
+        }else {
+            Comite nuevoComite = new Comite();
+            integrante.setComite(nuevoComite);
+            integrante.setEnabled(true);
             integrante.setTipoUsuario("Presidente");
+            integrante.setPresidente(true);
+            String encode = passwordEncoder.encode(integrante.getPassword());
+            integrante.setPassword(encode);
+            Rol rolUsuario = rolService.getOne(3);
+            Set<Rol> roles = new HashSet<>();
+            roles.add(rolUsuario);
+            integrante.setRoles(roles);
+
+            integrantes.add(integrante);
+            
+            nuevoComite.setIntegrantes(integrantes);
+            nuevoComite.setColonia(colonia);
+            nuevoComite.setActivo(false);
+            comiteService.save(nuevoComite);
+            attributes.addFlashAttribute("mensaje", "Se ha creado correctamente");    
         }
-
-        integrante.setTipoUsuario("Integrante");
-        integrantes.add(integrante);
-        return "redirect:/comites/integrantes/nuevo";
-    }
-    
-    @GetMapping("/integrantes/quitar/{telefono}")
-    public String delete(Model model, @PathVariable("telefono") String telefono){
-        integrantes.removeIf(i -> (i.getTelefono().equals(telefono)));
-        return "redirect:/comites/integrantes/nuevo";
+        
+        return "redirect:/comites/listar/"+coloniaID;
     }
 
-
-
-    
-
-    @GetMapping("/integrantes/existente/nuevo")
-    public String existingGroup(Model model){
-        model.addAttribute(CONST_COMITE,comite);
-        model.addAttribute("ID",coloniaID);
-        model.addAttribute(CONST_INTEGRANTE, new Integrante());
-        model.addAttribute(CONST_INTEGRANTES,integrantes);
-        return "comite/integrantecrud";
-    }
-
+    /**
+     * Agrega nuevos integrantes a un comité existente
+     */
     @PostMapping("/integrantes/existente/agregar")
-    public String addExisting(Model model,Integrante integrante){
-        integrante.setComite(comite);
-        integrantes.add(integrante);
-        return "redirect:/comites/integrantes/existente/nuevo";
+    public String addExisting(Model model,Integrante integrante,  BindingResult result, RedirectAttributes attributes){
+        
+        if (result.hasErrors()){
+            List<String> errores = new ArrayList<>();
+            for (ObjectError error:result.getAllErrors()) {
+                errores.add(error.getDefaultMessage());
+            }
+            attributes.addFlashAttribute("errores", errores);
+        }else {
+
+            integrante.setComite(comite);
+            integrante.setEnabled(true);
+
+            if(integrante.getTipoUsuario() == null ){
+                integrante.setPresidente(false);
+                integrante.setTipoUsuario("Integrante");
+            }
+
+            String encode = passwordEncoder.encode(integrante.getPassword());
+            integrante.setPassword(encode);
+            Rol rolUsuario = rolService.getOne(3);
+            Set<Rol> roles = new HashSet<>();
+            roles.add(rolUsuario);
+            integrante.setRoles(roles);
+
+            integrantes.add(integrante);
+            
+            comite.setIntegrantes(integrantes);
+
+            if(comite.getIntegrantes().size()>=3){
+                comite.setActivo(true);
+            }else{
+                comite.setActivo(false);
+            }
+            comiteService.save(comite);    
+        }
+        attributes.addFlashAttribute("mensaje", "Se ha creado correctamente");
+        return "redirect:/comites/integrantes/listar/"+comite.getId();
     }
 
     @GetMapping("/integrantes/existente/quitar/{telefono}")
     public String deleteExisting(Model model, @PathVariable("telefono") String telefono){
-        for (Integrante integrante : integrantes) {
-            if(integrante.getId()!=null && integrante.getTelefono().equals(telefono)){
-                listIds.add(integrante.getId()) ;
+        
+        for (Integrante i : integrantes) {
+            if(i.getTelefono().equals(telefono)){
+                integranteService.deleteById(i.getId());
             }
         }
-        integrantes.removeIf(i -> (i.getTelefono().equals(telefono)));
-        return "redirect:/comites/integrantes/existente/nuevo";
+        integrantes.removeIf(i-> i.getTelefono().equals(telefono));
+        comiteService.save(comite);
+        return "redirect:/comites/integrantes/listar/"+comite.getId();
     }
 
     @PostMapping("/integrantes/existente/actualizar")
     public String updateExisting(@ModelAttribute("integrante")Integrante integrante){
-        for (Integrante i : integrantes) {
-            if(i.getId().equals(integrante.getId())){
-                BeanUtils.copyProperties(integrante, i);
-                i.setComite(comite);
-                if (i.getPresidente() == null){
-                    i.setPresidente(false);
-                }
-                break;
-            }
+        integrantes.removeIf(i -> i.getId().equals(integrante.getId()));
+        integrante.setEnabled(true);
+        if(integrante.getTipoUsuario().equals("Presidente")){
+            integrante.setPresidente(true);
+        }else{
+            integrante.setPresidente(false);
         }
-        return"redirect:/comites/integrantes/listar/refrescar";
+        integrante.setComite(comite);
+        integrantes.add(integrante);
+        comiteService.save(comite);
+        return "redirect:/comites/integrantes/listar/"+comite.getId();
     }
 
     @GetMapping("/guardar/{id}")
