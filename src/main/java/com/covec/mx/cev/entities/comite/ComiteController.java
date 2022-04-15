@@ -8,12 +8,16 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.*;
+
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import com.covec.mx.cev.entities.colonia.Colonia;
 import com.covec.mx.cev.entities.colonia.ColoniaService;
+import com.covec.mx.cev.entities.operacion.OperacionService;
 import com.covec.mx.cev.entities.rol.Rol;
 import com.covec.mx.cev.entities.rol.RolService;
+import com.covec.mx.cev.entities.usuario.enlace.Enlace;
 import com.covec.mx.cev.entities.usuario.integrante.Integrante;
 import com.covec.mx.cev.entities.usuario.integrante.IntegranteService;
 
@@ -51,6 +55,9 @@ public class ComiteController {
 
     @Autowired
     private RolService rolService;
+
+    @Autowired
+    private OperacionService operacionService;  
 
 
     private List<Integer>listIds = new LinkedList<>(); 
@@ -114,7 +121,8 @@ public class ComiteController {
      * Método para crear un integrante | enlace
      */
     @PostMapping("/integrantes/agregar")
-    public String add(@Valid Integrante integrante, BindingResult result, RedirectAttributes attributes, Model model){
+    public String add(@Valid Integrante integrante, BindingResult result, RedirectAttributes attributes, Model model, HttpSession httpSession){
+        Enlace enlaceSession = (Enlace) httpSession.getAttribute("user");
         Colonia colonia = coloniaService.getOne(coloniaID);
         if (result.hasErrors()){
             List<String> errores = new ArrayList<>();
@@ -141,6 +149,7 @@ public class ComiteController {
             nuevoComite.setColonia(colonia);
             nuevoComite.setActivo(false);
             comiteService.save(nuevoComite);
+            operacionService.guardarOperacion("Insert", enlaceSession.getId(),"Sin datos previos", integrante.toStringIntegrante());
             attributes.addFlashAttribute("mensaje", "Se ha creado correctamente");    
         }
         
@@ -151,8 +160,8 @@ public class ComiteController {
      * Agrega nuevos integrantes a un comité existente
      */
     @PostMapping("/integrantes/existente/agregar")
-    public String addExisting(Model model,Integrante integrante,  BindingResult result, RedirectAttributes attributes){
-        
+    public String addExisting(Model model,Integrante integrante,  BindingResult result, RedirectAttributes attributes, HttpSession httpSession){
+        Enlace enlaceSession = (Enlace) httpSession.getAttribute("user");
         if (result.hasErrors()){
             List<String> errores = new ArrayList<>();
             for (ObjectError error:result.getAllErrors()) {
@@ -185,27 +194,35 @@ public class ComiteController {
             }else{
                 comite.setActivo(false);
             }
-            comiteService.save(comite);    
+            comiteService.save(comite);
+            operacionService.guardarOperacion("Insert", enlaceSession.getId(),"Sin datos previos", integrante.toStringIntegrante()); 
+            attributes.addFlashAttribute("mensaje", "Se ha creado correctamente");   
         }
-        attributes.addFlashAttribute("mensaje", "Se ha creado correctamente");
+
         return "redirect:/comites/integrantes/listar/"+comite.getId();
     }
 
     @GetMapping("/integrantes/existente/quitar/{telefono}")
-    public String deleteExisting(Model model, @PathVariable("telefono") String telefono){
-        
+    public String deleteExisting(Model model, @PathVariable("telefono") String telefono, HttpSession httpSession){
+        Enlace enlaceSession = (Enlace) httpSession.getAttribute("user");
+        Integrante anterior = new Integrante();
         for (Integrante i : integrantes) {
             if(i.getTelefono().equals(telefono)){
+                anterior = integranteService.getOne(i.getId());
                 integranteService.deleteById(i.getId());
             }
         }
         integrantes.removeIf(i-> i.getTelefono().equals(telefono));
         comiteService.save(comite);
+        operacionService.guardarOperacion("Delete", enlaceSession.getId(), anterior.toStringIntegrante(),"Sin datos previos"); 
         return "redirect:/comites/integrantes/listar/"+comite.getId();
     }
 
     @PostMapping("/integrantes/existente/actualizar")
-    public String updateExisting(@ModelAttribute("integrante")Integrante integrante){
+    public String updateExisting(@ModelAttribute("integrante")Integrante integrante, HttpSession httpSession){
+        Enlace enlaceSession = (Enlace) httpSession.getAttribute("user");
+        Integrante anterior = integranteService.getOne(integrante.getId());
+
         integrantes.removeIf(i -> i.getId().equals(integrante.getId()));
         integrante.setEnabled(true);
         if(integrante.getTipoUsuario().equals("Presidente")){
@@ -216,31 +233,40 @@ public class ComiteController {
         integrante.setComite(comite);
         integrantes.add(integrante);
         comiteService.save(comite);
+        operacionService.guardarOperacion("Update", enlaceSession.getId(), anterior.toStringIntegrante(),integrante.toStringIntegrante()); 
         return "redirect:/comites/integrantes/listar/"+comite.getId();
     }
 
     @GetMapping("/guardar/{id}")
-    public String save(@PathVariable("id") Integer id) {
+    public String save(@PathVariable("id") Integer id, HttpSession httpSession) {
+        Enlace enlaceSession = (Enlace) httpSession.getAttribute("user");
         Colonia colonia = coloniaService.getOne(coloniaID);
         comite.setIntegrantes(integrantes);
         comite.setColonia(colonia);
         comiteService.save(comite);
+        operacionService.guardarOperacion("Insert", enlaceSession.getId(),"Sin datos previos", comite.toStringComite()); 
         return "redirect:/comites/listar/"+id;
     }
 
     @GetMapping("/actualizar")
-    public String update() {
+    public String update(HttpSession httpSession) {
+        Enlace enlaceSession = (Enlace) httpSession.getAttribute("user");
         integranteService.deleteMultple(listIds);
         Colonia colonia = coloniaService.getOne(coloniaID);
         comite.setIntegrantes(integrantes);
         comite.setColonia(colonia);
-        comiteService.save(comite);
+        Comite anterior = comiteService.getOne(comite.getId());
+        comiteService.save(comite); 
+        operacionService.guardarOperacion("Update", enlaceSession.getId(),anterior.toStringComite(), comite.toStringComite());
         return "redirect:/comites/listar/"+coloniaID;
     }
 
     @GetMapping("/eliminar/{id}")
-    public String delete(@PathVariable("id") Integer id) {
+    public String delete(@PathVariable("id") Integer id, HttpSession httpSession) {
+        Enlace enlaceSession = (Enlace) httpSession.getAttribute("user");
+        Comite anterior = comiteService.getOne(comite.getId());
         comiteService.delete(id);
+        operacionService.guardarOperacion("Update", enlaceSession.getId(),anterior.toStringComite(), "Sin datos previos");
         return "redirect:/comites/listar/"+coloniaID;
     }
 }

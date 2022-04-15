@@ -28,4 +28,9 @@ public class Comite {
 
     @Column(name = "activo")
     private boolean activo;
+
+    public String toStringComite() {
+        return "{ activo:" + activo + ", integrantes:" + integrantes + "}";
+    }
+    
 }

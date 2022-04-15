@@ -26,4 +26,8 @@ public class Integrante extends Usuario {
     @JoinColumn(name = "id_comites")
     private Comite comite;
 
+    public String toStringIntegrante() {
+        return "{ presidente:" + presidente + "}";
+    }
+    
 }

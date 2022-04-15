@@ -65,4 +65,12 @@ public class Usuario {
         joinColumns = @JoinColumn(name = "id_usuario"),
         inverseJoinColumns = @JoinColumn(name = "id_rol"))
 	private Set<Rol> roles;
+
+    public String toStringUsuario() {
+        return "{ enabled:" + enabled + ", imagen:" + imagen + ", nombreCompleto:" + nombreCompleto
+                + ", password:" + password + ", resetPasswordToken:" + resetPasswordToken + ", telefono:" + telefono
+                + ", tipoUsuario:" + tipoUsuario + ", username:" + username + "}";
+    }
+
+    
 }

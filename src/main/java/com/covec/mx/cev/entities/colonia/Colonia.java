@@ -41,4 +41,10 @@ public class Colonia {
 
     @OneToMany(mappedBy = "colonia", cascade = {CascadeType.ALL})
     private List<Comite> comites;
+
+    public String toStringColonia() {
+        return "{ codigoPostal:" + codigoPostal + ", id:" + id + ", nombre:" + nombre + "}";
+    }
+
+    
 }
