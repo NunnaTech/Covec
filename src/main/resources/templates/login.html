@@ -15,6 +15,7 @@
   <link href="https://cdn.jsdelivr.net/npm/daisyui@2.8.0/dist/full.css" rel="stylesheet" type="text/css" />
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
   rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/simple-notify@0.5.4/dist/simple-notify.min.css" />
   <link rel="stylesheet" th:href="@{/css/animation.css}">
 </head>
 
@@ -128,8 +129,67 @@
       </div>
     </div>
   </div>
+  <script src="https://cdn.jsdelivr.net/npm/tw-elements/dist/js/index.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.1.1.min.js" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/simple-notify@0.5.4/dist/simple-notify.min.js"></script>
+  <script th:if = "${param.error}">
+    new Notify({
+      status: 'warning',
+      title: 'Atención',
+      text: 'Usuario o contraseña incorrecta',
+      effect: 'fade',
+      speed: 300,
+      customClass: '',
+      customIcon: '',
+      showIcon: true,
+      showCloseButton: true,
+      autoclose: false,
+      autotimeout: 3000,
+      gap: 20,
+      distance: 20,
+      type: 1,
+      position: 'bottom right'
+    })
+  </script>
+  <script th:if="${mensaje != null}">
+    var mensaje = '[[${mensaje}]]'
+    new Notify({
+      status: 'success',
+      title: 'Exito',
+      text: mensaje,
+      effect: 'fade',
+      speed: 300,
+      customClass: '',
+      customIcon: '',
+      showIcon: true,
+      showCloseButton: true,
+      autoclose: false,
+      autotimeout: 3000,
+      gap: 20,
+      distance: 20,
+      type: 1,
+      position: 'bottom left'
+    })
+  </script>
+  <script th:if="${errores != null}">
+    var mensaje = '[[${errores}]]'
+    new Notify({
+      status: 'warning',
+      title: 'Atención',
+      text: mensaje,
+      effect: 'fade',
+      speed: 300,
+      customClass: '',
+      customIcon: '',
+      showIcon: true,
+      showCloseButton: true,
+      autoclose: false,
+      autotimeout: 3000,
+      gap: 20,
+      distance: 20,
+      type: 1,
+      position: 'bottom right'
+    })
+  </script>
 </body>
-
-<script src="https://code.jquery.com/jquery-3.1.1.min.js" crossorigin="anonymous"></script>
-
 </html>

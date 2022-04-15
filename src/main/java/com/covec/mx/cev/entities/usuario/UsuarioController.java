@@ -47,7 +47,7 @@ public class UsuarioController {
     }
 
     @GetMapping("/logout")
-    public String logout(HttpServletRequest request){
+    public String logout(Usuario usuario, HttpServletRequest request){
         HttpSession httpSession = request.getSession();
         httpSession.invalidate();
         return "redirect:/";
@@ -108,7 +108,7 @@ public class UsuarioController {
     }
 
    @PostMapping("/forgot_password")
-    public String processForgotPasswordForm(HttpServletRequest request, Model model) {
+    public String processForgotPasswordForm(HttpServletRequest request, Model model, RedirectAttributes attributes) {
         String email = request.getParameter("username");
         String token = RandomString.make(45);
         token+= LocalDateTime.now();
@@ -116,11 +116,11 @@ public class UsuarioController {
             usuarioService.updateResetPasswordToken(token,email);
             String restPasswordLink = Utility.getSiteURL(request)+ "/reset_password?token=" + token;
             emailService.sendEmail(email,restPasswordLink);
-            model.addAttribute("message", "Hemos enviado un enlace para restablecer la contraseña a su correo electrónico. Por favor, compruebe.");
+            attributes.addFlashAttribute("mensaje", "Hemos enviado un enlace para restablecer la contraseña a su correo electrónico. Por favor, compruebe.");
         } catch (UsuarioNotFoundException e) {
-            model.addAttribute("error",e.getMessage());
+            attributes.addFlashAttribute("errores",e.getMessage());
         }catch (UnsupportedEncodingException | MessagingException e){
-            model.addAttribute("error", "Error al enviar un correo electrónico");
+            attributes.addFlashAttribute("errores", "Correo electronico inválido");
         }
         return "redirect:/login";
     }
