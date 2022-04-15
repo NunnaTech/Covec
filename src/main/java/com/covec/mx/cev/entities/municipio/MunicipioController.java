@@ -58,7 +58,7 @@ public class MunicipioController {
             attributes.addFlashAttribute("errores", errores);
         }else {
             municipioService.save(municipio);
-            operacionService.guardarOperacion("Insert", sesion.getId(), "{nombre:'Sin registro previo'}", "{nombre:'"+municipio.getNombre()+"'}");
+            operacionService.guardarOperacion("Insert", sesion.getId(), "municipio:{nombre:'Sin registro previo'}", "municipio:{nombre:'"+municipio.getNombre()+"'}");
             attributes.addFlashAttribute("mensaje", "Se ha registrado correctamente");
         }
         return "redirect:/municipios/all";
@@ -75,7 +75,7 @@ public class MunicipioController {
             attributes.addFlashAttribute("errores", errores);
         }else {
             Municipio old = municipioService.getOne(municipio.getId());
-            operacionService.guardarOperacion("Update", sesion.getId(), "{nombre:'"+old.getNombre()+"'}", "{nombre:'"+municipio.getNombre()+"'}");
+            operacionService.guardarOperacion("Update", sesion.getId(), "municipio:{nombre:'"+old.getNombre()+"'}", "municipio:{nombre:'"+municipio.getNombre()+"'}");
             municipioService.update(municipio);
             attributes.addFlashAttribute("mensaje", "Se ha actualizado correctamente");
         }        
@@ -86,7 +86,7 @@ public class MunicipioController {
     public String delete(@PathVariable Integer id, HttpSession httpSession){
         Administrador sesion = (Administrador) httpSession.getAttribute("user");
         Municipio old = municipioService.getOne(id);
-            operacionService.guardarOperacion("Delete", sesion.getId(), "{nombre:'"+old.getNombre()+"'}", "{nombre:'Se elimino el registro'");
+            operacionService.guardarOperacion("Delete", sesion.getId(), "municipio:{nombre:'"+old.getNombre()+"'}", "municipio:{nombre:'Se elimino el registro'");
         municipioService.delete(id);
         return "redirect:/municipios/all";
     }

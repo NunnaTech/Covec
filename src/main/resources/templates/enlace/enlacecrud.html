@@ -182,12 +182,17 @@
     const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
 
     $(document).ready(function () {
+        function uuidv4() {
+        return ([1e9] + -43 + -8e3 + -11).replace(/[018]/g, c =>
+          (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
+        );
+      }
         $("#botonUpload").click(async () => {
             var files = document.getElementById("imagenUpload");
             if (files.files[0]!=null){
                 const { data, error } = await _supabase.storage
                     .from('covec')
-                    .upload(`public/${files.files[0].name}`, files.files[0])
+                    .upload(`public/${uuidv4()}`, files.files[0])
                 if (data!=null){
                     $("#imagenURL").val(data.Key);
                     $("#subir").click();

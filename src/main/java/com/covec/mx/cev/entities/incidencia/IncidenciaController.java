@@ -168,13 +168,13 @@ public class IncidenciaController {
             @PathVariable("idEnlace") Integer idEnlace, RedirectAttributes attributes, HttpSession httpSession) {
 
         Enlace session = (Enlace) httpSession.getAttribute("user");
-        Incidencia cobrar = service.getOne(idIncidencia);
-        cobrar.setMonto(monto);
-        cobrar.setPagar(true);
-        service.save(cobrar);
-        operacionService.guardarOperacion("Update", session.getId(), "{cobro:'Sin datos previos'}", "{cobro:'Se le cobro al usuario"+ cobrar.getIntegrante().getNombreCompleto() + monto +"'}");
+        Incidencia old = service.getOne(idIncidencia);
+        old.setMonto(monto);
+        old.setPagar(true);
+        Incidencia newUpdate = service.save(old);
+        operacionService.guardarOperacion("Update", session.getId(), "incidencia:"+old.toStringIncidencia(), "incidencia:" + newUpdate.toStringIncidencia());
         attributes.addFlashAttribute("mensaje", "El cobro se realizo exitosamente");
-        return "redirect:/incidencias/getOne/" + cobrar.getId() + "/" + idEnlace;
+        return "redirect:/incidencias/getOne/" + newUpdate.getId() + "/" + idEnlace;
     }
 
     @PostMapping("/uploadEvidencia/{idPresidente}")
@@ -193,7 +193,7 @@ public class IncidenciaController {
             Date date = Date.valueOf(LocalDate.now());
             incidencia.setFechaRegistro(date);
             service.save(incidencia);
-            operacionService.guardarOperacion("Insert", session.getId(), "Sin datos previos",
+            operacionService.guardarOperacion("Insert", session.getId(), "indicencia:{datos:'Sin datos previos'}",
                     incidencia.toStringIncidencia());
             for (String link : evidenciaDTO.getLinks()) {
                 Evidencia evidencia = new Evidencia();
@@ -223,8 +223,8 @@ public class IncidenciaController {
         incidencia.setMonto(0.0);
         incidencia.setEstatus("Atendida");
         service.save(incidencia);
-        operacionService.guardarOperacion("Update", session.getId(), "{pago:'Sin datos previos'}", 
-        "{cantidad:'"+pago.getCantidad()+"',fecha:'" + pago.getFecha() + "'}" );
+        operacionService.guardarOperacion("Update", session.getId(), "pago:{cantidad:'Sin datos previos',fecha:'Sin datos previo'}", 
+        "pago:{cantidad:'"+pago.getCantidad()+"',fecha:'" + pago.getFecha() + "'}" );
         return "redirect:/incidencias/getDetail/" + idIncidencia;
     }
 
