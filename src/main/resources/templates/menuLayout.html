@@ -41,14 +41,14 @@
                   </svg>                    
                   Categorias
               </a></li>
-              <li><a class="transition ease-in-out delay-10 hover:-translate-x-2 bg-transparent border-none text-white py-3 my-2 hover:bg-gray-50 hover:text-indigo-700">
+              <li><a class="transition ease-in-out delay-10 hover:-translate-x-2 bg-transparent border-none text-white py-3 my-2 hover:bg-gray-50 hover:text-indigo-700" th:href="@{/bitacora/detalles}">
                   <svg class="fill-current" width="28" height="28" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path d="M28 16C28.68 16 29.34 16.08 30 16.18V6.54L15 0L0 6.54V16.36C0 25.44 6.4 33.94 15 36C16.1 35.74 17.16 35.36 18.2 34.9C16.82 32.94 16 30.56 16 28C16 21.38 21.38 16 28 16Z"/>
                       <path d="M28 20C23.58 20 20 23.58 20 28C20 32.42 23.58 36 28 36C32.42 36 36 32.42 36 28C36 23.58 32.42 20 28 20ZM28 22.76C29.24 22.76 30.24 23.78 30.24 25C30.24 26.22 29.22 27.24 28 27.24C26.78 27.24 25.76 26.22 25.76 25C25.76 23.78 26.76 22.76 28 22.76ZM28 33.5C26.14 33.5 24.52 32.58 23.52 31.16C23.62 29.72 26.54 29 28 29C29.46 29 32.38 29.72 32.48 31.16C31.48 32.58 29.86 33.5 28 33.5Z"/>
                   </svg>                    
                   Moderación
               </a></li>
-              <li><a class="transition ease-in-out delay-10 hover:-translate-x-2 bg-transparent border-none text-white mt-20 my-2 hover:bg-gray-50 hover:text-indigo-700" th:href="@{/perfil/{id}(id=${session.user.id})}">
+              <li><a class="transition ease-in-out delay-10 hover:-translate-x-2 bg-transparent border-none text-white mt-20 my-2 hover:bg-gray-50 hover:text-indigo-700" th:href="@{/perfil}">
                   <svg class="fill-current" width="28" height="28" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path d="M18 0C8.064 0 0 8.064 0 18C0 27.936 8.064 36 18 36C27.936 36 36 27.936 36 18C36 8.064 27.936 0 18 0ZM18 5.4C20.988 5.4 23.4 7.812 23.4 10.8C23.4 13.788 20.988 16.2 18 16.2C15.012 16.2 12.6 13.788 12.6 10.8C12.6 7.812 15.012 5.4 18 5.4ZM18 30.96C13.5 30.96 9.522 28.656 7.2 25.164C7.254 21.582 14.4 19.62 18 19.62C21.582 19.62 28.746 21.582 28.8 25.164C26.478 28.656 22.5 30.96 18 30.96Z"/>
                   </svg>                    
@@ -91,7 +91,7 @@
                 </svg>                                   
                   Solicitudes
               </a></li>
-              <li><a class="transition ease-in-out delay-10 hover:-translate-x-2 bg-transparent border-none text-white mt-20 my-2 hover:bg-gray-50 hover:text-indigo-700" th:href="@{/perfil/{id}(id=${session.user.id})}">
+              <li><a class="transition ease-in-out delay-10 hover:-translate-x-2 bg-transparent border-none text-white mt-20 my-2 hover:bg-gray-50 hover:text-indigo-700" th:href="@{/perfil}">
                   <svg  class="fill-current" width="28" height="28" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path d="M18 0C8.064 0 0 8.064 0 18C0 27.936 8.064 36 18 36C27.936 36 36 27.936 36 18C36 8.064 27.936 0 18 0ZM18 5.4C20.988 5.4 23.4 7.812 23.4 10.8C23.4 13.788 20.988 16.2 18 16.2C15.012 16.2 12.6 13.788 12.6 10.8C12.6 7.812 15.012 5.4 18 5.4ZM18 30.96C13.5 30.96 9.522 28.656 7.2 25.164C7.254 21.582 14.4 19.62 18 19.62C21.582 19.62 28.746 21.582 28.8 25.164C26.478 28.656 22.5 30.96 18 30.96Z"/>
                   </svg>                    
@@ -136,7 +136,7 @@
                     </svg>                                                       
                       Pagos
                   </a></li>
-                  <li><a class="mt-10 transition ease-in-out delay-10 hover:-translate-x-2 duration-300 bg-transparent border-none text-white py-3 my-2 hover:bg-gray-50 hover:text-indigo-700" th:href="@{/perfil/{id}(id=${session.user.id})}">
+                  <li><a class="mt-10 transition ease-in-out delay-10 hover:-translate-x-2 duration-300 bg-transparent border-none text-white py-3 my-2 hover:bg-gray-50 hover:text-indigo-700" th:href="@{/perfil}">
                       <svg class="fill-current" width="28" height="28" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
                           <path d="M18 0C8.064 0 0 8.064 0 18C0 27.936 8.064 36 18 36C27.936 36 36 27.936 36 18C36 8.064 27.936 0 18 0ZM18 5.4C20.988 5.4 23.4 7.812 23.4 10.8C23.4 13.788 20.988 16.2 18 16.2C15.012 16.2 12.6 13.788 12.6 10.8C12.6 7.812 15.012 5.4 18 5.4ZM18 30.96C13.5 30.96 9.522 28.656 7.2 25.164C7.254 21.582 14.4 19.62 18 19.62C21.582 19.62 28.746 21.582 28.8 25.164C26.478 28.656 22.5 30.96 18 30.96Z"/>
                       </svg>                    

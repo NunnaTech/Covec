@@ -30,7 +30,7 @@ public class Colonia {
     private String nombre;
     
     @Pattern(regexp = "^[0-9]*$", message = "Solo se permiten números en el C.P.")
-    @Size(min = 5, max = 5,message = "El C.P de la colonia debe tener 6 dígitos")
+    @Size(min = 5, max = 5,message = "El C.P de la colonia debe tener 5 dígitos")
     @NotEmpty(message = "El C.P. no debe estar vacío")
     @Column(name = "codigo_postal")
     private String codigoPostal;

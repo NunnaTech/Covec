@@ -67,10 +67,10 @@ public class UsuarioController {
         return "index";
     }
 
-    @GetMapping("/perfil/{idUsuario}")
-    public String profileUser(Model model, @PathVariable("idUsuario") Integer idUsuario){
-        Usuario usuario = usuarioService.getOne(idUsuario);
-        model.addAttribute("usuario", usuario);
+    @GetMapping("/perfil")
+    public String profileUser(HttpSession httpSession, Model model){
+        Usuario session = (Usuario) httpSession.getAttribute("user");
+        model.addAttribute("usuario",  session);
         return"perfil";
     }
 

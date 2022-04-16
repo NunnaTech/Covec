@@ -84,21 +84,21 @@
                         <span class="label-text">Nombre completo</span>
                       </label>
                       <input id="ncompleto" type="text" th:field="*{nombreCompleto}" placeholder="ej. José Manuel P."
-                        class="input input-bordered" minlength="15" maxlength="45" required>
+                        class="input input-bordered" pattern="[A-Za-zÀ-ÿ '-.]*" minlength="15" maxlength="45" required>
                     </div>
                     <div class="form-control px-5 w-full">
                       <label class="label">
                         <span class="label-text">Teléfono</span>
                       </label>
                       <input id="telefono" type="text" th:field="*{telefono}" placeholder="ej. 7777854961"
-                        class="input input-bordered" minlength="10" maxlength="10" required>
+                        class="input input-bordered" pattern="[0-9 '-.]*" minlength="10" maxlength="10" required>
                     </div>
                     <div class="form-control px-5 w-full">
                       <label class="label">
                         <span class="label-text">Correo</span>
                       </label>
                       <input id="email" type="email" th:field="*{username}" placeholder="ej. Jose_covec@gmail.com"
-                        class="input input-bordered" minlength="5" maxlength="45" required>
+                        class="input input-bordered" pattern="[A-Za-zÀ-ÿ0-9 '-.]*" minlength="5" maxlength="45" required>
                     </div>
                   </div>
                   <div class="flex flex-col justify-center lg:flex-row">

@@ -30,7 +30,7 @@
               <span class="label-text">Nombre</span>
             </label>
             <input hidden th:value="${objeto.id}" name="id"/>
-            <input type="text" th:value="${objeto.nombre}" name="nombre" placeholder="Ej. Hacienda" class="input input-bordered w-full max-w-xs"/>
+            <input type="text" th:value="${objeto.nombre}" name="nombre" placeholder="Ej. Hacienda" class="input input-bordered w-full max-w-xs" pattern="[A-Za-zÀ-ÿ '-.]*" minlength="4" maxlength="45" required/>
           </div>
         </div>
         <div class="divider"></div>

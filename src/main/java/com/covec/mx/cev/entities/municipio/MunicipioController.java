@@ -20,6 +20,7 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import com.covec.mx.cev.entities.operacion.OperacionService;
+import com.covec.mx.cev.entities.usuario.Usuario;
 import com.covec.mx.cev.entities.usuario.administrador.Administrador;
 
 @Controller
@@ -49,7 +50,7 @@ public class MunicipioController {
 
     @PostMapping("/save")
     public String save(@Valid @ModelAttribute("municipio") Municipio municipio, BindingResult result, RedirectAttributes attributes, HttpSession httpSession){
-        Administrador sesion = (Administrador) httpSession.getAttribute("user");
+        Usuario sesion = (Usuario) httpSession.getAttribute("user");
         if(result.hasErrors()){
             List<String> errores = new ArrayList<>();
             for (ObjectError error:result.getAllErrors()) {
@@ -66,7 +67,7 @@ public class MunicipioController {
 
     @PostMapping("/update")
     public String update(@Valid @ModelAttribute("municipio") Municipio municipio, BindingResult result, RedirectAttributes attributes, HttpSession httpSession){
-        Administrador sesion = (Administrador) httpSession.getAttribute("user");
+        Usuario sesion = (Usuario) httpSession.getAttribute("user");
         if(result.hasErrors()){
             List<String> errores = new ArrayList<>();
             for (ObjectError error:result.getAllErrors()) {
@@ -84,7 +85,7 @@ public class MunicipioController {
 
     @GetMapping("/delete/{id}")
     public String delete(@PathVariable Integer id, HttpSession httpSession){
-        Administrador sesion = (Administrador) httpSession.getAttribute("user");
+        Usuario sesion = (Usuario) httpSession.getAttribute("user");
         Municipio old = municipioService.getOne(id);
             operacionService.guardarOperacion("Delete", sesion.getId(), "municipio:{nombre:'"+old.getNombre()+"'}", "municipio:{nombre:'Se elimino el registro'");
         municipioService.delete(id);

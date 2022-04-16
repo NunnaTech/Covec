@@ -34,8 +34,8 @@
                 <span class="label-text">Nombre</span>
               </label>
               <input hidden th:value="${objeto.id}" name="id" />
-              <input type="text" th:value="${objeto.nombre}" name="nombre" placeholder="Inserte el nombre aqui"
-                class="input input-bordered w-full max-w-xs" />
+              <input pattern="[A-Za-zÀ-ÿ '-.]*" type="text" th:value="${objeto.nombre}" name="nombre" placeholder="Ej. Drenaje"
+                class="input input-bordered w-full max-w-xs"  minlength="4" maxlength="45" required/>
             </div>
           </div>
           <div class="divider"></div>

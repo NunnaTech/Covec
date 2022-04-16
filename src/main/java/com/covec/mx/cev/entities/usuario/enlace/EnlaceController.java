@@ -2,6 +2,7 @@ package com.covec.mx.cev.entities.usuario.enlace;
 
 import com.covec.mx.cev.entities.municipio.MunicipioService;
 import com.covec.mx.cev.entities.operacion.OperacionService;
+import com.covec.mx.cev.entities.usuario.Usuario;
 import com.covec.mx.cev.entities.usuario.administrador.Administrador;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -65,7 +66,7 @@ public class EnlaceController {
         enlace.setEnabled(true);
         enlace.setPassword(encode);
         String actual = String.format(
-                "enlace:{nombreCompleto:'%s',username:'%s',telefono:'%s',tipoUsuario:'%s', enabled:%s, numEmpleado:'%s'}",
+                "enlace: { nombreCompleto:'%s', username:'%s', telefono:'%s', tipoUsuario:'%s', enabled:%s, numEmpleado:'%s'}",
                 enlace.getNombreCompleto(), enlace.getUsername(), enlace.getTelefono(), enlace.getTipoUsuario(),
                 enlace.getEnabled(), enlace.getNumEmpleado());
         operacionService.guardarOperacion("Insert", sesion.getId(), "enlace:{datos:'Sin datos previos'}", actual);
@@ -78,12 +79,12 @@ public class EnlaceController {
         Administrador sesion = (Administrador) httpSession.getAttribute("user");
         Enlace old = service.getOne(enlace.getId());
         String anterior = String.format(
-                "enlace:{nombreCompleto:'%s',username:'%s',telefono:'%s',tipoUsuario:'%s', enabled:%s, numEmpleado:'%s'}",
+                "enlace: { nombreCompleto:'%s', username:'%s', telefono:'%s', tipoUsuario:'%s', enabled:%s, numEmpleado:'%s'}",
                 old.getNombreCompleto(), old.getUsername(), old.getTelefono(), old.getTipoUsuario(),
                 old.getEnabled(), old.getNumEmpleado());
         Enlace updated = service.update(enlace);
         String actual = String.format(
-                "enlace:{nombreCompleto:'%s',username:'%s',telefono:'%s',tipoUsuario:'%s', enabled:%s, numEmpleado:'%s'}",
+                "enlace: { nombreCompleto:'%s', username:'%s', telefono:'%s', tipoUsuario:'%s', enabled:%s, numEmpleado:'%s'}",
                 updated.getNombreCompleto(), updated.getUsername(), updated.getTelefono(), updated.getTipoUsuario(),
                 updated.getEnabled(), updated.getNumEmpleado());
         operacionService.guardarOperacion("Insert", sesion.getId(), anterior, actual);
@@ -92,11 +93,11 @@ public class EnlaceController {
 
     @GetMapping("/remove/{id}/{opc}")
     public String delete(@PathVariable Integer id,@PathVariable Integer opc, HttpSession httpSession) {
-        Administrador sesion = (Administrador) httpSession.getAttribute("user");
+        Usuario sesion = (Usuario) httpSession.getAttribute("user");
         Enlace old = service.getOne(id);
-        String anterior = String.format("enlace:{username:'%s',enabled:%s}",old.getUsername(), old.getEnabled());
+        String anterior = String.format("enlace: { username:'%s', enabled:%s}",old.getUsername(), old.getEnabled());
         Enlace updated = service.delete(id, opc);
-        String actual = String.format("enlace:{username:'%s',enabled:%s}",updated.getUsername(), updated.getEnabled());
+        String actual = String.format("enlace: { username:'%s', enabled:%s}",updated.getUsername(), updated.getEnabled());
         operacionService.guardarOperacion("Update", sesion.getId(), anterior, actual);
         return "redirect:/enlaces/all";
     }

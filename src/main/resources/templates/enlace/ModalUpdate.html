@@ -1,92 +1,67 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link
-      href="https://cdn.jsdelivr.net/npm/daisyui@2.8.0/dist/full.css"
-      rel="stylesheet"
-      type="text/css"
-    />
-    <link
-      href="https://fonts.googleapis.com/icon?family=Material+Icons"
-      rel="stylesheet"
-    />
-    <script src="https://cdn.tailwindcss.com"></script>
-    <title>Categorias | Covec</title>
-  </head>
-  <body>
-    <div th:fragment="modalUpdate(objeto, i)">
-      <label
-        th:for="${i}"
-        class="btn border-none w-16 bg-yellow-500 hover:bg-yellow-400"
-      >
-        <span class="material-icons">edit</span>
-      </label>
-      <input type="checkbox" hidden th:id="${i}" class="modal-toggle" />
-      <div class="modal">
-        <div class="modal-box w-11/12 max-w-5xl">
-          <div class="grid grid-cols-1 justify-items-center">
-            <h2 class="font-bold text-2xl">Actualización de enlace</h2>
-            <h4 class="font-light text-lg">Ingrese los nuevos datos</h4>
-          </div>
-          <div class="divider"></div>
 
-          <form
-            th:object="${enlace}"
-            method="post"
-            th:action="@{/enlaces/update}"
-          >
-            <div class="grid md:grid-cols-3 sm:grid-cols-1 justify-items-center">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="https://cdn.jsdelivr.net/npm/daisyui@2.8.0/dist/full.css" rel="stylesheet" type="text/css" />
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <title>Categorias | Covec</title>
+</head>
+
+<body>
+  <div th:fragment="modalUpdate(objeto, i)">
+    <label th:for="${i}" class="btn border-none w-16 bg-yellow-500 hover:bg-yellow-400">
+      <span class="material-icons">edit</span>
+    </label>
+    <input type="checkbox" hidden th:id="${i}" class="modal-toggle" />
+    <div class="modal">
+      <div class="modal-box w-11/12 max-w-5xl">
+        <div class="grid grid-cols-1 justify-items-center">
+          <h2 class="font-bold text-2xl">Actualización de enlace</h2>
+          <h4 class="font-light text-lg">Ingrese los nuevos datos</h4>
+        </div>
+        <div class="divider"></div>
+
+        <form th:object="${enlace}" method="post" th:action="@{/enlaces/update}">
+          <div class="grid md:grid-cols-3 sm:grid-cols-1 justify-items-center">
             <input hidden th:value="${objeto.id}" name="id" />
             <div class="form-control mx-2">
-                <label class="label">
-                  <span class="label-text">Nombre Completo</span>
-                </label>
-                <input
-                  type="text"
-                  th:value="${objeto.nombreCompleto}"
-                  name="nombreCompleto"
-                  placeholder="Ej. José Manuel N."
-                  class="input input-bordered w-full max-w-xs"
-                />
+              <label class="label">
+                <span class="label-text">Nombre Completo</span>
+              </label>
+              <input type="text" th:value="${objeto.nombreCompleto}" name="nombreCompleto"
+                placeholder="Ej. José Manuel N." class="input input-bordered w-full max-w-xs" pattern="[A-Za-zÀ-ÿ '-.]*" minlength="15" maxlength="45" required/>
             </div>
             <div class="form-control mx-2">
-                <label class="label">
-                  <span class="label-text">Numero Telefónico</span>
-                </label>
-                <input
-                  type="text"
-                  th:value="${objeto.telefono}"
-                  name="telefono"
-                  placeholder="Ej. 0012221231"
-                  class="input input-bordered w-full max-w-xs"
-                />
+              <label class="label">
+                <span class="label-text">Numero Telefónico</span>
+              </label>
+              <input type="text" th:value="${objeto.telefono}" name="telefono" placeholder="Ej. 0012221231"
+                class="input input-bordered w-full max-w-xs" pattern="[0-9 '-.]*" minlength="10" maxlength="10" required/>
             </div>
             <div class="form-control mx-2">
-                <label class="label">
-                  <span class="label-text">Correo Electronico</span>
-                </label>
-                <input
-                type="text"
-                th:value="${objeto.username}"
-                name="username"
-                placeholder="Ej. Jose_covec@gmail.com"
-                class="input input-bordered w-full max-w-xs"
-              />
+              <label class="label">
+                <span class="label-text">Correo Electronico</span>
+              </label>
+              <input type="text" th:value="${objeto.username}" name="username" placeholder="Ej. Jose_covec@gmail.com"
+                class="input input-bordered w-full max-w-xs" pattern="[A-Za-zÀ-ÿ0-9 '-.]*" minlength="5" maxlength="45" require/>
             </div>
+          </div>
+          <div class="divider"></div>
+          <div class="modal-action">
+            <div class="btn-group">
+              <label th:for="${i}" class="btn border-none">Cerrar</label>
+              <button type="submit" class="btn border-none bg-emerald-700 hover:bg-emerald-600">Guardar cambios <span
+                  class="material-icons ml-2">save_as</span></button>
             </div>
-            <div class="divider"></div>
-            <div class="modal-action">
-              <div class="btn-group">
-                <label th:for="${i}" class="btn border-none">Cerrar</label>
-                <button type="submit" class="btn border-none bg-emerald-700 hover:bg-emerald-600">Guardar cambios <span class="material-icons ml-2">save_as</span></button>
-              </div>
-            </div>
-          </form>
-        </div>
+          </div>
+        </form>
       </div>
     </div>
-  </body>
+  </div>
+</body>
+
 </html>

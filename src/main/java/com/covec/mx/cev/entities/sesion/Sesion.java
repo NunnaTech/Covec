@@ -4,6 +4,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+
+import com.covec.mx.cev.entities.usuario.Usuario;
+
 import java.time.LocalDateTime;
 
 @Entity
@@ -18,6 +21,11 @@ public class Sesion {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_sesiones")
     private Integer id;
+    
     @Column(name = "fecha_sesion")
     private LocalDateTime fechaSesion;
+
+    @ManyToOne
+    @JoinColumn(name = "id_usuario")
+    private Usuario usuario;
 }

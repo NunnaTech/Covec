@@ -32,8 +32,8 @@
               <label class="label">
                 <span class="label-text">Nombre</span>
               </label>
-              <input type="text" th:field="*{nombre}" placeholder="Ej. Drenaje"
-                class="input input-bordered w-full max-w-xs" />
+              <input pattern="[A-Za-zÀ-ÿ '-.]*" type="text" th:field="*{nombre}" placeholder="Ej. Drenaje"
+                class="input input-bordered w-full max-w-xs" minlength="4" maxlength="45" required/>
             </div>
           </div>
           <div class="divider"></div>

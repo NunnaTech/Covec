@@ -1,22 +1,23 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Awesome application to manage neighborhood incidents">
-    <meta name="author" content="ThePandaDevs" />
-    <meta name="copyright" content="Copyright 2022 - All rights reserved" />
-    <meta name="robots" content="index, follow">
-    <meta name="keywords" content="reports, neighborhood, incidents, free application">
-    <title>Moderación | Covec</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdn.jsdelivr.net/npm/daisyui@2.8.0/dist/full.css" rel="stylesheet" type="text/css" />
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
-    rel="stylesheet">
-</head>
-<body>
+<html data-theme="light" xmlns:th="https://www.thymeleaf.org/" lang="en">
 
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Awesome application to manage neighborhood incidents" />
+  <meta name="author" content="ThePandaDevs" />
+  <meta name="copyright" content="Copyright 2022 - All rights reserved" />
+  <meta name="robots" content="index, follow" />
+  <meta name="keywords" content="reports, neighborhood, incidents, free application" />
+  <title>Moderación | Covec</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdn.jsdelivr.net/npm/daisyui@2.8.0/dist/full.css" rel="stylesheet" type="text/css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tw-elements/dist/css/index.min.css" />
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+</head>
+
+<body>
   <div class="drawer h-screen w-full">
     <input id="my-drawer-3" type="checkbox" class="drawer-toggle" />
     <div class="drawer-content flex flex-col" style="background-color: #EBEBEB;">
@@ -43,74 +44,149 @@
         </div>
       </div>
       <!-- Contenido principal -->
-      
-      <ul class="nav nav-tabs flex flex-col md:flex-row flex-wrap list-none border-b-0 pl-0 mb-4" id="tabs-tabFill"
-      role="tablist">
-      <li class="nav-item flex-auto text-center" role="presentation">
-        <a href="#tabs-homeFill"
-          class="nav-link w-full block font-medium leading-tight border-x-0 border-t-0 border-b-2 border-transparent px-6 py-3 my-2 hover:border-transparent hover:bg-gray-100 focus:border-transparent active"
-          id="tabs-home-tabFill" data-bs-toggle="pill" data-bs-target="#tabs-homeFill" role="tab"
-          aria-controls="tabs-homeFill" aria-selected="true">Sesiones</a>
-      </li>
-      <li class="nav-item flex-auto text-center" role="presentation">
-        <a href="#tabs-profileFill"
-          class="nav-link w-full block font-medium leading-tight border-x-0 border-t-0 border-b-2 border-transparent px-6 py-3 my-2 hover:border-transparent hover:bg-gray-100 focus:border-transparent"
-          id="tabs-profile-tabFill" data-bs-toggle="pill" data-bs-target="#tabs-profileFill" role="tab"
-          aria-controls="tabs-profileFill" aria-selected="false">Movimientos</a>
-      </li>
-      <li class="nav-item flex-auto text-center" role="presentation">
-        <a href="#tabs-messagesFill"
-          class="nav-link w-full block font-medium leading-tight border-x-0 border-t-0 border-b-2 border-transparent px-6 py-3 my-2 hover:border-transparent hover:bg-gray-100 focus:border-transparent"
-          id="tabs-messages-tabFill" data-bs-toggle="pill" data-bs-target="#tabs-messagesFill" role="tab"
-          aria-controls="tabs-messagesFill" aria-selected="false">
-          Pagos</a>
-      </li>
-    </ul>
-    <div class="flex flex-row justify-center pb-12 pt-5">
-      <svg class="hidden lg:block" width="70" height="70" viewBox="0 0 90 90" fill="none"
-        xmlns="http://www.w3.org/2000/svg">
-        <path
-          d="M70 40C71.7 40 73.35 40.2 75 40.45V16.35L37.5 0L0 16.35V40.9C0 63.6 16 84.85 37.5 90C40.25 89.35 42.9 88.4 45.5 87.25C42.05 82.35 40 76.4 40 70C40 53.45 53.45 40 70 40Z"
-          fill="#455A64" />
-        <path
-          d="M70 50C58.95 50 50 58.95 50 70C50 81.05 58.95 90 70 90C81.05 90 90 81.05 90 70C90 58.95 81.05 50 70 50ZM70 56.9C73.1 56.9 75.6 59.45 75.6 62.5C75.6 65.55 73.05 68.1 70 68.1C66.95 68.1 64.4 65.55 64.4 62.5C64.4 59.45 66.9 56.9 70 56.9ZM70 83.75C65.35 83.75 61.3 81.45 58.8 77.9C59.05 74.3 66.35 72.5 70 72.5C73.65 72.5 80.95 74.3 81.2 77.9C78.7 81.45 74.65 83.75 70 83.75Z"
-          fill="#455A64" />
-      </svg>
-      
-      <div>
-        <h2 class="text-center font-medium leading-tight text-3xl lg:text-5xl">
-          Espacio de moderación
-        </h2>
-        <h4 class="text-center text-2xl text-gray-500">
-          Mostrando últimos registros
-        </h4>
+
+      <div class="flex flex-col justify-center pt-5 my-3 rounded-2xl shadow-md mx-2 md:lg:flex-col"
+        style="background-color: #FFFFFF;">
+        <div>
+          <h2 class="text-center font-medium leading-tight text-3xl lg:text-4xl">
+            Espacio de moderación
+          </h2>
+          <h4 class="text-center text-2xl text-gray-500">
+            Mostrando últimos registros
+          </h4>
+        </div>
+        <div class="mx-5">
+          <ul class="nav nav-tabs flex flex-col md:flex-row flex-wrap list-none border-b-0 pl-0 mb-4" id="tabs-tabFill"
+            role="tablist">
+            <li class="nav-item flex-auto text-center" role="presentation">
+              <a href="#tabs-homeFill"
+                class="nav-link w-full block font-medium leading-tight border-x-0 border-t-0 border-b-2 border-transparent px-6 py-3 my-2 hover:border-transparent hover:bg-gray-100 focus:border-transparent active"
+                id="tabs-home-tabFill" data-bs-toggle="pill" data-bs-target="#tabs-homeFill" role="tab"
+                aria-controls="tabs-homeFill" aria-selected="true">Sesiones</a>
+            </li>
+            <li class="nav-item flex-auto text-center" role="presentation">
+              <a href="#tabs-profileFill"
+                class="nav-link w-full block font-medium leading-tight border-x-0 border-t-0 border-b-2 border-transparent px-6 py-3 my-2 hover:border-transparent hover:bg-gray-100 focus:border-transparent"
+                id="tabs-profile-tabFill" data-bs-toggle="pill" data-bs-target="#tabs-profileFill" role="tab"
+                aria-controls="tabs-profileFill" aria-selected="false">Movimientos</a>
+            </li>
+            <li class="nav-item flex-auto text-center" role="presentation">
+              <a href="#tabs-messagesFill"
+                class="nav-link w-full block font-medium leading-tight border-x-0 border-t-0 border-b-2 border-transparent px-6 py-3 my-2 hover:border-transparent hover:bg-gray-100 focus:border-transparent"
+                id="tabs-messages-tabFill" data-bs-toggle="pill" data-bs-target="#tabs-messagesFill" role="tab"
+                aria-controls="tabs-messagesFill" aria-selected="false">
+                Pagos</a>
+            </li>
+          </ul>
+        </div>
       </div>
-    </div>
-  
-    <div class="tab-content" id="tabs-tabContentFill">
-      <div class="tab-pane fade show active" id="tabs-homeFill" role="tabpanel" aria-labelledby="tabs-home-tabFill">
-        <div th:insert="moderacion/logsLayout :: logs-sesiones"></div>
+
+      <div class="tab-content" id="tabs-tabContentFill">
+        <div class="tab-pane fade show active" id="tabs-homeFill" role="tabpanel" aria-labelledby="tabs-home-tabFill">
+          <div class="overflow-x-auto mx-2">
+            <table class="table w-full">
+              <thead>
+                <tr class="text-center">
+                  <th>Identificación</th>
+                  <th>Nombre completo</th>
+                  <th>Tipo usuario</th>
+                  <th>Usuario</th>
+                  <th>Telefono</th>
+                  <th>Fecha:hora</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="hover " th:each="c,i:${sesiones}">
+                  <td class="text-center">
+                    <div class="avatar">
+                      <div class="w-20 rounded">
+                        <img th:src="@{https://zafetnpukdsurpyhykzj.supabase.co/storage/v1/object/public/{link}(link=${c.usuario.imagen})}" alt="no disponible" />
+                      </div>
+                    </div>
+                  </td>
+                  <td class="text-center">[[${c.usuario.nombreCompleto}]]</td>
+                  <td class="text-center"> [[${c.usuario.tipoUsuario}]]</td>
+                  <td class="text-center"> [[${c.usuario.username}]]</td>
+                  <td class="text-center">[[${c.usuario.telefono}]]</td>
+                  <td class="text-center">[[${c.fechaSesion}]]</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="tab-pane fade" id="tabs-profileFill" role="tabpanel" aria-labelledby="tabs-profile-tabFill">
+          <div class="overflow-x-auto mx-2">
+            <table class="table w-full">
+              <thead >
+                <tr class="text-center">
+                  <th>Acción</th>
+                  <th>Realizado por</th>
+                  <th>Usuario</th>
+                  <th>Teléfono</th>
+                  <th>Valor anterior</th>
+                  <th>Valor actual</th>
+                  <th>Fecha:hora</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="hover " th:each="c,i:${operaciones}">
+                  <td class="text-center">[[${c.accion}]]</td>
+                  <td class="text-center"> [[${c.usuario.nombreCompleto}]]</td>
+                  <td class="text-center"> [[${c.usuario.username}]]</td>
+                  <td class="text-center">[[${c.usuario.telefono}]]</td>
+                  <td class="text-center">[[${c.anterior}]]</td>
+                  <td class="text-center">[[${c.actual}]]</td>
+                  <td class="text-center">[[${c.fechaHora}]]</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="tab-pane fade" id="tabs-messagesFill" role="tabpanel" aria-labelledby="tabs-profile-tabFill">
+          <div class="overflow-x-auto mx-2">
+            <table class="table w-full">
+              <thead >
+                <tr class="text-center">
+                  <th>Realizado por</th>
+                  <th>Usuario</th>
+                  <th>Teléfono</th>
+                  <th>Categoria</th>
+                  <th>Descripción</th>
+                  <th>Cantidad</th>
+                  <th>Fecha:hora</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="hover " th:each="c,i:${pagos}">
+                  <td class="text-center">[[${c.incidencia.integrante.nombreCompleto}]]</td>
+                  <td class="text-center"> [[${c.incidencia.integrante.username}]]</td>
+                  <td class="text-center"> [[${c.incidencia.integrante.telefono}]]</td>
+                  <td class="text-center">[[${c.incidencia.categoria.nombre}]]</td>
+                  <td class="text-center">[[${c.incidencia.descripcion}]]</td>
+                  <td class="text-center">$ [[${c.cantidad}]]</td>
+                  <td class="text-center">[[${c.fecha}]]</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
       </div>
-      <div class="tab-pane fade" id="tabs-profileFill" role="tabpanel" aria-labelledby="tabs-profile-tabFill">
-        <div th:insert="moderacion/logsLayout :: logs-movimientos"></div>
-      </div>
-      <div class="tab-pane fade" id="tabs-messagesFill" role="tabpanel" aria-labelledby="tabs-profile-tabFill">
-        <div th:insert="moderacion/logsLayout :: logs-pagos"></div>
-      </div>
-    </div>
-  </div>
+
+
+
 
     </div>
     <!--Menu dependiendo del rol-->
-    
-      <div sec:authorize="hasAnyAuthority('ROL_ADMIN')" th:replace="menuLayout :: admin-menu"></div>
 
-      <div sec:authorize="hasAnyAuthority('ROL_ENLACE')" th:replace="menuLayout :: enlace-menu"></div>
+    <div sec:authorize="hasAnyAuthority('ROL_ADMIN')" th:replace="menuLayout :: admin-menu"></div>
 
-      <div sec:authorize="hasAnyAuthority('ROL_PRESIDENTE')" th:replace="menuLayout :: presidente-menu"></div>
+    <div sec:authorize="hasAnyAuthority('ROL_ENLACE')" th:replace="menuLayout :: enlace-menu"></div>
+
+    <div sec:authorize="hasAnyAuthority('ROL_PRESIDENTE')" th:replace="menuLayout :: presidente-menu"></div>
 
   </div>
 </body>
 <script src="https://code.jquery.com/jquery-3.1.1.min.js" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/tw-elements/dist/js/index.min.js"></script>
+
 </html>

@@ -1,13 +1,13 @@
 package com.covec.mx.cev.entities.pago;
 
 import com.covec.mx.cev.entities.incidencia.Incidencia;
-import com.covec.mx.cev.entities.usuario.integrante.Integrante;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
+import java.util.List;
 
 @Service
 public class PagoService {
@@ -20,5 +20,9 @@ public class PagoService {
 
     public Pago save(Pago pago){
         return pagoRepository.save(pago);
+    }
+
+    public List<Pago> getAllPagos(){
+        return pagoRepository.findByOrderByIdDesc();
     }
 }

@@ -1,5 +1,7 @@
 package com.covec.mx.cev.entities.operacion;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.query.Procedure;
 import org.springframework.data.repository.query.Param;
@@ -10,4 +12,6 @@ public interface OperacionRepository extends JpaRepository<Operacion,Integer> {
     
     @Procedure(procedureName = "operaciones")
     void guardarOPeracion(@Param("eaccion") String eaccion, @Param("eid_usuario")Integer id, @Param("eanterior") String eanterior, @Param("eactual") String eactual);
+
+    List<Operacion> findByOrderByIdDesc();
 }

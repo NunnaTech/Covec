@@ -17,7 +17,6 @@ import com.covec.mx.cev.entities.colonia.ColoniaService;
 import com.covec.mx.cev.entities.operacion.OperacionService;
 import com.covec.mx.cev.entities.rol.Rol;
 import com.covec.mx.cev.entities.rol.RolService;
-import com.covec.mx.cev.entities.usuario.Usuario;
 import com.covec.mx.cev.entities.usuario.UsuarioService;
 import com.covec.mx.cev.entities.usuario.enlace.Enlace;
 import com.covec.mx.cev.entities.usuario.integrante.Integrante;

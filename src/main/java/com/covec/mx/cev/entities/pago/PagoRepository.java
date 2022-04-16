@@ -7,10 +7,13 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.Collection;
+import java.util.List;
 
 
 @Repository
 public interface PagoRepository extends JpaRepository<Pago,Integer> {
 
     Page<Pago> findByIncidenciaIn(Collection<Incidencia> incidencias, Pageable pageable);
+
+    List<Pago> findByOrderByIdDesc();
 }

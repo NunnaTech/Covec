@@ -2,6 +2,7 @@ package com.covec.mx.cev.entities.usuario;
 
 import com.covec.mx.cev.entities.operacion.Operacion;
 import com.covec.mx.cev.entities.rol.Rol;
+import com.covec.mx.cev.entities.sesion.Sesion;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -59,6 +60,9 @@ public class Usuario {
 
     @OneToMany(mappedBy = "usuario")
     private List<Operacion> operaciones;
+
+    @OneToMany(mappedBy = "usuario")
+    private List<Sesion> sesiones;
 
 	@ManyToMany(cascade = CascadeType.MERGE)
 	@JoinTable(name = "authorities", 

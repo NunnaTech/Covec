@@ -93,23 +93,21 @@
                             </label>
                             <input th:id="uncompleto" type="text" th:value="${integrante.nombreCompleto}"
                                 th:name="nombreCompleto" placeholder="ej. José Manuel P." class="input input-bordered"
-                                minlength="15" maxlength="45" required />
+                                pattern="[A-Za-zÀ-ÿ '-.]*" minlength="15" maxlength="45" required />
                         </div>
                         <div class="form-control px-5 w-full">
                             <label class="label">
                                 <span class="label-text">Teléfono</span>
                             </label>
                             <input th:id="utelefono" type="text" th:value="${integrante.telefono}" th:name="telefono"
-                                placeholder="ej. 7777854961" class="input input-bordered" minlength="10" maxlength="10"
-                                required />
+                                placeholder="ej. 7777854961" class="input input-bordered" pattern="[0-9 '-.]*" minlength="10" maxlength="10" required/>
                         </div>
                         <div class="form-control px-5 w-full">
                             <label class="label">
                                 <span class="label-text">Correo</span>
                             </label>
                             <input th:id="uemail" type="email" th:value="${integrante.username}" th:name="username"
-                                placeholder="ej. Jose_covec@gmail.com" class="input input-bordered" minlength="5"
-                                maxlength="45" required />
+                                placeholder="ej. Jose_covec@gmail.com" class="input input-bordered" pattern="[A-Za-zÀ-ÿ0-9 '-.]*" minlength="5" maxlength="45" required> />
                         </div>
                     </div>
                     <div class="flex flex-col justify-center lg:flex-row">

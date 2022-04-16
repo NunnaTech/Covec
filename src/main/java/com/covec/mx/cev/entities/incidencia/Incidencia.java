@@ -56,8 +56,8 @@ public class Incidencia {
     private List<Pago> pagos;
 
     public String toStringIncidencia() {
-        return  "{ descripcion:" + descripcion + ", estatus:" + estatus
-                + ", fechaRegistro:" + fechaRegistro + ", id:" + id + ", monto:" + monto
+        return  "incidencia: { descripcion:" + descripcion + ", estatus:" + estatus
+                + ", fechaRegistro:" + fechaRegistro + ", monto:" + monto
                 + ", pagar:" + pagar + "}";
     }
 

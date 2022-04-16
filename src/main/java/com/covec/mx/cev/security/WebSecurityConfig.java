@@ -16,16 +16,21 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(securedEnabled = true)
-public class    WebSecurityConfig extends WebSecurityConfigurerAdapter{
-    
+public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+
     @Autowired
     DataSource dataSource;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
+        .headers()
+        .xssProtection();
+
+        http
                 .authorizeRequests()
-                .antMatchers("/perfil","/actualizar","/updatePassword","/reset_password","/forgot_password","/login", "/css/**", "/js/**", "/image/**", "/imagenes/**")
+                .antMatchers("/perfil", "/actualizar", "/updatePassword", "/reset_password", "/forgot_password",
+                        "/login", "/css/**", "/js/**", "/image/**", "/imagenes/**")
                 .permitAll()
                 .antMatchers("/enlaces/**").hasAnyAuthority("ROL_ADMIN")
                 .antMatchers("/municipios/**").hasAnyAuthority("ROL_ADMIN")
@@ -37,25 +42,25 @@ public class    WebSecurityConfig extends WebSecurityConfigurerAdapter{
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
-                    .loginPage("/login")
-                    .defaultSuccessUrl("/dashboard")
+                .loginPage("/login")
+                .defaultSuccessUrl("/dashboard")
                 .and()
                 .logout()
                 .logoutSuccessUrl("/login?logout")
                 .permitAll();
     }
-    
+
     @Override
-	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-		auth.jdbcAuthentication().dataSource(dataSource)
-				.usersByUsernameQuery("SELECT username, password, enabled FROM users WHERE username = ?")
-				.authoritiesByUsernameQuery("SELECT u.username, r.authority FROM authorities AS ur "
-						+ "INNER JOIN users AS u ON u.id_usuario = ur.id_usuario "
-						+ "INNER JOIN roles AS r ON r.id_rol = ur.id_rol WHERE u.username = ?");
-	}
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.jdbcAuthentication().dataSource(dataSource)
+                .usersByUsernameQuery("SELECT username, password, enabled FROM users WHERE username = ?")
+                .authoritiesByUsernameQuery("SELECT u.username, r.authority FROM authorities AS ur "
+                        + "INNER JOIN users AS u ON u.id_usuario = ur.id_usuario "
+                        + "INNER JOIN roles AS r ON r.id_rol = ur.id_rol WHERE u.username = ?");
+    }
 
     @Bean
-    public PasswordEncoder passwordEncoder(){
+    public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 

@@ -6,10 +6,8 @@ import java.util.Optional;
 
 import javax.transaction.Transactional;
 
-import com.covec.mx.cev.entities.colonia.Colonia;
 import com.covec.mx.cev.entities.email.UsuarioNotFoundException;
 
-import com.covec.mx.cev.entities.usuario.enlace.Enlace;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
