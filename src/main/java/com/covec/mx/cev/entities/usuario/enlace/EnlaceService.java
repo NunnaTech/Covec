@@ -14,13 +14,13 @@ public class EnlaceService {
     @Autowired
     private EnlaceRepository repository;
 
-    public Page<Enlace> getAll(Pageable pageable){
+    public Page<Enlace> getAll(Pageable pageable) {
         return repository.findAll(pageable);
     }
 
-    public Enlace getOne(int id){
+    public Enlace getOne(int id) {
         Optional<Enlace> exist = repository.findById(id);
-        if (exist.isPresent()){
+        if (exist.isPresent()) {
             Enlace obj;
             obj = exist.get();
             return obj;
@@ -28,42 +28,50 @@ public class EnlaceService {
         return null;
     }
 
-    public List<Enlace> getAllByMunicipio(Municipio municipio){
+    public List<Enlace> getAllByMunicipio(Municipio municipio) {
         return repository.findAllByMunicipioEquals(municipio);
     }
 
-    public Enlace save(Enlace newObject){
+    public Enlace save(Enlace newObject) {
         repository.save(newObject);
         return newObject;
     }
 
-    public Enlace update(Enlace newObject){
+    public Enlace update(Enlace newObject) {
         Optional<Enlace> exist = Optional.empty();
         Enlace enlace = null;
         exist = repository.findById(newObject.getId());
-        if (!exist.isEmpty()){
+        if (!exist.isEmpty()) {
             exist.get().setUsername(newObject.getUsername());
             exist.get().setNombreCompleto(newObject.getNombreCompleto());
             exist.get().setTelefono(newObject.getTelefono());
             repository.save(exist.get());
-             enlace = exist.get();
+            enlace = exist.get();
         }
 
         return enlace;
     }
 
-    public Enlace getByMunicipio(Municipio municipio){
+    public Enlace getByMunicipio(Municipio municipio) {
         Enlace enlace = repository.getByMunicipioEquals(municipio);
-        if (enlace != null){
+        if (enlace != null) {
             return enlace;
         }
         return null;
     }
 
-    public void delete(int id){
+    public Enlace delete(int id, int opc) {
         boolean exist = repository.existsById(id);
         if (exist) {
-            repository.deleteById(id);
+            Enlace update = repository.getById(id);
+            if(opc==1){
+                update.setEnabled(false);
+            }else{
+                update.setEnabled(true);
+            }
+            return repository.save(update);
+        }else{
+            return null;
         }
     }
 }

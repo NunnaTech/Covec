@@ -157,20 +157,24 @@ public class IncidenciaController {
         Enlace session = (Enlace) httpSession.getAttribute("user");
         Incidencia anterior = service.getOne(incidencia.getId());
         service.update(incidencia);
-        operacionService.guardarOperacion("Update", session.getId(), anterior.toStringIncidencia(), incidencia.toStringIncidencia());
+        operacionService.guardarOperacion("Update", session.getId(), anterior.toStringIncidencia(),
+                incidencia.toStringIncidencia());
         return "redirect:/incidencias/all";
     }
 
     @PostMapping("/cobrar/{idIncidencia}/{idEnlace}")
     public String cobrarIncidencia(@PathParam("monto") double monto,
             @PathVariable("idIncidencia") Integer idIncidencia,
-            @PathVariable("idEnlace") Integer idEnlace, RedirectAttributes attributes) {
-        Incidencia cobrar = service.getOne(idIncidencia);
-        cobrar.setMonto(monto);
-        cobrar.setPagar(true);
-        service.save(cobrar);
+            @PathVariable("idEnlace") Integer idEnlace, RedirectAttributes attributes, HttpSession httpSession) {
+
+        Enlace session = (Enlace) httpSession.getAttribute("user");
+        Incidencia old = service.getOne(idIncidencia);
+        old.setMonto(monto);
+        old.setPagar(true);
+        Incidencia newUpdate = service.save(old);
+        operacionService.guardarOperacion("Update", session.getId(), "incidencia:"+old.toStringIncidencia(), "incidencia:" + newUpdate.toStringIncidencia());
         attributes.addFlashAttribute("mensaje", "El cobro se realizo exitosamente");
-        return "redirect:/incidencias/getOne/" + cobrar.getId() + "/" + idEnlace;
+        return "redirect:/incidencias/getOne/" + newUpdate.getId() + "/" + idEnlace;
     }
 
     @PostMapping("/uploadEvidencia/{idPresidente}")
@@ -189,7 +193,8 @@ public class IncidenciaController {
             Date date = Date.valueOf(LocalDate.now());
             incidencia.setFechaRegistro(date);
             service.save(incidencia);
-            operacionService.guardarOperacion("Insert", session.getId(), "Sin datos previos", incidencia.toStringIncidencia());
+            operacionService.guardarOperacion("Insert", session.getId(), "indicencia:{datos:'Sin datos previos'}",
+                    incidencia.toStringIncidencia());
             for (String link : evidenciaDTO.getLinks()) {
                 Evidencia evidencia = new Evidencia();
                 evidencia.setEvidencia(link);
@@ -210,13 +215,16 @@ public class IncidenciaController {
 
     @PostMapping("/pagar/{idIncidencia}")
     public String pagarIncidencia(@PathVariable("idIncidencia") Integer idIncidencia,
-            @ModelAttribute("pago") Pago pago) {
+            @ModelAttribute("pago") Pago pago, HttpSession httpSession) {
         pago.setFecha(LocalDate.now().toString());
+        Integrante session = (Integrante) httpSession.getAttribute("user");
         pagoService.save(pago);
         Incidencia incidencia = service.getOne(idIncidencia);
         incidencia.setMonto(0.0);
         incidencia.setEstatus("Atendida");
         service.save(incidencia);
+        operacionService.guardarOperacion("Update", session.getId(), "pago:{cantidad:'Sin datos previos',fecha:'Sin datos previo'}", 
+        "pago:{cantidad:'"+pago.getCantidad()+"',fecha:'" + pago.getFecha() + "'}" );
         return "redirect:/incidencias/getDetail/" + idIncidencia;
     }
 
