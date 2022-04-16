@@ -48,36 +48,33 @@
                 </div>
             </div>
             <!-- Contenido principal -->
-            <div class="w-full relative mt-4 shadow-2xl rounded my-24 ">
-                <div class="top h-64 w-full bg-blue-600 overflow-hidden relative">
-                    <img src="https://images.unsplash.com/photo-1503264116251-35a269479413?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80"
-                        alt="" class="bg w-full h-full object-cover object-center absolute z-0">
-                    <div
-                        class="flex flex-col justify-center items-center relative h-full bg-black bg-opacity-50 text-white">
-                        <img src="https://i.imgur.com/1WwSnmR.jpg" class="h-24 w-24 object-cover rounded-full">
-                        <h1 class="text-2xl font-semibold" th:text="${usuario.nombreCompleto}"></h1>
-                        <h4 class="text-sm font-semibold" th:text="${session.user.tipoUsuario}"></h4>
-                    </div>
+
+            <div class="flex flex-col items-center px-5 mx-2 my-3 py-2 shadow-md rounded-2xl md:lg:flex-col" style="background-color: #FFFFFF; ">
+                <img th:src="@{https://zafetnpukdsurpyhykzj.supabase.co/storage/v1/object/public/{link}(link=${usuario.imagen})}" class="h-32 w-32 object-cover rounded-xl" alt="No disponible">
+                <h1 class=" font-bold md:lg:text-3xl" th:text="${usuario.nombreCompleto}"></h1>
+                <h4 class="text-lg font-normal" th:text="${session.user.tipoUsuario}"></h4>
+            </div>
+
+            <div class=" alert shadow-lg w-auto m-5 border-t-4 border-yellow-500" id="validaciones" th:if="${errores != null}">
+                <div class="grid grid-cols-1">
+                  <div class="flex justify-start">
+                    <span class=" material-icons text-yellow-500">report_problem</span>
+                    <h6 class="font-semibold ml-1 text-yellow-500 text-lg">ATENCIÓN - Datos inválidos</h6>
+                  </div>
+                  <h6 th:each="e:${errores}" class="text-sm">► [[${e}]]</h6>
                 </div>
-                <div class="grid grid-cols-12 bg-white ">
+                <div class="flex-none">
+                  <button id="cerrar" class="btn border-none btn-square btn-outline hover:bg-yellow-500">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+                  </button>
+                </div>
+              </div>
 
-
+            <div class="w-full relative mt-4 my-24 ">
+                <div class="grid grid-cols-1 bg-white mx-2 rounded-2xl">
                     <div
                         class="col-span-12 md:border-solid md:border-l md:border-black md:border-opacity-25 h-full pb-12 md:col-span-10">
-                        <!-- validaciones -->
-                        <div class="alert shadow-lg w-auto m-5 bg-yellow-500" id="validaciones"
-                            th:if="${errores != null}">
-                            <div class="grid grid-cols-1">
-                                <div class="flex justify-start">
-                                    <span class="material-icons text-white drop-shadow-lg">report_problem</span>
-                                    <h6 class="font-semibold ml-1 text-white drop-shadow-lg">ATENCIÓN</h6>
-                                </div>
-                                <h6 th:each="e:${errores}" class="text-xs text-white drop-shadow-lg">- [[${e}]]</h6>
-                            </div>
-                            <div class="flex-none">
-                                <button id="cerrar" class="btn btn-sm text-white">Cerrar</button>
-                            </div>
-                        </div>
+
                         <div class="px-4 pt-4">
                             <form th:action="@{/actualizar}" method="post" th:object="${usuario}"
                                 class="flex flex-col space-y-8">
@@ -142,7 +139,7 @@
                                 </div>
                             </form>
 
-                            <div class=" pt-8">
+                            <div class=" py-8">
                                 <h3 class="text-2xl font-semibold">Cambio de Contraseña</h3>
                                 <hr>
                             </div>
@@ -199,8 +196,7 @@
                     </div>
 
                 </div>
-
-            </div>
+            </div>            
         </div>
         <div sec:authorize="hasAnyAuthority('ROL_ADMIN')" th:replace="menuLayout :: admin-menu"></div>
 

@@ -91,7 +91,7 @@ public class UsuarioController {
             usuarioService.update(usuario);
             attributes.addFlashAttribute("mensaje", "Se realizo el cambio correctamente");
         }
-        return "redirect:/perfil/"+usuario.getId();
+        return "redirect:/perfil/";
     }
 
     @PostMapping("/updatePassword")
@@ -106,7 +106,7 @@ public class UsuarioController {
         }else {
             attributes.addFlashAttribute("errores", "Verifique que sea su contraseña correcta");
         }
-        return "redirect:/perfil/"+usuario.getId();
+        return "redirect:/perfil/";
     }
 
 
