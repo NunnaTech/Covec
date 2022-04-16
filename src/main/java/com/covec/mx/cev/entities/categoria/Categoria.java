@@ -28,4 +28,10 @@ public class Categoria {
 
     @OneToMany(mappedBy = "categoria")
     private List<Incidencia> incidencias;
+
+    public String toStringCategoria() {
+        return "categoria: { nombre:" + nombre + "}";
+    }
+
+    
 }

@@ -10,6 +10,7 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import com.covec.mx.cev.entities.municipio.MunicipioService;
+import com.covec.mx.cev.entities.operacion.OperacionService;
 import com.covec.mx.cev.entities.usuario.enlace.Enlace;
 
 import org.springframework.data.domain.PageRequest;
@@ -36,6 +37,9 @@ public class ColoniaController {
 
     @Autowired
     private MunicipioService municipioService;
+
+    @Autowired
+    private OperacionService operacionService;  
 
     @GetMapping("/listar")
     public String getAll(@RequestParam Map<String,Object> params,HttpSession httpSession, Model model){
@@ -69,6 +73,7 @@ public class ColoniaController {
             attributes.addFlashAttribute("errores", errores);
         }else {
             coloniaService.save(colonia);
+            operacionService.guardarOperacion("Insert", enlaceSession.getId(),"Sin datos previos", colonia.toStringColonia());
             attributes.addFlashAttribute("mensaje", "Se ha registrado correctamente");
         }
         return"redirect:/colonias/listar";
@@ -78,13 +83,18 @@ public class ColoniaController {
     public String update(@ModelAttribute("colonia") Colonia colonia, HttpSession httpSession){
         Enlace enlaceSession = (Enlace) httpSession.getAttribute("user");
         colonia.setMunicipio(enlaceSession.getMunicipio());
+        Colonia anterior = coloniaService.getOne(colonia.getId());
+        operacionService.guardarOperacion("Update", enlaceSession.getId(),anterior.toStringColonia(), colonia.toStringColonia());
         coloniaService.update(colonia);
         return "redirect:/colonias/listar";
     }
 
     @GetMapping("/eliminar/{id}")
-    public String delete(@PathVariable Integer id){
+    public String delete(@PathVariable Integer id,HttpSession httpSession){
+        Enlace enlaceSession = (Enlace) httpSession.getAttribute("user");
+        Colonia anterior = coloniaService.getOne(id);
         coloniaService.delete(id);
+        operacionService.guardarOperacion("Delete", enlaceSession.getId(), anterior.toStringColonia(), "Sin datos actuales");
         return"redirect:/colonias/listar";
     }
 

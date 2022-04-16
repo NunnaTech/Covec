@@ -89,7 +89,7 @@
                 <span class="label-text">Nombre completo</span>
               </label>
               <input id="ncompleto" type="text" th:field="*{nombreCompleto}" placeholder="ej. José Manuel P."
-                class="input input-bordered" minlength="20" maxlength="45" required>
+                class="input input-bordered" minlength="15" maxlength="45" required>
             </div>
             <div class="form-control px-5 w-full">
               <label class="label">
@@ -170,6 +170,12 @@
 
   $(document).ready(function () {
 
+    function uuidv4() {
+        return ([1e9] + -43 + -8e3 + -11).replace(/[018]/g, c =>
+          (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
+        );
+      }
+
     $("#botonSubir").click(async () => {
       var files = document.getElementById("imagenUpload");
       var nombre = $('#ncompleto').val();
@@ -200,11 +206,10 @@
         }else{
           const { data, error } = await _supabase.storage
           .from('covec')
-          .upload(`public/${files.files[0].name}`, files.files[0])
+          .upload(`public/${uuidv4()}`, files.files[0])
 
         if (data != null) {
           $('#link').val(data.Key);
-          alert(data.Key)
 
         } else if (error != null) {
           new Notify({
