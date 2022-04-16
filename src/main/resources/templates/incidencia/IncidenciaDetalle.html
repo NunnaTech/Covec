@@ -90,12 +90,8 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/additional-methods.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/simple-notify@0.5.4/dist/simple-notify.min.js"></script>
-
-  <script>
-    var tgtElement = document.getElementById('scrolling-b');
-    tgtElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
-  </script>
-
+  <script type="text/javascript" th:src="@{/js/ChatUtil.js}"></script>
+  <script type="text/javascript" th:src="@{/js/ValidationChat.js}"></script>
   <script th:if="${mensaje != null}">
     var mensaje = '[[${mensaje}]]'
     new Notify({
@@ -115,30 +111,6 @@
       type: 1,
       position: 'bottom right'
     })
-  </script>
-
-  <script>
-    $(document).ready(function () {
-
-      $.validator.addMethod("caracteres", function(value, element) {
-        return this.optional(element) || /(^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ,.\-\/+=@_ ]*$)/.test(value);
-      }, "Ingrese solo caracteres validos");
-
-
-      $("#chat").validate({
-        rules: {
-          comentario: {
-            required: true,
-            caracteres: ""
-          }
-        },
-        messages:{
-          comentario:{
-            required: "El mensaje no debe estar vacío."
-          }
-        }
-      });
-    });
   </script>
 </body>
 

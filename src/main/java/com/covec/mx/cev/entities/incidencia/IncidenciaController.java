@@ -119,7 +119,7 @@ public class IncidenciaController {
 
     @GetMapping("/getOne/{id}/{idenlace}")
     public String obtenerIncidencia(@PathVariable("id") Integer id, @PathVariable(name = "idenlace") Integer idEnlace,
-            Model model) {
+                                    Model model) {
         Enlace enlace = enlaceService.getOne(idEnlace);
         Incidencia incidencia = service.getOne(id);
         model.addAttribute("incidencia", incidencia);
@@ -153,7 +153,7 @@ public class IncidenciaController {
 
     @PostMapping("/update")
     public String updateStatus(@ModelAttribute("categoria") Incidencia incidencia,
-            @RequestParam("idEnlace") Integer idEnlace, HttpSession httpSession) {
+                               @RequestParam("idEnlace") Integer idEnlace, HttpSession httpSession) {
         Enlace session = (Enlace) httpSession.getAttribute("user");
         Incidencia anterior = service.getOne(incidencia.getId());
         service.update(incidencia);
@@ -164,23 +164,23 @@ public class IncidenciaController {
 
     @PostMapping("/cobrar/{idIncidencia}/{idEnlace}")
     public String cobrarIncidencia(@PathParam("monto") double monto,
-            @PathVariable("idIncidencia") Integer idIncidencia,
-            @PathVariable("idEnlace") Integer idEnlace, RedirectAttributes attributes, HttpSession httpSession) {
+                                   @PathVariable("idIncidencia") Integer idIncidencia,
+                                   @PathVariable("idEnlace") Integer idEnlace, RedirectAttributes attributes, HttpSession httpSession) {
 
         Enlace session = (Enlace) httpSession.getAttribute("user");
         Incidencia old = service.getOne(idIncidencia);
         old.setMonto(monto);
         old.setPagar(true);
         Incidencia newUpdate = service.save(old);
-        operacionService.guardarOperacion("Update", session.getId(), "incidencia:"+old.toStringIncidencia(), "incidencia:" + newUpdate.toStringIncidencia());
+        operacionService.guardarOperacion("Update", session.getId(), "incidencia:" + old.toStringIncidencia(), "incidencia:" + newUpdate.toStringIncidencia());
         attributes.addFlashAttribute("mensaje", "El cobro se realizo exitosamente");
         return "redirect:/incidencias/getOne/" + newUpdate.getId() + "/" + idEnlace;
     }
 
     @PostMapping("/uploadEvidencia/{idPresidente}")
     public String uploadEvidencia(@Valid @ModelAttribute("incidenciasPresidente") Incidencia incidencia,
-            BindingResult result, RedirectAttributes attributes,
-            @ModelAttribute EvidenciaDTO evidenciaDTO, @PathVariable("idPresidente") int id, HttpSession httpSession) {
+                                  BindingResult result, RedirectAttributes attributes,
+                                  @ModelAttribute EvidenciaDTO evidenciaDTO, @PathVariable("idPresidente") int id, HttpSession httpSession) {
 
         Integrante session = (Integrante) httpSession.getAttribute("user");
         if (result.hasErrors()) {
@@ -215,7 +215,7 @@ public class IncidenciaController {
 
     @PostMapping("/pagar/{idIncidencia}")
     public String pagarIncidencia(@PathVariable("idIncidencia") Integer idIncidencia,
-            @ModelAttribute("pago") Pago pago, HttpSession httpSession) {
+                                  @ModelAttribute("pago") Pago pago, HttpSession httpSession) {
         pago.setFecha(LocalDate.now().toString());
         Integrante session = (Integrante) httpSession.getAttribute("user");
         pagoService.save(pago);
@@ -223,8 +223,8 @@ public class IncidenciaController {
         incidencia.setMonto(0.0);
         incidencia.setEstatus("Atendida");
         service.save(incidencia);
-        operacionService.guardarOperacion("Update", session.getId(), "pago:{cantidad:'Sin datos previos',fecha:'Sin datos previo'}", 
-        "pago:{cantidad:'"+pago.getCantidad()+"',fecha:'" + pago.getFecha() + "'}" );
+        operacionService.guardarOperacion("Update", session.getId(), "pago:{cantidad:'Sin datos previos',fecha:'Sin datos previo'}",
+                "pago:{cantidad:'" + pago.getCantidad() + "',fecha:'" + pago.getFecha() + "'}");
         return "redirect:/incidencias/getDetail/" + idIncidencia;
     }
 

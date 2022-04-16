@@ -35,7 +35,7 @@
                 <span class="label-text">Nombre Completo</span>
               </label>
               <input type="text" th:field="*{nombreCompleto}" placeholder="Inserte el nombre aqui"
-                class="input input-bordered w-full max-w-xs" pattern="[A-Za-zÀ-ÿ '-.]*" minlength="15" maxlength="45"
+                class="input input-bordered w-full max-w-xs" minlength="10" maxlength="45"
                 required />
             </div>
 
@@ -60,7 +60,7 @@
                 <span class="label-text">Correo Electronico</span>
               </label>
               <input type="email" th:field="*{username}" placeholder="Inserte el nombre aqui"
-                class="input input-bordered w-full max-w-xs" pattern="[A-Za-zÀ-ÿ0-9 '-.]*" minlength="5" maxlength="45" required/>
+                class="input input-bordered w-full max-w-xs" minlength="5" maxlength="45" required/>
             </div>
 
             <div class="form-control mx-2">
