@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light" xmlns:th="https://www.thymeleaf.org/">
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Awesome application to manage neighborhood incidents">
+<meta name="author" content="ThePandaDevs" />
+<meta name="copyright" content="Copyright 2022 - All rights reserved" />
+<meta name="robots" content="index, follow">
+<meta name="keywords" content="reports, neighborhood, incidents, free application">
+<title>Actualizar integrante | Covec</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://cdn.jsdelivr.net/npm/daisyui@2.8.0/dist/full.css" rel="stylesheet" type="text/css" />
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/simple-notify@0.5.4/dist/simple-notify.min.css" />
+
+<body>
+    <div class="drawer h-screen w-full">
+        <input id="my-drawer-3" type="checkbox" class="drawer-toggle" />
+        <div class="drawer-content flex flex-col" style="background-color: #EBEBEB;">
+            <!-- Navbar -->
+            <div class="w-full navbar shadow-md" style="background-color: #605AD4">
+                <div class="flex-none">
+                    <label for="my-drawer-3" class="btn btn-square btn-ghost">
+                        <svg width="37" height="25" viewBox="0 0 37 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M0.875 24.25H36.125V20.3333H0.875V24.25ZM0.875 14.4583H36.125V10.5417H0.875V14.4583ZM0.875 0.75V4.66667H36.125V0.75H0.875Z"
+                                fill="white" />
+                        </svg>
+                    </label>
+                </div>
+                <div class="flex-1 px-2 mx-2 text-white">Menú</div>
+                <div class="flex-none hidden lg:block">
+                    <div class="indicator">
+                        <div class="card border">
+                            <div class="p-2">
+                                <p class="text-white" th:text="${session.user.tipoUsuario}">Administrador</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Contenido principal -->
+
+            <div class="sticky top-0 z-50 flex flex-row justify-center pb-7 pt-5 my-3 rounded-2xl shadow-md mx-2"
+                style="background-color: #FFFFFF;">
+                <div>
+                    <h2 class="text-center font-medium leading-tight text-3xl lg:text-4xl">
+                        Actualizar integrante
+                    </h2>
+                    <h4 class="text-center text-gray-500 text-xl lg:text-2xl  pt-1 ">
+                        Recuerda agregar una indetificación (INE)
+                    </h4>
+                </div>
+            </div>
+
+            <div class=" alert shadow-lg w-auto m-5 border-t-4 border-yellow-500" id="validaciones"
+                th:if="${errores != null}">
+                <div class="grid grid-cols-1">
+                    <div class="flex justify-start">
+                        <span class=" material-icons text-yellow-500">report_problem</span>
+                        <h6 class="font-semibold ml-1 text-yellow-500 text-lg">ATENCIÓN - Datos inválidos</h6>
+                    </div>
+                    <h6 th:each="e:${errores}" class="text-sm">► [[${e}]]</h6>
+                </div>
+                <div class="flex-none">
+                    <button id="cerrar" class="btn border-none btn-square btn-outline hover:bg-yellow-500">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+
+            <div class="flex flex-row justify-center pb-7 pt-5 my-3 rounded-2xl shadow-md mx-2"
+                style="background-color: #FFFFFF;">
+                <form class="w-full" th:object="${integrante}" method="post"
+                    th:action="@{/comites/integrantes/existente/actualizar}">
+
+                    <input type="text" hidden th:id="linkUpdate" th:value="${integrante.imagen}" name="imagen" />
+                    <input type="text" hidden th:value="${integrante.password}" name="password" />
+                    <input type="text" hidden th:value="${integrante.id}" name="id" />
+                    <input type="text" hidden th:value="${integrante.tipoUsuario}" th:name="tipoUsuario" />
+
+                    <div class="flex flex-col justify-center lg:flex-row">
+                        <input hidden th:value="${integrante.id}" name="id" />
+                        <div class="form-control px-5 w-full">
+                            <label class="label">
+                                <span class="label-text">Nombre completo</span>
+                            </label>
+                            <input th:id="uncompleto" type="text" th:value="${integrante.nombreCompleto}"
+                                th:name="nombreCompleto" placeholder="ej. José Manuel P." class="input input-bordered"
+                                minlength="15" maxlength="45" required />
+                        </div>
+                        <div class="form-control px-5 w-full">
+                            <label class="label">
+                                <span class="label-text">Teléfono</span>
+                            </label>
+                            <input th:id="utelefono" type="text" th:value="${integrante.telefono}" th:name="telefono"
+                                placeholder="ej. 7777854961" class="input input-bordered" minlength="10" maxlength="10"
+                                required />
+                        </div>
+                        <div class="form-control px-5 w-full">
+                            <label class="label">
+                                <span class="label-text">Correo</span>
+                            </label>
+                            <input th:id="uemail" type="email" th:value="${integrante.username}" th:name="username"
+                                placeholder="ej. Jose_covec@gmail.com" class="input input-bordered" minlength="5"
+                                maxlength="45" required />
+                        </div>
+                    </div>
+                    <div class="flex flex-col justify-center lg:flex-row">
+                        <div class="form-control px-5 w-full">
+                            <label class="label">
+                                <span class="label-text">Identificación</span>
+                            </label>
+                            <div
+                                class="relative h-12 rounded-lg border-dashed border-2 border-gray-200 bg-white flex justify-center items-center hover:cursor-pointer">
+                                <div class="absolute hover:cursor-pointer">
+                                    <div class="flex flex-col items-center">
+                                        <i class="fa fa-cloud-upload fa-3x text-gray-200"></i>
+                                        <span class="block text-blue-400 font-normal">Abrir explorador</span>
+                                    </div>
+                                </div>
+                                <input th:id="imagenUploadactualizar" type="file"
+                                    class="h-full w-full opacity-0 hover:cursor-pointer" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="divider"></div>
+                    <div class="modal-action mx-5">
+                        <div class="btn-group">
+                            <a th:href="@{/comites/integrantes/listar/{id}(id=${integrante.comite.id})}" class="btn border-none">Cancelar</a>
+                            <input hidden id="actualizar" type="submit" />
+                            <a id="botonActualizar" class="btn border-none bg-emerald-700 hover:bg-emerald-600">Guardar
+                                <span class="material-icons ml-2">save_as</span></a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+        <!--Menu dependiendo del rol-->
+
+        <div sec:authorize="hasAnyAuthority('ROL_ADMIN')" th:replace="menuLayout :: admin-menu"></div>
+
+        <div sec:authorize="hasAnyAuthority('ROL_ENLACE')" th:replace="menuLayout :: enlace-menu"></div>
+
+        <div sec:authorize="hasAnyAuthority('ROL_PRESIDENTE')" th:replace="menuLayout :: presidente-menu"></div>
+
+    </div>
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/simple-notify@0.5.4/dist/simple-notify.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+    <script>
+        const SUPABASE_URL = "https://zafetnpukdsurpyhykzj.supabase.co";
+        const SUPABASE_ANON_KEY =
+            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InphZmV0bnB1a2RzdXJweWh5a3pqIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTY0OTU2NjYwMSwiZXhwIjoxOTY1MTQyNjAxfQ.aBRLQAAxG4L4nxWINeNlFJZgozonsSJcqkxuRgKeY9Y";
+        const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        $(document).ready(function () {
+
+            function uuidv4() {
+                return ([1e9] + -43 + -8e3 + -11).replace(/[018]/g, c =>
+                    (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
+                );
+            }
+
+            $("#botonActualizar").click(async () => {
+                var updatefiles = document.getElementById("imagenUploadactualizar");
+                var nombre = $("#uncompleto");
+                var telefono = $("#utelefono");
+                var email = $("#uemail");
+                if (
+                    nombre != "" &&
+                    telefono != "" &&
+                    email != ""
+                ) {
+
+                    if (updatefiles.files[0] != null) {
+                        const { data, error } = await _supabase.storage
+                            .from("covec")
+                            .upload(
+                                `public/${uuidv4()}`, updatefiles.files[0]
+                            );
+
+                        if (data != null) {
+                            $("#linkUpdate").val(data.Key);
+                        } else if (error != null) {
+                            new Notify({
+                                status: "error",
+                                title: "Atención",
+                                text: "Ocurrio un error al subir la imagen al servidor",
+                                effect: "fade",
+                                speed: 300,
+                                customClass: "",
+                                customIcon: "",
+                                showIcon: true,
+                                showCloseButton: true,
+                                autoclose: false,
+                                autotimeout: 3000,
+                                gap: 20,
+                                distance: 20,
+                                type: 1,
+                                position: "bottom x-center",
+                            });
+                        }
+                    }
+                    $("#actualizar").click();
+                } else {
+                    new Notify({
+                        status: "warning",
+                        title: "Atención",
+                        text: "Es necesario llenar todos los campos",
+                        effect: "fade",
+                        speed: 300,
+                        customClass: "",
+                        customIcon: "",
+                        showIcon: true,
+                        showCloseButton: true,
+                        autoclose: false,
+                        autotimeout: 3000,
+                        gap: 20,
+                        distance: 20,
+                        type: 1,
+                        position: "right top",
+                    });
+                }
+
+            });
+        });
+    </script>
+</body>
+
+</html>

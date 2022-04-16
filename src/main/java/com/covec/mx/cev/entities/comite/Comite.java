@@ -30,7 +30,7 @@ public class Comite {
     private boolean activo;
 
     public String toStringComite() {
-        return "{ activo:" + activo + ", integrantes:" + integrantes + "}";
+        return "comite: { activo:" + activo + ", integrantes:" + integrantes + "}";
     }
     
 }

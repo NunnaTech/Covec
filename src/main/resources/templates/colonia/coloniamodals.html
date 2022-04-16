@@ -26,13 +26,13 @@
                             <label class="label">
                               <span class="label-text">Nombre</span>
                             </label>
-                            <input type="text" th:field="*{nombre}" placeholder="ej. villas" class="input input-bordered" required>
+                            <input type="text" th:field="*{nombre}" placeholder="ej. villas" class="input input-bordered" minlength="3" maxlength="45" required>
                         </div>
                         <div class="form-control">
                             <label class="label">
                               <span class="label-text">C.P</span>
                             </label>
-                            <input type="number" th:field="*{codigoPostal}" placeholder="ej. 77777" class="input input-bordered" required>
+                            <input type="number" th:field="*{codigoPostal}" placeholder="ej. 77777" class="input input-bordered" minlength="5" maxlength="5" required>
                         </div>
                     </div>
                     <div class="divider"></div>
@@ -69,13 +69,13 @@
                             <label class="label">
                               <span class="label-text">Nombre</span>
                             </label>
-                            <input type="text" th:value="${objeto.nombre}" name="nombre" placeholder="Nuevo nombre" class="input input-bordered"/>
+                            <input type="text" th:value="${objeto.nombre}" name="nombre" placeholder="Nuevo nombre" class="input input-bordered"  minlength="3" maxlength="45" required/>
                         </div>
                         <div class="form-control">
                             <label class="label">
                               <span class="label-text">C.P</span>
                             </label>
-                            <input type="text" th:value="${objeto.codigoPostal}" name="codigoPostal" placeholder="Nuevo C.P" class="input input-bordered"/>
+                            <input type="text" th:value="${objeto.codigoPostal}" name="codigoPostal" placeholder="Nuevo C.P" class="input input-bordered" minlength="5" maxlength="5" required/>
                         </div>
                     </div>
                     <div class="divider"></div>

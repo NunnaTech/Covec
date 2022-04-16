@@ -84,7 +84,7 @@
                         <span class="label-text">Nombre completo</span>
                       </label>
                       <input id="ncompleto" type="text" th:field="*{nombreCompleto}" placeholder="ej. José Manuel P."
-                        class="input input-bordered" required>
+                        class="input input-bordered" minlength="15" maxlength="45" required>
                     </div>
                     <div class="form-control px-5 w-full">
                       <label class="label">
@@ -97,7 +97,7 @@
                       <label class="label">
                         <span class="label-text">Correo</span>
                       </label>
-                      <input  id="email" type="email" th:field="*{username}" placeholder="ej. Jose_covec@gmail.com"
+                      <input id="email" type="email" th:field="*{username}" placeholder="ej. Jose_covec@gmail.com"
                         class="input input-bordered" minlength="5" maxlength="45" required>
                     </div>
                   </div>
@@ -113,7 +113,8 @@
                               class="fa fa-cloud-upload fa-3x text-gray-200"></i> <span
                               class="block text-blue-400 font-normal">Abrir explorador</span> </div>
                         </div>
-                        <input id="imagenUpload" type="file" class="h-full w-full opacity-0  hover:cursor-pointer" required>
+                        <input id="imagenUpload" type="file" class="h-full w-full opacity-0  hover:cursor-pointer"
+                          required>
                       </div>
                     </div>
                     <div class="form-control px-5 w-full">
@@ -146,9 +147,11 @@
         </div>
       </div>
       <div class="flex justify-center mx-2 grid grid-cols-1 lg:grid-cols-2">
-        <div th:each="i,idx :${comite.integrantes}" class="card rounded-lg border-t-4 border-indigo-500 bg-base-100 mx-10 my-4 hover:shadow-2xl duration-300 md:lg:mx-20">
+        <div th:each="i,idx :${comite.integrantes}"
+          class="card rounded-lg border-t-4 border-indigo-500 bg-base-100 mx-10 my-4 hover:shadow-2xl duration-300 md:lg:mx-20">
           <figure class="px-10 pt-10">
-            <img th:src="@{https://zafetnpukdsurpyhykzj.supabase.co/storage/v1/object/public/{link}(link=${i.imagen})}" alt="Imagen no disponible" class="rounded-xl" />
+            <img th:src="@{https://zafetnpukdsurpyhykzj.supabase.co/storage/v1/object/public/{link}(link=${i.imagen})}"
+              alt="Imagen no disponible" class="rounded-xl" />
           </figure>
           <div class="card-body items-center text-center">
             <h2 class="card-title">[[${i.nombreCompleto}]]</h2>
@@ -164,7 +167,10 @@
                   <span class="material-icons">person_remove</span>
                 </a>
               </div>
-              <div th:replace="comite/integrantemodals::modal-comite-editar(${i}, ${i.id})"></div>
+              <a th:href="@{/comites/integrantes/existente/detalles/{username}(username=${i.username})}"
+                class="btn border-none w-16 bg-yellow-500 hover:bg-yellow-400">
+                <span class="material-icons">edit</span>
+              </a>
             </div>
           </div>
         </div>
@@ -189,6 +195,12 @@
     const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
 
     $(document).ready(function () {
+
+      function uuidv4() {
+        return ([1e9] + -43 + -8e3 + -11).replace(/[018]/g, c =>
+          (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
+        );
+      }
 
       $("#botonSubir").click(async () => {
         var files = document.getElementById("imagenUpload");
@@ -220,11 +232,11 @@
           } else {
             const { data, error } = await _supabase.storage
               .from('covec')
-              .upload(`public/${files.files[0].name}`, files.files[0])
+              .upload(`public/${uuidv4()}`, files.files[0])
 
             if (data != null) {
               $('#link').val(data.Key);
-              
+
             } else if (error != null) {
               new Notify({
                 status: 'error',

@@ -2,14 +2,12 @@ package com.covec.mx.cev.entities.usuario.integrante;
 
 import com.covec.mx.cev.entities.comite.Comite;
 import com.covec.mx.cev.entities.incidencia.Incidencia;
-import com.covec.mx.cev.entities.pago.Pago;
 import com.covec.mx.cev.entities.usuario.Usuario;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.List;
-
 
 @Entity
 @Data
@@ -22,12 +20,18 @@ public class Integrante extends Usuario {
     @OneToMany(mappedBy = "integrante")
     private List<Incidencia> incidencias;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "id_comites")
     private Comite comite;
 
     public String toStringIntegrante() {
-        return "{ presidente:" + presidente + "}";
+        return "integrante: { nombreCompleto:" + this.getNombreCompleto() +
+         " telefono:"+ this.getTelefono()+
+         " imagen:"+ this.getImagen() +
+         " presidente:" + presidente + 
+         " usuario:" + this.getUsername() + 
+         " enabled:" + this.getEnabled() + 
+         "}";
     }
-    
+
 }

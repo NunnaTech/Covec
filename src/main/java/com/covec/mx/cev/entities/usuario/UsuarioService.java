@@ -52,6 +52,11 @@ public class UsuarioService {
         return usuario;
     }
 
+    public void delete(Integer id){
+        usuarioRepository.deleteById(id);
+    }
+
+
     public void updateResetPasswordToken(String token, String email) throws UsuarioNotFoundException {
         Usuario usuario = usuarioRepository.findByUsername(email);
         if (usuario != null && checkTokenDate(token)) {
@@ -83,6 +88,14 @@ public class UsuarioService {
             e.printStackTrace();
         }
          return false;
+     }
+
+     public Usuario findByTelefono(String telefono){
+        return usuarioRepository.findByTelefono(telefono);
+     }
+
+     public String deleteByTelefono(String telefono){
+         return usuarioRepository.deleteByTelefono(telefono);
      }
 
 }

@@ -30,7 +30,7 @@ public class Categoria {
     private List<Incidencia> incidencias;
 
     public String toStringCategoria() {
-        return "{ nombre:" + nombre + "}";
+        return "categoria: { nombre:" + nombre + "}";
     }
 
     

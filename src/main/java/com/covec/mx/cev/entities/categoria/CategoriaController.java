@@ -14,7 +14,7 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import com.covec.mx.cev.entities.operacion.OperacionService;
-import com.covec.mx.cev.entities.usuario.administrador.Administrador;
+import com.covec.mx.cev.entities.usuario.Usuario;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,7 +49,7 @@ public class CategoriaController {
 
     @PostMapping("/save")
     public String save(@Valid @ModelAttribute("categoria") Categoria categoria, BindingResult result, RedirectAttributes attributes, HttpSession httpSession){
-        Administrador session = (Administrador) httpSession.getAttribute("user");
+        Usuario session = (Usuario) httpSession.getAttribute("user");
         if (result.hasErrors()){
             List<String> errores = new ArrayList<>();
             for (ObjectError error:result.getAllErrors()) {
@@ -66,7 +66,7 @@ public class CategoriaController {
 
     @PostMapping("/update")
     public String update(@Valid @ModelAttribute("categoria") Categoria categoria, BindingResult result, RedirectAttributes attributes, HttpSession httpSession){
-        Administrador session = (Administrador) httpSession.getAttribute("user");
+        Usuario session = (Usuario) httpSession.getAttribute("user");
         if (result.hasErrors()){
             List<String> errores = new ArrayList<>();
             for (ObjectError error:result.getAllErrors()) {
@@ -75,8 +75,8 @@ public class CategoriaController {
             attributes.addFlashAttribute("errores", errores);
         }else {
             Categoria anterior = service.getOne(categoria.getId());
-            service.update(categoria);
             operacionService.guardarOperacion("Update", session.getId(), anterior.toStringCategoria(), categoria.toStringCategoria());
+            service.update(categoria);
             attributes.addFlashAttribute("mensaje", "Se ha actualizado correctamente");
         }
         return "redirect:/categorias/all";
@@ -84,7 +84,7 @@ public class CategoriaController {
 
     @GetMapping("/delete/{id}")
     public String delete(@PathVariable Integer id, HttpSession httpSession){
-        Administrador session = (Administrador) httpSession.getAttribute("user");
+        Usuario session = (Usuario) httpSession.getAttribute("user");
         Categoria anterior = service.getOne(id);
         service.delete(id);
         operacionService.guardarOperacion("Delete", session.getId(), anterior.toStringCategoria(), "Sin datos actuales");

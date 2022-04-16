@@ -43,7 +43,7 @@ public class Colonia {
     private List<Comite> comites;
 
     public String toStringColonia() {
-        return "{ codigoPostal:" + codigoPostal + ", id:" + id + ", nombre:" + nombre + "}";
+        return "colonia: { codigoPostal:" + codigoPostal + ", nombre:" + nombre + "}";
     }
 
     

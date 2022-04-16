@@ -9,4 +9,8 @@ public interface UsuarioRepository extends JpaRepository<Usuario,Integer> {
     Usuario findByUsername(String username);
 
     public Usuario findByResetPasswordToken(String token);
+
+    public Usuario findByTelefono(String telefono);
+
+    public String deleteByTelefono(String telefono); 
 }
