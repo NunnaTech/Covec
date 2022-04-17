@@ -112,7 +112,7 @@
               <td th:text="${e.estatus}"></td>
               <td th:text="${e.fechaRegistro}"></td>
               <td class="flex flex-row justify-center">
-                <div th:if="${e.estatus == 'Pendiente' || e.estatus == 'Canalizada' || e.estatus == 'Atentida'}">
+                <div th:if="${e.estatus == 'Pendiente' || e.estatus == 'Canalizada' || e.estatus == 'Atendida'}">
                   <div class="tooltip" data-tip="Ver comentarios">
                     <a class="btn border-none bg-indigo-700 hover:bg-indigo-600 w-16"
                       th:href="@{/incidencias/getDetail/{id}/(id=${e.id})}">
