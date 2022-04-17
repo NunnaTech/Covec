@@ -1,3 +1,6 @@
+create database covec_bd;
+use covec_bd;
+
 create table covec_bd.categorias
 (
     id_categoria int auto_increment
