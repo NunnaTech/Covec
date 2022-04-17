@@ -1,2 +1,3 @@
-*.html linguist-detectable=Java
-*.html          text diff=java
+*.java linguist-detectable=true
+*.html linguist-detectable=false
+
