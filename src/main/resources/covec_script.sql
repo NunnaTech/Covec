@@ -224,3 +224,13 @@ CREATE PROCEDURE operaciones(IN eaccion varchar(15), IN eid_usuario int, IN eant
 BEGIN
 INSERT INTO operaciones(accion, idusuario, anterior, actual, fecha_hora) VALUES(eaccion,eid_usuario,eanterior, eactual,current_timestamp());
 END $$;
+
+
+INSERT INTO roles VALUES (1,"ROL_ADMIN");
+INSERT INTO roles VALUES (2,"ROL_ENLACE");
+INSERT INTO roles VALUES (3,"ROL_PRESIDENTE");
+
+INSERT INTO users (username,password,reset_password_token,telefono,imagen,tipo_usuario,enabled,nombre_completo) VALUES ("admin@gmail.com","$2a$10$milHhdhJm2fcefB.sjlrSO06Ybl0fq1rqkUwic4iDrfYykb2tlVbK",null,"1234567891","covec/public/cb273bffbb-43-aac2-17","Admin",1,"Administrador Administrador");
+
+INSERT INTO administrador VALUES(1);
+INSERT INTO authorities VALUES (1,1);
