@@ -98,7 +98,7 @@
                         <span class="label-text">Correo</span>
                       </label>
                       <input id="email" type="email" th:field="*{username}" placeholder="ej. Jose_covec@gmail.com"
-                        class="input input-bordered" pattern="[A-Za-zÀ-ÿ0-9 '-.]*" minlength="5" maxlength="45" required>
+                        class="input input-bordered" pattern="[A-Za-zÀ-ÿ0-9 '-.@]*" minlength="5" maxlength="45" required>
                     </div>
                   </div>
                   <div class="flex flex-col justify-center lg:flex-row">
@@ -150,7 +150,7 @@
         <div th:each="i,idx :${comite.integrantes}"
           class="card rounded-lg border-t-4 border-indigo-500 bg-base-100 mx-10 my-4 hover:shadow-2xl duration-300 md:lg:mx-20">
           <figure class="px-10 pt-10">
-            <img th:src="@{https://zafetnpukdsurpyhykzj.supabase.co/storage/v1/object/public/{link}(link=${i.imagen})}"
+            <img th:src="@{https://uhasyyvztklrrtsxmnyn.supabase.co/storage/v1/object/public/{link}(link=${i.imagen})}"
               alt="Imagen no disponible" class="rounded-xl" />
           </figure>
           <div class="card-body items-center text-center">

@@ -107,7 +107,7 @@
                                 <span class="label-text">Correo</span>
                             </label>
                             <input th:id="uemail" type="email" th:value="${integrante.username}" th:name="username"
-                                placeholder="ej. Jose_covec@gmail.com" class="input input-bordered" pattern="[A-Za-zÀ-ÿ0-9 '-.]*" minlength="5" maxlength="45" required> />
+                                placeholder="ej. Jose_covec@gmail.com" class="input input-bordered" pattern="[A-Za-zÀ-ÿ0-9 '-.@]*" minlength="5" maxlength="45" required>
                         </div>
                     </div>
                     <div class="flex flex-col justify-center lg:flex-row">
@@ -153,83 +153,7 @@
     <script src="https://code.jquery.com/jquery-3.1.1.min.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/simple-notify@0.5.4/dist/simple-notify.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
-    <script>
-        const SUPABASE_URL = "https://zafetnpukdsurpyhykzj.supabase.co";
-        const SUPABASE_ANON_KEY =
-            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InphZmV0bnB1a2RzdXJweWh5a3pqIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTY0OTU2NjYwMSwiZXhwIjoxOTY1MTQyNjAxfQ.aBRLQAAxG4L4nxWINeNlFJZgozonsSJcqkxuRgKeY9Y";
-        const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-        $(document).ready(function () {
-
-            function uuidv4() {
-                return ([1e9] + -43 + -8e3 + -11).replace(/[018]/g, c =>
-                    (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
-                );
-            }
-
-            $("#botonActualizar").click(async () => {
-                var updatefiles = document.getElementById("imagenUploadactualizar");
-                var nombre = $("#uncompleto");
-                var telefono = $("#utelefono");
-                var email = $("#uemail");
-                if (
-                    nombre != "" &&
-                    telefono != "" &&
-                    email != ""
-                ) {
-
-                    if (updatefiles.files[0] != null) {
-                        const { data, error } = await _supabase.storage
-                            .from("covec")
-                            .upload(
-                                `public/${uuidv4()}`, updatefiles.files[0]
-                            );
-
-                        if (data != null) {
-                            $("#linkUpdate").val(data.Key);
-                        } else if (error != null) {
-                            new Notify({
-                                status: "error",
-                                title: "Atención",
-                                text: "Ocurrio un error al subir la imagen al servidor",
-                                effect: "fade",
-                                speed: 300,
-                                customClass: "",
-                                customIcon: "",
-                                showIcon: true,
-                                showCloseButton: true,
-                                autoclose: false,
-                                autotimeout: 3000,
-                                gap: 20,
-                                distance: 20,
-                                type: 1,
-                                position: "bottom x-center",
-                            });
-                        }
-                    }
-                    $("#actualizar").click();
-                } else {
-                    new Notify({
-                        status: "warning",
-                        title: "Atención",
-                        text: "Es necesario llenar todos los campos",
-                        effect: "fade",
-                        speed: 300,
-                        customClass: "",
-                        customIcon: "",
-                        showIcon: true,
-                        showCloseButton: true,
-                        autoclose: false,
-                        autotimeout: 3000,
-                        gap: 20,
-                        distance: 20,
-                        type: 1,
-                        position: "right top",
-                    });
-                }
-
-            });
-        });
-    </script>
+    <script type="text/javascript" th:src="@{/js/EnlaceActualizar.js}"></script>
 </body>
 
 </html>
