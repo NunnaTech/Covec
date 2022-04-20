@@ -48,7 +48,6 @@ public class Usuario {
     @Column(name = "telefono")
     private String telefono;
 
-    @NotEmpty(message = "Es necesaria una fotografía de identificación (INE)")
     @Column(name = "imagen")
     private String imagen;
 

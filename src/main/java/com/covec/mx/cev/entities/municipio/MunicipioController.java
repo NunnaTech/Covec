@@ -21,7 +21,6 @@ import javax.validation.Valid;
 
 import com.covec.mx.cev.entities.operacion.OperacionService;
 import com.covec.mx.cev.entities.usuario.Usuario;
-import com.covec.mx.cev.entities.usuario.administrador.Administrador;
 
 @Controller
 @RequestMapping("/municipios")

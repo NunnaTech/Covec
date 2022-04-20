@@ -215,7 +215,7 @@ public class IncidenciaController {
 
     @PostMapping("/pagar/{idIncidencia}")
     public String pagarIncidencia(@PathVariable("idIncidencia") Integer idIncidencia,
-                                  @ModelAttribute("pago") Pago pago, HttpSession httpSession) {
+                                  @ModelAttribute("pago") Pago pago, HttpSession httpSession,RedirectAttributes attributes) {
         pago.setFecha(LocalDate.now().toString());
         Integrante session = (Integrante) httpSession.getAttribute("user");
         pagoService.save(pago);
@@ -225,6 +225,7 @@ public class IncidenciaController {
         service.save(incidencia);
         operacionService.guardarOperacion("Update", session.getId(), "pago:{cantidad:'Sin datos previos',fecha:'Sin datos previo'}",
                 "pago:{cantidad:'" + pago.getCantidad() + "',fecha:'" + pago.getFecha() + "'}");
+                attributes.addFlashAttribute("mensaje", "Se realizo el pago correctamente");
         return "redirect:/incidencias/getDetail/" + idIncidencia;
     }
 

@@ -31,7 +31,6 @@ import com.covec.mx.cev.entities.sesion.SesionService;
 
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-
 @Controller
 public class UsuarioController {
     @Autowired
@@ -46,88 +45,94 @@ public class UsuarioController {
     private SesionService sesionService;
 
     @GetMapping("/")
-    public String login(){
-        return"redirect:/dashboard";
+    public String login() {
+        return "redirect:/dashboard";
     }
 
     @GetMapping("/logout")
-    public String logout(Usuario usuario, HttpServletRequest request){
+    public String logout(Usuario usuario, HttpServletRequest request) {
         HttpSession httpSession = request.getSession();
         httpSession.invalidate();
         return "redirect:/";
     }
 
-
     @GetMapping("/dashboard")
-    public String dashboard(Authentication authentication, HttpSession session){
+    public String dashboard(Authentication authentication, HttpSession session) {
         String username = authentication.getName();
         Usuario user = usuarioService.findByUsername(username);
-		session.setAttribute("user", user);
+        session.setAttribute("user", user);
         sesionService.guardarSesion(user.getId());
         return "index";
     }
 
     @GetMapping("/perfil")
-    public String profileUser(HttpSession httpSession, Model model){
+    public String profileUser(HttpSession httpSession, Model model) {
         Usuario session = (Usuario) httpSession.getAttribute("user");
-        model.addAttribute("usuario",  session);
-        return"perfil";
+        model.addAttribute("usuario", session);
+        return "perfil";
     }
 
     @PostMapping("/actualizar")
-    public String save(@Valid @ModelAttribute("usuario") Usuario usuario, BindingResult result, RedirectAttributes attributes) {
+    public String save(@Valid @ModelAttribute("usuario") Usuario usuario, BindingResult result,
+            RedirectAttributes attributes) {
         Usuario existingUser = repository.findByUsername(usuario.getUsername());
-        if(result.hasErrors()){
-           List<String> errores = new ArrayList<>();
-           for (ObjectError error:result.getAllErrors()) {
-               errores.add(error.getDefaultMessage());
-           }
-           attributes.addFlashAttribute("errores", errores);
-       }
-       
-       if (existingUser!=null){
-            attributes.addFlashAttribute("errores", "El correo electronico esta ya esta en uso");
-       }else {
-            usuarioService.update(usuario);
-            attributes.addFlashAttribute("mensaje", "Se realizo el cambio correctamente");
+        Usuario updateUser = repository.getById(usuario.getId());
+        if (result.hasErrors()) {
+            List<String> errores = new ArrayList<>();
+            for (ObjectError error : result.getAllErrors()) {
+                errores.add(error.getDefaultMessage());
+            }
+            attributes.addFlashAttribute("errores", errores);
+        } else {
+            if (existingUser != null) {
+                if (existingUser.getId() == updateUser.getId()) {
+                    usuarioService.update(usuario);
+                    attributes.addFlashAttribute("mensaje", "Se realizo el cambio correctamente, cierre sesión para ver los cambios.");
+                }else{
+                    attributes.addFlashAttribute("errores", "El correo electronico ya esta en uso.");
+                }
+            } else {
+                usuarioService.update(usuario);
+                attributes.addFlashAttribute("mensaje", "Se realizo el cambio correctamente, cierre sesión para ver los cambios.");
+            }
         }
         return "redirect:/perfil/";
     }
 
     @PostMapping("/updatePassword")
     public String uptadePassword(Model model, @RequestParam("idUsuario") Integer idUsuario,
-                                 @RequestParam("oldPassword") String oldPassword,
-                                 @RequestParam("newPassword") String newPassword, RedirectAttributes attributes){
-      Usuario usuario = usuarioService.getOne(idUsuario);
-        if (this.passwordEncoder.matches(oldPassword,usuario.getPassword())){
-                    usuario.setPassword(this.passwordEncoder.encode(newPassword));
-                    this.usuarioService.save(usuario);
+            @RequestParam("oldPassword") String oldPassword,
+            @RequestParam("newPassword") String newPassword, RedirectAttributes attributes) {
+        Usuario usuario = usuarioService.getOne(idUsuario);
+        if (this.passwordEncoder.matches(oldPassword, usuario.getPassword())) {
+            usuario.setPassword(this.passwordEncoder.encode(newPassword));
+            this.usuarioService.save(usuario);
             attributes.addFlashAttribute("mensaje", "Se cambio correctamente la contraseña");
-        }else {
+        } else {
             attributes.addFlashAttribute("errores", "Verifique que sea su contraseña correcta");
         }
         return "redirect:/perfil/";
     }
 
-
     @GetMapping("/forgot_password")
-    public String mostrarFormulario(Model model){
+    public String mostrarFormulario(Model model) {
         return "email/forgot_password_form";
     }
 
-   @PostMapping("/forgot_password")
+    @PostMapping("/forgot_password")
     public String processForgotPasswordForm(HttpServletRequest request, Model model, RedirectAttributes attributes) {
         String email = request.getParameter("username");
         String token = RandomString.make(45);
-        token+= LocalDateTime.now();
+        token += LocalDateTime.now();
         try {
-            usuarioService.updateResetPasswordToken(token,email);
-            String restPasswordLink = Utility.getSiteURL(request)+ "/reset_password?token=" + token;
-            emailService.sendEmail(email,restPasswordLink);
-            attributes.addFlashAttribute("mensaje", "Hemos enviado un enlace para restablecer la contraseña a su correo electrónico. Por favor, compruebe.");
+            usuarioService.updateResetPasswordToken(token, email);
+            String restPasswordLink = Utility.getSiteURL(request) + "/reset_password?token=" + token;
+            emailService.sendEmail(email, restPasswordLink);
+            attributes.addFlashAttribute("mensaje",
+                    "Hemos enviado un enlace para restablecer la contraseña a su correo electrónico. Por favor, compruebe.");
         } catch (UsuarioNotFoundException e) {
-            attributes.addFlashAttribute("errores",e.getMessage());
-        }catch (UnsupportedEncodingException | MessagingException e){
+            attributes.addFlashAttribute("errores", e.getMessage());
+        } catch (UnsupportedEncodingException | MessagingException e) {
             attributes.addFlashAttribute("errores", "Correo electronico inválido");
         }
         return "redirect:/login";
@@ -145,17 +150,17 @@ public class UsuarioController {
     }
 
     @PostMapping("/reset_password")
-    public String processResetPassword(HttpServletRequest request, Model model){
+    public String processResetPassword(HttpServletRequest request, Model model) {
         String token = request.getParameter("token");
         String password = request.getParameter("password");
         Usuario usuario = usuarioService.getByResetPasswordToken(token);
-        model.addAttribute("title","Restablecer su contraseña");
-        if (usuario == null){
-            model.addAttribute("message","Ya has cambiado tu contraseña");
+        model.addAttribute("title", "Restablecer su contraseña");
+        if (usuario == null) {
+            model.addAttribute("message", "Ya has cambiado tu contraseña");
             return "email/message";
-        }else  {
-            usuarioService.updatePassword(usuario,password);
-            model.addAttribute("message","Has cambiado tu contraseña satisfactoriamente.");
+        } else {
+            usuarioService.updatePassword(usuario, password);
+            model.addAttribute("message", "Has cambiado tu contraseña satisfactoriamente.");
         }
         return "email/message";
     }
