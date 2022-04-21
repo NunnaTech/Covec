@@ -35,7 +35,7 @@ $(document).ready(function () {
                     gap: 20,
                     distance: 20,
                     type: 1,
-                    position: 'right top'
+                    position: 'bottom right'
                 })
             } else {
                 const { data, error } = await _supabase.storage
@@ -83,7 +83,7 @@ $(document).ready(function () {
                 gap: 20,
                 distance: 20,
                 type: 1,
-                position: 'right top'
+                position: 'bottom right'
             })
         }
     });

@@ -113,9 +113,9 @@
                                     </div>
                                     <div th:unless="${e.enabled}">
                                         <div class="tooltip" data-tip="Activar">
-                                            <a class="btn border-none w-16 mx-2 border-none bg-violet-700 hover:bg-violet-600"
+                                            <a class="btn border-none w-16 mx-2 border-none bg-emerald-700 hover:bg-emerald-600"
                                                 th:href="@{/enlaces/remove/{id}/2(id=${e.id})}">
-                                                <span class="material-icons">visibility</span>
+                                                <span class="material-icons">delete_sweep</span>
                                             </a>
                                         </div>
                                     </div>
@@ -165,7 +165,7 @@
             gap: 20,
             distance: 20,
             type: 1,
-            position: 'top right'
+            position: 'bottom right'
         })
     </script>
 </body>
