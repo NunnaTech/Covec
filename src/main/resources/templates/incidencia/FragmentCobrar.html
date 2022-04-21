@@ -33,8 +33,8 @@
                     th:action="@{/incidencias/cobrar/{idIncidencia}/{idEnlace} (idIncidencia = ${incidencia.id}, idEnlace = ${enlace.id})}">
                     <div class="grid md:grid-cols-1 sm:grid-cols-1 justify-items-center">
                         <h2 class="font-normal">Monto:</h2>
-                        <input type="number" name="monto" placeholder="500.00"
-                            class="input input-bordered w-full max-w-xs">
+                        <input type="number" name="monto" min="0" placeholder="500.00"
+                            class="input input-bordered w-full max-w-xs" required>
                     </div>
                     <div class="divider"></div>
                     <div class="modal-action">

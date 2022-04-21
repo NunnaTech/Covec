@@ -32,7 +32,7 @@
                             <label class="label">
                               <span class="label-text">C.P</span>
                             </label>
-                            <input type="number" th:field="*{codigoPostal}" placeholder="Ej. 77777" class="input input-bordered" pattern=".{5,}" required>
+                            <input type="number" th:field="*{codigoPostal}" placeholder="Ej. 77777" class="input input-bordered" min="0" pattern=".{5,}" required>
                         </div>
                     </div>
                     <div class="divider"></div>
@@ -75,7 +75,7 @@
                             <label class="label">
                               <span class="label-text">C.P</span>
                             </label>
-                            <input type="number" th:value="${objeto.codigoPostal}" name="codigoPostal" placeholder="Ej. 77777" class="input input-bordered" minlength="5" maxlength="5" required/>
+                            <input type="number" th:value="${objeto.codigoPostal}" name="codigoPostal" placeholder="Ej. 77777" class="input input-bordered" min="0" minlength="5" maxlength="5" required/>
                         </div>
                     </div>
                     <div class="divider"></div>
